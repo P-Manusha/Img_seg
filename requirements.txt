@@ -1,1 +1,11 @@
-
+streamlit
+torch
+torchvision
+pillow
+numpy
+opencv-python
+scipy
+requests
+pydensecrf
+streamlit-image-comparison
+st-aggrid
