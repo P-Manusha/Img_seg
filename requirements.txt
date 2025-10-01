@@ -1,12 +1,6 @@
-streamlit==1.37.1
-torch==2.2.2
-torchvision==0.17.2
+streamlit
+torch
+torchvision
+pillow
+numpy
 
-pillow==10.4.0
-numpy==1.26.4
-opencv-python-headless==4.10.0.84
-scipy==1.11.4
-requests==2.32.3
-
-streamlit-image-comparison==0.0.4
-st-aggrid==0.3.4.post3
