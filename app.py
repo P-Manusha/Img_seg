@@ -10,6 +10,7 @@ from io import BytesIO
 from scipy import ndimage as ndi
 import os
 from streamlit_image_comparison import image_comparison
+import base64
 
 # ============================================================================
 # CONFIGURATION
@@ -20,7 +21,7 @@ CONFIG = {
     "model_name": "deeplabv3_resnet50",
     "num_classes": 2,
     "device": "cuda" if torch.cuda.is_available() else "cpu",
-    "model_path": "best_seg_model.pth",  # Root directory path
+    "model_path": "best_seg_model.pth",
     "fg_thresh": 0.3,
 }
 
@@ -64,7 +65,7 @@ FILTERS = {
 }
 
 # ============================================================================
-# CUSTOM CSS
+# CUSTOM CSS - FIXED SIDEBAR TEXT VISIBILITY
 # ============================================================================
 CUSTOM_CSS = """
 <style>
@@ -139,12 +140,31 @@ CUSTOM_CSS = """
     transform: scale(1.05);
 }
 
+/* FIXED: Sidebar text visibility */
 section[data-testid="stSidebar"] {
     background: linear-gradient(180deg, #2d3748 0%, #1a202c 100%) !important;
 }
 
 section[data-testid="stSidebar"] * {
     color: #ffffff !important;
+}
+
+section[data-testid="stSidebar"] label {
+    color: #ffffff !important;
+}
+
+section[data-testid="stSidebar"] .stNumberInput input,
+section[data-testid="stSidebar"] .stSelectbox select,
+section[data-testid="stSidebar"] input[type="text"],
+section[data-testid="stSidebar"] textarea {
+    color: #1a202c !important;
+    background-color: #f7fafc !important;
+    border: 1px solid #cbd5e0 !important;
+}
+
+section[data-testid="stSidebar"] .stNumberInput input::placeholder,
+section[data-testid="stSidebar"] input[type="text"]::placeholder {
+    color: #718096 !important;
 }
 
 .stButton > button {
@@ -336,7 +356,7 @@ def apply_warm_tone(img):
 def get_model(path=CONFIG["model_path"]):
     if not Path(path).exists():
         st.error(f"❌ Model file not found: {path}")
-        st.info("Please ensure 'best_seg_model.pth' is in the 'model/' folder")
+        st.info("Please ensure 'best_seg_model.pth' is in the root folder")
         st.stop()
 
     model = segmentation_models.deeplabv3_resnet50(weights=None, num_classes=CONFIG["num_classes"])
@@ -500,10 +520,29 @@ def get_download_button(image, format_type, quality, button_text, file_name, key
     )
 
 # ============================================================================
-# PROJECT MANAGEMENT
+# HELPER FUNCTIONS FOR IMAGE ENCODING/DECODING
+# ============================================================================
+
+def image_to_base64(img_array):
+    """Convert numpy array to base64 string"""
+    img_pil = Image.fromarray(img_array)
+    buffered = BytesIO()
+    img_pil.save(buffered, format="PNG")
+    img_str = base64.b64encode(buffered.getvalue()).decode()
+    return img_str
+
+def base64_to_image(img_str):
+    """Convert base64 string to numpy array"""
+    img_data = base64.b64decode(img_str)
+    img_pil = Image.open(BytesIO(img_data))
+    return np.array(img_pil)
+
+# ============================================================================
+# PROJECT MANAGEMENT - REWRITTEN TO SAVE IMAGES
 # ============================================================================
 
 def save_project():
+    """Save project with images encoded as base64"""
     try:
         if st.session_state.get('original_image') is None:
             return False
@@ -515,9 +554,24 @@ def save_project():
         from datetime import datetime
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         
+        # Encode images as base64
+        original_img_b64 = image_to_base64(st.session_state.original_image)
+        current_img_b64 = image_to_base64(st.session_state.current_image) if st.session_state.current_image is not None else None
+        
+        # Encode mask if it exists
+        mask_b64 = None
+        if st.session_state.mask is not None:
+            mask_img = (st.session_state.mask * 255).astype(np.uint8)
+            if len(mask_img.shape) == 2:
+                mask_img = np.stack([mask_img] * 3, axis=-1)
+            mask_b64 = image_to_base64(mask_img)
+        
         project_data = {
             'name': project_name,
             'timestamp': timestamp,
+            'original_image': original_img_b64,
+            'current_image': current_img_b64,
+            'mask': mask_b64,
             'settings': {
                 'fg_thresh': float(st.session_state.get('fg_thresh', 0.4)),
                 'min_area': int(st.session_state.get('min_area', 300)),
@@ -548,11 +602,27 @@ def save_project():
         return False
 
 def load_project(project_name):
+    """Load project and decode images from base64"""
     try:
         for proj in st.session_state.get('saved_projects', []):
             if proj.get('name') == project_name:
-                settings = proj.get('settings', {})
+                # Decode images
+                if proj.get('original_image'):
+                    st.session_state.original_image = base64_to_image(proj['original_image'])
                 
+                if proj.get('current_image'):
+                    st.session_state.current_image = base64_to_image(proj['current_image'])
+                else:
+                    st.session_state.current_image = st.session_state.original_image.copy()
+                
+                if proj.get('mask'):
+                    mask_img = base64_to_image(proj['mask'])
+                    if len(mask_img.shape) == 3:
+                        mask_img = mask_img[:, :, 0]
+                    st.session_state.mask = (mask_img > 127).astype(np.uint8)
+                
+                # Load settings
+                settings = proj.get('settings', {})
                 st.session_state.fg_thresh = float(settings.get('fg_thresh', 0.4))
                 st.session_state.min_area = int(settings.get('min_area', 300))
                 st.session_state.extraction_mode = str(settings.get('extraction_mode', 'Black'))
@@ -564,6 +634,7 @@ def load_project(project_name):
                 st.session_state.resize_percent = int(settings.get('resize_percent', 100))
                 st.session_state.custom_color = str(settings.get('custom_color', '#00FF00'))
                 st.session_state.current_project_name = project_name
+                st.session_state.current_step = 2
                 
                 return True
         return False
@@ -572,6 +643,7 @@ def load_project(project_name):
         return False
 
 def delete_project(project_name):
+    """Delete a project"""
     try:
         st.session_state.saved_projects = [
             p for p in st.session_state.get('saved_projects', []) if p.get('name') != project_name
@@ -653,22 +725,33 @@ def main():
             if st.session_state.get('saved_projects', []):
                 st.markdown("**📚 Saved Projects**")
                 for idx, proj in enumerate(st.session_state.saved_projects):
-                    st.markdown(f"**{idx + 1}. {proj['name']}**")
-                    st.caption(f"🕒 {proj['timestamp']}")
-                    
-                    col1, col2 = st.columns(2)
-                    with col1:
-                        if st.button("📂 Load", key=f"load_{idx}", use_container_width=True):
-                            if load_project(proj['name']):
-                                st.success("✅ Loaded!")
+                    with st.container():
+                        st.markdown(f"**{idx + 1}. {proj['name']}**")
+                        st.caption(f"🕒 {proj['timestamp']}")
+                        
+                        # Show thumbnail preview if available
+                        if proj.get('original_image'):
+                            try:
+                                thumb_img = base64_to_image(proj['original_image'])
+                                thumb_pil = Image.fromarray(thumb_img)
+                                thumb_pil.thumbnail((150, 150), Image.LANCZOS)
+                                st.image(thumb_pil, use_container_width=True)
+                            except:
+                                st.caption("📷 Image preview unavailable")
+                        
+                        col1, col2 = st.columns(2)
+                        with col1:
+                            if st.button("📂 Load", key=f"load_{idx}", use_container_width=True):
+                                if load_project(proj['name']):
+                                    st.success("✅ Loaded!")
+                                    st.rerun()
+                        
+                        with col2:
+                            if st.button("🗑️ Delete", key=f"del_{idx}", use_container_width=True):
+                                delete_project(proj['name'])
+                                st.success("🗑️ Deleted!")
                                 st.rerun()
-                    
-                    with col2:
-                        if st.button("🗑️ Delete", key=f"del_{idx}", use_container_width=True):
-                            delete_project(proj['name'])
-                            st.success("🗑️ Deleted!")
-                            st.rerun()
-                    st.markdown("---")
+                        st.markdown("---")
 
     # Step Indicator
     st.markdown(f"""
@@ -904,11 +987,12 @@ def main():
                     get_download_button(result_pil, export_format, quality, "⬇️ Download Cropped",
                                       f"cropped_image.{export_format.lower()}", "download_crop")
 
-        # Tab 4: Final Preview
+        # Tab 4: Final Preview - REWRITTEN TO SHOW IMAGE IMMEDIATELY
         with tabs[3]:
             st.markdown("### Final Preview & Export")
 
             if st.session_state.current_image is not None and st.session_state.mask is not None:
+                # Generate final result
                 bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
                 result_pil = apply_background(st.session_state.current_image, st.session_state.mask,
                                              st.session_state.extraction_mode, bg_path, st.session_state.custom_color)
@@ -930,41 +1014,48 @@ def main():
                     
                     with adjust_col:
                         st.markdown("#### 🎛️ Adjust View")
-                        st.session_state.blend_slider = st.slider("Blend", 0.0, 1.0, st.session_state.blend_slider, 0.05)
-                        st.session_state.zoom_percentage = st.slider("Zoom (%)", 50, 200, st.session_state.zoom_percentage, 5)
+                        blend_value = st.slider("Blend", 0.0, 1.0, st.session_state.blend_slider, 0.05, key="blend_slider_control")
+                        zoom_value = st.slider("Zoom (%)", 50, 200, st.session_state.zoom_percentage, 5, key="zoom_slider_control")
+                        
+                        # Update session state
+                        st.session_state.blend_slider = blend_value
+                        st.session_state.zoom_percentage = zoom_value
                     
                     with view_col:
-                        @st.cache_data(show_spinner=False)
-                        def prepare_comparison(original_array, result_bytes, zoom, blend):
-                            original_img = Image.fromarray(original_array)
-                            result_img = Image.open(BytesIO(result_bytes))
-                            
-                            scale = zoom / 100.0
-                            new_w = max(1, int(original_img.size[0] * scale))
-                            new_h = max(1, int(original_img.size[1] * scale))
-                            
-                            zoomed_orig = original_img.resize((new_w, new_h), Image.LANCZOS)
-                            zoomed_result = result_img.resize((new_w, new_h), Image.LANCZOS)
-                            
-                            if zoomed_result.mode == 'RGBA':
-                                result_rgb = Image.new('RGB', zoomed_result.size, (0, 0, 0))
-                                result_rgb.paste(zoomed_result, (0, 0), zoomed_result)
-                            else:
-                                result_rgb = zoomed_result.convert('RGB')
-                            
-                            orig_rgb = zoomed_orig.convert('RGB')
-                            blended = Image.blend(orig_rgb, result_rgb, float(blend))
-                            
-                            return orig_rgb, blended
+                        # Prepare images for comparison
+                        original_img = Image.fromarray(st.session_state.original_image)
                         
-                        result_bytes = BytesIO()
-                        result_pil.save(result_bytes, format='PNG')
+                        # Handle RGBA mode
+                        if result_pil.mode == 'RGBA':
+                            result_rgb = Image.new('RGB', result_pil.size, (0, 0, 0))
+                            result_rgb.paste(result_pil, (0, 0), result_pil)
+                        else:
+                            result_rgb = result_pil.convert('RGB')
                         
-                        orig_rgb, blended = prepare_comparison(st.session_state.original_image, result_bytes.getvalue(),
-                                                              st.session_state.zoom_percentage, st.session_state.blend_slider)
+                        # Resize if needed to match dimensions
+                        if original_img.size != result_rgb.size:
+                            result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
                         
-                        image_comparison(img1=orig_rgb, img2=blended, label1="Original",
-                                       label2=f"Blended ({int(st.session_state.blend_slider*100)}%)")
+                        # Apply zoom
+                        scale = zoom_value / 100.0
+                        new_w = max(1, int(original_img.size[0] * scale))
+                        new_h = max(1, int(original_img.size[1] * scale))
+                        
+                        zoomed_orig = original_img.resize((new_w, new_h), Image.LANCZOS)
+                        zoomed_result = result_rgb.resize((new_w, new_h), Image.LANCZOS)
+                        
+                        orig_rgb = zoomed_orig.convert('RGB')
+                        
+                        # Create blended image
+                        blended = Image.blend(orig_rgb, zoomed_result, float(blend_value))
+                        
+                        # Display comparison
+                        image_comparison(
+                            img1=orig_rgb, 
+                            img2=blended, 
+                            label1="Original",
+                            label2=f"Blended ({int(blend_value*100)}%)"
+                        )
 
                 st.markdown("---")
                 st.markdown("### 📥 Export Options")
