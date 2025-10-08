@@ -220,9 +220,38 @@ def apply_warm_tone(img):
 @st.cache_resource
 def load_model(model_path, device, num_classes=2):
     model = segmentation_models.deeplabv3_resnet50(pretrained=False, num_classes=num_classes)
+    
     if os.path.exists(model_path):
-        state = torch.load(model_path, map_location=device)
-        model.load_state_dict(state)
+        try:
+            state = torch.load(model_path, map_location=device)
+            
+            # Handle different state dict formats
+            if 'model_state_dict' in state:
+                state = state['model_state_dict']
+            elif 'state_dict' in state:
+                state = state['state_dict']
+            
+            # Try to load with strict=False to handle mismatches
+            try:
+                model.load_state_dict(state, strict=True)
+            except RuntimeError:
+                # If strict loading fails, try without strict mode
+                model.load_state_dict(state, strict=False)
+                st.warning("⚠️ Model loaded with partial weights. Some layers may not match.")
+        except Exception as e:
+            st.error(f"Error loading model: {str(e)}")
+            st.info("Using pretrained model instead...")
+            model = segmentation_models.deeplabv3_resnet50(pretrained=True)
+            # Modify classifier for binary segmentation
+            model.classifier[4] = torch.nn.Conv2d(256, num_classes, kernel_size=1)
+            model.aux_classifier[4] = torch.nn.Conv2d(256, num_classes, kernel_size=1)
+    else:
+        st.warning(f"⚠️ Model file not found at {model_path}. Using pretrained model.")
+        model = segmentation_models.deeplabv3_resnet50(pretrained=True)
+        # Modify classifier for binary segmentation
+        model.classifier[4] = torch.nn.Conv2d(256, num_classes, kernel_size=1)
+        model.aux_classifier[4] = torch.nn.Conv2d(256, num_classes, kernel_size=1)
+    
     model.to(device)
     model.eval()
     return model
