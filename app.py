@@ -20,7 +20,7 @@ CONFIG = {
     "model_name": "deeplabv3_resnet50",
     "num_classes": 2,
     "device": "cuda" if torch.cuda.is_available() else "cpu",
-    "model_path": "model/best_seg_model.pth",  # Updated path
+    "model_path": "best_seg_model.pth",  # Root directory path
     "fg_thresh": 0.3,
 }
 
