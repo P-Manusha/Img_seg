@@ -26,7 +26,7 @@ CONFIG = {
 
 # Paths - Updated for deployment
 DEMO_IMAGE_PATHS = {
-    "Demo Image 1": "demo/original.jpg",
+    "Demo Image 1": "demo/orginal.jpg",
     "Demo Image 2": "demo/extracted.jpg"
 }
 
@@ -237,9 +237,17 @@ section[data-testid="stFileUploadDropzone"] {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
     font-family: 'Poppins', sans-serif;
     margin: 0;
     font-size: 1.5rem;
+}
+
+.footer-professional p {
+    color: #4a5568 !important;
+    margin-top: 0.5rem;
+    font-weight: 500;
+    background: transparent !important;
 }
 
 #MainMenu {visibility: hidden;}
@@ -585,7 +593,7 @@ def main():
     init_session_state()
 
     st.set_page_config(
-        page_title="OneView - Background Removal",
+        page_title="One View",
         page_icon="🔷",
         layout="wide",
         initial_sidebar_state="expanded"
