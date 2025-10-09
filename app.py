@@ -20,8 +20,10 @@ CONFIG = {
     "img_size": (512, 512),
     "model_name": "deeplabv3_resnet50",
     "num_classes": 2,
-    "device": "cuda" if __name__ == "__main__":
-    main() torch.cuda.is_available() else "cpu",
+    "device": "cuda" if torch.cuda.is_available() else "cpu",
+    "model_path": "best_seg_model.pth",
+    "fg_thresh": 0.3,
+} torch.cuda.is_available() else "cpu",
     "model_path": "best_seg_model.pth",
     "fg_thresh": 0.3,
 }
