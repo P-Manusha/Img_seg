@@ -27,8 +27,8 @@ CONFIG = {
 
 # Paths - Updated for deployment
 DEMO_IMAGE_PATHS = {
-    "Demo Image 1": "demo/orginal.jpg",
-    "Demo Image 2": "demo/extracted.jpg"
+    "Demo Image 1": "demo/Orginal.jpg",
+    "Demo Image 2": "demo/Extracted.jpg"
 }
 
 BG_IMAGE_PATHS = {
