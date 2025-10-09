@@ -318,12 +318,19 @@ def init_session_state():
 # ============================================================================
 
 def apply_sepia(img):
-    arr = np.array(img)
+    arr = np.array(img).astype(np.float32)
+    
+    # Apply sepia transformation using matrix multiplication
     sepia_filter = np.array([[0.393, 0.769, 0.189],
                               [0.349, 0.686, 0.168],
                               [0.272, 0.534, 0.131]])
-    sepia_arr = cv2.transform(arr, sepia_filter)
+    
+    # Reshape for matrix multiplication
+    h, w, c = arr.shape
+    sepia_arr = arr.reshape(-1, 3) @ sepia_filter.T
+    sepia_arr = sepia_arr.reshape(h, w, 3)
     sepia_arr = np.clip(sepia_arr, 0, 255)
+    
     return Image.fromarray(sepia_arr.astype(np.uint8))
 
 def apply_vintage(img):
@@ -858,7 +865,7 @@ def main():
                     st.session_state.current_step = 3
                     st.rerun()
 
-                if st.button("🖼️ Custom Image", key="bg_custom_image", use_container_width=True):
+                if st.button("🖼️ Custom Background", key="bg_custom_image", use_container_width=True):
                     st.session_state.extraction_mode = "Custom Image"
                     st.session_state.current_step = 3
                     st.rerun()
