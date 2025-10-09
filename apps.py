@@ -32,10 +32,10 @@ DEMO_IMAGE_PATHS = {
 }
 
 BG_IMAGE_PATHS = {
-    "Bg1": "backgrounds/bg1.jpg",
-    "Bg2": "backgrounds/bg2.jpg",
-    "Bg3": "backgrounds/bg3.jpg",
-    "Bg4": "backgrounds/bg4.jpg",
+    "Background 1": "backgrounds/bg1.jpg",
+    "Background 2": "backgrounds/bg2.jpg",
+    "Background 3": "backgrounds/bg3.jpg",
+    "Background 4": "backgrounds/bg4.jpg",
 }
 
 # Crop Presets
@@ -438,7 +438,7 @@ def apply_background(orig_np, mask_bin, mode, bg_path=None, custom_color=None):
         result[mask_bin == 1] = orig_np[mask_bin == 1]
         return Image.fromarray(result)
 
-    elif mode in ["Bg1", "Bg2", "Bg3", "Bg4"] and bg_path:
+    elif mode in ["Background 1", "Background 2", "Background 3", "Background 4"] and bg_path:
         if os.path.exists(bg_path):
             bg = np.array(Image.open(bg_path).convert("RGB"))
             bg = cv2.resize(bg, (w, h))
@@ -786,7 +786,7 @@ def main():
         st.markdown("#### Original Image")
         if os.path.exists(DEMO_IMAGE_PATHS["Demo Image 1"]):
             demo_orig = Image.open(DEMO_IMAGE_PATHS["Demo Image 1"])
-            demo_orig.thumbnail((400, 300), Image.LANCZOS)
+            demo_orig.thumbnail((250, 200), Image.LANCZOS)
             st.image(demo_orig, use_container_width=True, caption="Before")
         else:
             st.info("Demo image not available")
@@ -795,7 +795,7 @@ def main():
         st.markdown("#### Extracted Subject")
         if os.path.exists(DEMO_IMAGE_PATHS["Demo Image 2"]):
             demo_extracted = Image.open(DEMO_IMAGE_PATHS["Demo Image 2"])
-            demo_extracted.thumbnail((400, 300), Image.LANCZOS)
+            demo_extracted.thumbnail((250, 200), Image.LANCZOS)
             st.image(demo_extracted, use_container_width=True, caption="After")
         else:
             st.info("Demo image not available")
