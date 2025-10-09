@@ -780,14 +780,17 @@ def main():
 
     # Demo Section
     st.markdown("### 📸 See What's Possible")
-    demo_col1, demo_col2 = st.columns(2)
+    
+    # Create centered columns with padding
+    _, demo_col1, demo_col2, _ = st.columns([0.5, 1, 1, 0.5])
 
     with demo_col1:
         st.markdown("#### Original Image")
         if os.path.exists(DEMO_IMAGE_PATHS["Demo Image 1"]):
             demo_orig = Image.open(DEMO_IMAGE_PATHS["Demo Image 1"])
-            demo_orig.thumbnail((250, 200), Image.LANCZOS)
-            st.image(demo_orig, use_container_width=True, caption="Before")
+            # Maintain aspect ratio while resizing with high quality
+            demo_orig.thumbnail((300, 225), Image.Resampling.LANCZOS)
+            st.image(demo_orig, use_container_width=False, caption="Before", width=300)
         else:
             st.info("Demo image not available")
 
@@ -795,8 +798,9 @@ def main():
         st.markdown("#### Extracted Subject")
         if os.path.exists(DEMO_IMAGE_PATHS["Demo Image 2"]):
             demo_extracted = Image.open(DEMO_IMAGE_PATHS["Demo Image 2"])
-            demo_extracted.thumbnail((250, 200), Image.LANCZOS)
-            st.image(demo_extracted, use_container_width=True, caption="After")
+            # Maintain aspect ratio while resizing with high quality
+            demo_extracted.thumbnail((300, 225), Image.Resampling.LANCZOS)
+            st.image(demo_extracted, use_container_width=False, caption="After", width=300)
         else:
             st.info("Demo image not available")
 
