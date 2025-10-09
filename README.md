@@ -1,4 +1,4 @@
-[🔷One View link](https://imgseg-ujvhwtyywuhllklkhxnvqv.streamlit.app/)
+[🔷One View link](https://imgseg-ujvhwtyywuhllklkhxnvqv.streamlit.app/) ←- UI design Link
 
 **AI-Powered Image Background Removal & Processing Application**
 
