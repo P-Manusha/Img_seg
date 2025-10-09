@@ -32,10 +32,10 @@ DEMO_IMAGE_PATHS = {
 }
 
 BG_IMAGE_PATHS = {
-    "Bg1": "backgrounds/bg1.jpg",
-    "Bg2": "backgrounds/bg2.jpg",
-    "Bg3": "backgrounds/bg3.jpg",
-    "Bg4": "backgrounds/bg4.jpg",
+    "Background 1": "backgrounds/bg1.jpg",
+    "Background 2": "backgrounds/bg2.jpg",
+    "Background 3": "backgrounds/bg3.jpg",
+    "Background 4": "backgrounds/bg4.jpg",
 }
 
 # Crop Presets
@@ -438,7 +438,7 @@ def apply_background(orig_np, mask_bin, mode, bg_path=None, custom_color=None):
         result[mask_bin == 1] = orig_np[mask_bin == 1]
         return Image.fromarray(result)
 
-    elif mode in ["Bg1", "Bg2", "Bg3", "Bg4"] and bg_path:
+    elif mode in ["Background 1", "Background 2", "Background 3", "Background 4"] and bg_path:
         if os.path.exists(bg_path):
             bg = np.array(Image.open(bg_path).convert("RGB"))
             bg = cv2.resize(bg, (w, h))
@@ -786,7 +786,7 @@ def main():
         st.markdown("#### Original Image")
         if os.path.exists(DEMO_IMAGE_PATHS["Demo Image 1"]):
             demo_orig = Image.open(DEMO_IMAGE_PATHS["Demo Image 1"])
-            demo_orig.thumbnail((400, 300), Image.LANCZOS)
+            demo_orig.thumbnail((250, 200), Image.LANCZOS)
             st.image(demo_orig, use_container_width=True, caption="Before")
         else:
             st.info("Demo image not available")
@@ -795,7 +795,7 @@ def main():
         st.markdown("#### Extracted Subject")
         if os.path.exists(DEMO_IMAGE_PATHS["Demo Image 2"]):
             demo_extracted = Image.open(DEMO_IMAGE_PATHS["Demo Image 2"])
-            demo_extracted.thumbnail((400, 300), Image.LANCZOS)
+            demo_extracted.thumbnail((250, 200), Image.LANCZOS)
             st.image(demo_extracted, use_container_width=True, caption="After")
         else:
             st.info("Demo image not available")
@@ -987,7 +987,7 @@ def main():
                     get_download_button(result_pil, export_format, quality, "⬇️ Download Cropped",
                                       f"cropped_image.{export_format.lower()}", "download_crop")
 
-        # Tab 4: Final Preview - REWRITTEN TO SHOW IMAGE IMMEDIATELY
+        # Tab 4: Final Preview - ENHANCED WITH MULTIPLE COMPARISON MODES
         with tabs[3]:
             st.markdown("### Final Preview & Export")
 
@@ -1005,57 +1005,175 @@ def main():
                     new_h = int(orig_h * st.session_state.resize_percent / 100)
                     result_pil = result_pil.resize((new_w, new_h), Image.LANCZOS)
 
-                st.markdown("<h3 style='text-align:center;'>🔄 Interactive View</h3>", unsafe_allow_html=True)
-                
-                _, view_container, _ = st.columns([1, 5, 1])
-                
-                with view_container:
-                    view_col, adjust_col = st.columns([2, 1])
+                # Comparison Mode Selection
+                st.markdown("#### 🔍 Comparison Mode")
+                comparison_mode = st.radio(
+                    "Select View",
+                    ["Interactive Slider", "Side-by-Side", "Blend View", "Grid View"],
+                    horizontal=True,
+                    label_visibility="collapsed"
+                )
+
+                # ========== MODE 1: INTERACTIVE SLIDER ==========
+                if comparison_mode == "Interactive Slider":
+                    st.markdown("<h4 style='text-align:center;'>🔄 Interactive Slider Comparison</h4>", unsafe_allow_html=True)
                     
-                    with adjust_col:
-                        st.markdown("#### 🎛️ Adjust View")
-                        blend_value = st.slider("Blend", 0.0, 1.0, st.session_state.blend_slider, 0.05, key="blend_slider_control")
-                        zoom_value = st.slider("Zoom (%)", 50, 200, st.session_state.zoom_percentage, 5, key="zoom_slider_control")
-                        
-                        # Update session state
-                        st.session_state.blend_slider = blend_value
-                        st.session_state.zoom_percentage = zoom_value
+                    # Prepare images
+                    original_img = Image.fromarray(st.session_state.original_image)
                     
-                    with view_col:
-                        # Prepare images for comparison
+                    # Handle RGBA mode
+                    if result_pil.mode == 'RGBA':
+                        result_rgb = Image.new('RGB', result_pil.size, (255, 255, 255))
+                        result_rgb.paste(result_pil, (0, 0), result_pil)
+                    else:
+                        result_rgb = result_pil.convert('RGB')
+                    
+                    # Match dimensions
+                    if original_img.size != result_rgb.size:
+                        result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
+                    
+                    # Zoom control
+                    zoom_value = st.slider("🔍 Zoom (%)", 50, 200, st.session_state.zoom_percentage, 5, key="zoom_slider")
+                    st.session_state.zoom_percentage = zoom_value
+                    
+                    # Apply zoom
+                    scale = zoom_value / 100.0
+                    new_w = max(1, int(original_img.size[0] * scale))
+                    new_h = max(1, int(original_img.size[1] * scale))
+                    
+                    zoomed_orig = original_img.resize((new_w, new_h), Image.LANCZOS)
+                    zoomed_result = result_rgb.resize((new_w, new_h), Image.LANCZOS)
+                    
+                    # Display comparison slider
+                    image_comparison(
+                        img1=zoomed_orig, 
+                        img2=zoomed_result, 
+                        label1="Original",
+                        label2="Processed"
+                    )
+
+                # ========== MODE 2: SIDE-BY-SIDE ==========
+                elif comparison_mode == "Side-by-Side":
+                    st.markdown("<h4 style='text-align:center;'>📊 Side-by-Side Comparison</h4>", unsafe_allow_html=True)
+                    
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.markdown("##### 📷 Original")
                         original_img = Image.fromarray(st.session_state.original_image)
+                        display_orig = original_img.copy()
+                        display_orig.thumbnail((600, 600), Image.LANCZOS)
+                        st.image(display_orig, use_container_width=True)
                         
-                        # Handle RGBA mode
-                        if result_pil.mode == 'RGBA':
-                            result_rgb = Image.new('RGB', result_pil.size, (0, 0, 0))
-                            result_rgb.paste(result_pil, (0, 0), result_pil)
-                        else:
-                            result_rgb = result_pil.convert('RGB')
+                        # Stats
+                        orig_w, orig_h = original_img.size
+                        st.caption(f"Size: {orig_w} × {orig_h} px")
+                        st.caption(f"Mode: {original_img.mode}")
+                    
+                    with col2:
+                        st.markdown("##### ✨ Processed")
+                        display_result = result_pil.copy()
+                        display_result.thumbnail((600, 600), Image.LANCZOS)
+                        st.image(display_result, use_container_width=True)
                         
-                        # Resize if needed to match dimensions
-                        if original_img.size != result_rgb.size:
-                            result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
-                        
-                        # Apply zoom
-                        scale = zoom_value / 100.0
-                        new_w = max(1, int(original_img.size[0] * scale))
-                        new_h = max(1, int(original_img.size[1] * scale))
-                        
-                        zoomed_orig = original_img.resize((new_w, new_h), Image.LANCZOS)
-                        zoomed_result = result_rgb.resize((new_w, new_h), Image.LANCZOS)
-                        
-                        orig_rgb = zoomed_orig.convert('RGB')
-                        
-                        # Create blended image
-                        blended = Image.blend(orig_rgb, zoomed_result, float(blend_value))
-                        
-                        # Display comparison
-                        image_comparison(
-                            img1=orig_rgb, 
-                            img2=blended, 
-                            label1="Original",
-                            label2=f"Blended ({int(blend_value*100)}%)"
-                        )
+                        # Stats
+                        res_w, res_h = result_pil.size
+                        st.caption(f"Size: {res_w} × {res_h} px")
+                        st.caption(f"Mode: {result_pil.mode}")
+
+                # ========== MODE 3: BLEND VIEW ==========
+                elif comparison_mode == "Blend View":
+                    st.markdown("<h4 style='text-align:center;'>🎨 Blend Comparison</h4>", unsafe_allow_html=True)
+                    
+                    # Prepare images
+                    original_img = Image.fromarray(st.session_state.original_image)
+                    
+                    # Handle RGBA mode
+                    if result_pil.mode == 'RGBA':
+                        result_rgb = Image.new('RGB', result_pil.size, (255, 255, 255))
+                        result_rgb.paste(result_pil, (0, 0), result_pil)
+                    else:
+                        result_rgb = result_pil.convert('RGB')
+                    
+                    # Match dimensions
+                    if original_img.size != result_rgb.size:
+                        result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
+                    
+                    # Blend controls
+                    col_blend1, col_blend2 = st.columns([3, 1])
+                    
+                    with col_blend1:
+                        blend_value = st.slider("Blend Amount", 0.0, 1.0, 0.5, 0.01, key="blend_amount")
+                    
+                    with col_blend2:
+                        st.markdown("**Blend Info**")
+                        st.caption(f"Original: {int((1-blend_value)*100)}%")
+                        st.caption(f"Processed: {int(blend_value*100)}%")
+                    
+                    # Create blended image
+                    orig_rgb = original_img.convert('RGB')
+                    blended = Image.blend(orig_rgb, result_rgb, float(blend_value))
+                    
+                    # Display
+                    display_blended = blended.copy()
+                    display_blended.thumbnail((800, 600), Image.LANCZOS)
+                    st.image(display_blended, use_container_width=True, caption=f"Blended View ({int(blend_value*100)}% Processed)")
+
+                # ========== MODE 4: GRID VIEW ==========
+                elif comparison_mode == "Grid View":
+                    st.markdown("<h4 style='text-align:center;'>📐 Grid Comparison</h4>", unsafe_allow_html=True)
+                    
+                    # Prepare images
+                    original_img = Image.fromarray(st.session_state.original_image)
+                    
+                    # Handle RGBA mode
+                    if result_pil.mode == 'RGBA':
+                        result_rgb = Image.new('RGB', result_pil.size, (255, 255, 255))
+                        result_rgb.paste(result_pil, (0, 0), result_pil)
+                    else:
+                        result_rgb = result_pil.convert('RGB')
+                    
+                    # Match dimensions
+                    if original_img.size != result_rgb.size:
+                        result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
+                    
+                    # Create difference map
+                    orig_arr = np.array(original_img.convert('RGB'))
+                    result_arr = np.array(result_rgb)
+                    diff_arr = np.abs(orig_arr.astype(float) - result_arr.astype(float)).astype(np.uint8)
+                    diff_img = Image.fromarray(diff_arr)
+                    
+                    # Create blend at 50%
+                    blend_50 = Image.blend(original_img.convert('RGB'), result_rgb, 0.5)
+                    
+                    # Display grid
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.markdown("##### 📷 Original")
+                        display_orig = original_img.copy()
+                        display_orig.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_orig, use_container_width=True)
+                    
+                    with col2:
+                        st.markdown("##### ✨ Processed")
+                        display_result = result_rgb.copy()
+                        display_result.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_result, use_container_width=True)
+                    
+                    col3, col4 = st.columns(2)
+                    
+                    with col3:
+                        st.markdown("##### 🔍 Difference Map")
+                        display_diff = diff_img.copy()
+                        display_diff.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_diff, use_container_width=True)
+                    
+                    with col4:
+                        st.markdown("##### 🎨 50% Blend")
+                        display_blend = blend_50.copy()
+                        display_blend.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_blend, use_container_width=True)
 
                 st.markdown("---")
                 st.markdown("### 📥 Export Options")
