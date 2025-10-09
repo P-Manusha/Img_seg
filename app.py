@@ -1002,7 +1002,8 @@ def main():
                 )
 
                 if comparison_mode == "Interactive Slider":
-                    st.markdown("<h4 style='text-align:center;'>🔄 Interactive Slider Comparison</h4>", unsafe_allow_html=True)
+                    st.markdown("<h4 style='text-align:center;'>🔄 Interactive Slider </h4>", unsafe_allow_html=True)
+                     st.markdown("##### Move the zoom slider")
                     
                     original_img = Image.fromarray(st.session_state.original_image)
                     
