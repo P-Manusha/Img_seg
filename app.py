@@ -23,9 +23,6 @@ CONFIG = {
     "device": "cuda" if torch.cuda.is_available() else "cpu",
     "model_path": "best_seg_model.pth",
     "fg_thresh": 0.3,
-} torch.cuda.is_available() else "cpu",
-    "model_path": "best_seg_model.pth",
-    "fg_thresh": 0.3,
 }
 
 # Paths - Updated for deployment
@@ -68,7 +65,7 @@ FILTERS = {
 }
 
 # ============================================================================
-# CUSTOM CSS - FIXED SIDEBAR TEXT VISIBILITY
+# CUSTOM CSS
 # ============================================================================
 CUSTOM_CSS = """
 <style>
@@ -143,7 +140,6 @@ CUSTOM_CSS = """
     transform: scale(1.05);
 }
 
-/* FIXED: Sidebar text visibility */
 section[data-testid="stSidebar"] {
     background: linear-gradient(180deg, #2d3748 0%, #1a202c 100%) !important;
 }
@@ -523,11 +519,10 @@ def get_download_button(image, format_type, quality, button_text, file_name, key
     )
 
 # ============================================================================
-# HELPER FUNCTIONS FOR IMAGE ENCODING/DECODING
+# HELPER FUNCTIONS
 # ============================================================================
 
 def image_to_base64(img_array):
-    """Convert numpy array to base64 string"""
     img_pil = Image.fromarray(img_array)
     buffered = BytesIO()
     img_pil.save(buffered, format="PNG")
@@ -535,17 +530,15 @@ def image_to_base64(img_array):
     return img_str
 
 def base64_to_image(img_str):
-    """Convert base64 string to numpy array"""
     img_data = base64.b64decode(img_str)
     img_pil = Image.open(BytesIO(img_data))
     return np.array(img_pil)
 
 # ============================================================================
-# PROJECT MANAGEMENT - REWRITTEN TO SAVE IMAGES
+# PROJECT MANAGEMENT
 # ============================================================================
 
 def save_project():
-    """Save project with images encoded as base64"""
     try:
         if st.session_state.get('original_image') is None:
             return False
@@ -557,11 +550,9 @@ def save_project():
         from datetime import datetime
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         
-        # Encode images as base64
         original_img_b64 = image_to_base64(st.session_state.original_image)
         current_img_b64 = image_to_base64(st.session_state.current_image) if st.session_state.current_image is not None else None
         
-        # Encode mask if it exists
         mask_b64 = None
         if st.session_state.mask is not None:
             mask_img = (st.session_state.mask * 255).astype(np.uint8)
@@ -605,11 +596,9 @@ def save_project():
         return False
 
 def load_project(project_name):
-    """Load project and decode images from base64"""
     try:
         for proj in st.session_state.get('saved_projects', []):
             if proj.get('name') == project_name:
-                # Decode images
                 if proj.get('original_image'):
                     st.session_state.original_image = base64_to_image(proj['original_image'])
                 
@@ -624,7 +613,6 @@ def load_project(project_name):
                         mask_img = mask_img[:, :, 0]
                     st.session_state.mask = (mask_img > 127).astype(np.uint8)
                 
-                # Load settings
                 settings = proj.get('settings', {})
                 st.session_state.fg_thresh = float(settings.get('fg_thresh', 0.4))
                 st.session_state.min_area = int(settings.get('min_area', 300))
@@ -646,7 +634,6 @@ def load_project(project_name):
         return False
 
 def delete_project(project_name):
-    """Delete a project"""
     try:
         st.session_state.saved_projects = [
             p for p in st.session_state.get('saved_projects', []) if p.get('name') != project_name
@@ -676,10 +663,8 @@ def main():
 
     st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
-    # Load model
     model = get_model()
 
-    # Header
     st.markdown("""
     <div class="main-header">
         <h1>OneView</h1>
@@ -687,7 +672,6 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-    # Sidebar
     with st.sidebar:
         st.markdown("### ⚙️ Detection Settings")
         st.session_state.fg_thresh = st.slider("Detection Threshold", 0.0, 1.0, st.session_state.fg_thresh, 0.01)
@@ -732,7 +716,6 @@ def main():
                         st.markdown(f"**{idx + 1}. {proj['name']}**")
                         st.caption(f"🕒 {proj['timestamp']}")
                         
-                        # Show thumbnail preview if available
                         if proj.get('original_image'):
                             try:
                                 thumb_img = base64_to_image(proj['original_image'])
@@ -756,7 +739,6 @@ def main():
                                 st.rerun()
                         st.markdown("---")
 
-    # Step Indicator
     st.markdown(f"""
     <div class="step-indicator">
         <div class="step">
@@ -781,31 +763,26 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-    # Demo Section - UPDATED WITH BETTER SPACING AND QUALITY
     st.markdown("### 📸 See What's Possible")
     
-    # Create centered columns with more spacing
     _, demo_col1, spacer, demo_col2, _ = st.columns([0.3, 1, 0.4, 1, 0.3])
 
     with demo_col1:
         st.markdown("#### Original Image")
         if os.path.exists(DEMO_IMAGE_PATHS["Demo Image 1"]):
             demo_orig = Image.open(DEMO_IMAGE_PATHS["Demo Image 1"])
-            # Higher quality resize - keep larger size for better quality
             demo_orig.thumbnail((450, 450), Image.Resampling.LANCZOS)
             st.image(demo_orig, use_container_width=True, caption="Before")
         else:
             st.info("Demo image not available")
 
     with spacer:
-        # Add visual separator
         st.markdown("<div style='height: 200px; display: flex; align-items: center; justify-content: center; font-size: 3rem;'>→</div>", unsafe_allow_html=True)
 
     with demo_col2:
         st.markdown("#### Extracted Subject")
         if os.path.exists(DEMO_IMAGE_PATHS["Demo Image 2"]):
             demo_extracted = Image.open(DEMO_IMAGE_PATHS["Demo Image 2"])
-            # Higher quality resize - keep larger size for better quality
             demo_extracted.thumbnail((450, 450), Image.Resampling.LANCZOS)
             st.image(demo_extracted, use_container_width=True, caption="After")
         else:
@@ -813,7 +790,6 @@ def main():
 
     st.markdown("---")
 
-    # Upload Section
     st.markdown("### 📤 Upload Your Images")
     uploaded_files = st.file_uploader(
         "Drop your images here",
@@ -847,11 +823,9 @@ def main():
                 mask = postprocess_mask(prob, st.session_state.fg_thresh, st.session_state.min_area)
                 st.session_state.mask = (mask > 127).astype(np.uint8)
 
-    # Main Editor Tabs
     if st.session_state.current_image is not None or st.session_state.batch_mode:
         tabs = st.tabs(["🎨 Background", "🎛️ Filters & Effects", "✂️ Crop & Resize", "🖼️ Final Preview"])
 
-        # Tab 1: Background
         with tabs[0]:
             st.markdown("### Background Options")
             col_left, col_right = st.columns([1, 2])
@@ -926,7 +900,6 @@ def main():
                     get_download_button(result_pil, export_format, quality, "⬇️ Download Preview", 
                                       f"background_preview.{export_format.lower()}", "download_bg")
 
-        # Tab 2: Filters
         with tabs[1]:
             st.markdown("### Filters & Effects")
             col1, col2 = st.columns([1, 2])
@@ -957,7 +930,6 @@ def main():
                     get_download_button(result_pil, export_format, quality, "⬇️ Download Filtered",
                                       f"filtered_image.{export_format.lower()}", "download_filter")
 
-        # Tab 3: Crop & Resize
         with tabs[2]:
             st.markdown("### Crop & Resize")
             col1, col2 = st.columns([1, 2])
@@ -998,12 +970,10 @@ def main():
                     get_download_button(result_pil, export_format, quality, "⬇️ Download Cropped",
                                       f"cropped_image.{export_format.lower()}", "download_crop")
 
-        # Tab 4: Final Preview - ENHANCED WITH MULTIPLE COMPARISON MODES
         with tabs[3]:
             st.markdown("### Final Preview & Export")
 
             if st.session_state.current_image is not None and st.session_state.mask is not None:
-                # Generate final result
                 bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
                 result_pil = apply_background(st.session_state.current_image, st.session_state.mask,
                                              st.session_state.extraction_mode, bg_path, st.session_state.custom_color)
@@ -1016,7 +986,6 @@ def main():
                     new_h = int(orig_h * st.session_state.resize_percent / 100)
                     result_pil = result_pil.resize((new_w, new_h), Image.LANCZOS)
 
-                # Comparison Mode Selection
                 st.markdown("#### 🔍 Comparison Mode")
                 comparison_mode = st.radio(
                     "Select View",
@@ -1025,29 +994,23 @@ def main():
                     label_visibility="collapsed"
                 )
 
-                # ========== MODE 1: INTERACTIVE SLIDER ==========
                 if comparison_mode == "Interactive Slider":
                     st.markdown("<h4 style='text-align:center;'>🔄 Interactive Slider Comparison</h4>", unsafe_allow_html=True)
                     
-                    # Prepare images
                     original_img = Image.fromarray(st.session_state.original_image)
                     
-                    # Handle RGBA mode
                     if result_pil.mode == 'RGBA':
                         result_rgb = Image.new('RGB', result_pil.size, (255, 255, 255))
                         result_rgb.paste(result_pil, (0, 0), result_pil)
                     else:
                         result_rgb = result_pil.convert('RGB')
                     
-                    # Match dimensions
                     if original_img.size != result_rgb.size:
                         result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
                     
-                    # Zoom control
                     zoom_value = st.slider("🔍 Zoom (%)", 50, 200, st.session_state.zoom_percentage, 5, key="zoom_slider")
                     st.session_state.zoom_percentage = zoom_value
                     
-                    # Apply zoom
                     scale = zoom_value / 100.0
                     new_w = max(1, int(original_img.size[0] * scale))
                     new_h = max(1, int(original_img.size[1] * scale))
@@ -1055,7 +1018,6 @@ def main():
                     zoomed_orig = original_img.resize((new_w, new_h), Image.LANCZOS)
                     zoomed_result = result_rgb.resize((new_w, new_h), Image.LANCZOS)
                     
-                    # Display comparison slider
                     image_comparison(
                         img1=zoomed_orig, 
                         img2=zoomed_result, 
@@ -1063,7 +1025,6 @@ def main():
                         label2="Processed"
                     )
 
-                # ========== MODE 2: SIDE-BY-SIDE ==========
                 elif comparison_mode == "Side-by-Side":
                     st.markdown("<h4 style='text-align:center;'>📊 Side-by-Side Comparison</h4>", unsafe_allow_html=True)
                     
@@ -1076,7 +1037,6 @@ def main():
                         display_orig.thumbnail((600, 600), Image.LANCZOS)
                         st.image(display_orig, use_container_width=True)
                         
-                        # Stats
                         orig_w, orig_h = original_img.size
                         st.caption(f"Size: {orig_w} × {orig_h} px")
                         st.caption(f"Mode: {original_img.mode}")
@@ -1087,30 +1047,24 @@ def main():
                         display_result.thumbnail((600, 600), Image.LANCZOS)
                         st.image(display_result, use_container_width=True)
                         
-                        # Stats
                         res_w, res_h = result_pil.size
                         st.caption(f"Size: {res_w} × {res_h} px")
                         st.caption(f"Mode: {result_pil.mode}")
 
-                # ========== MODE 3: BLEND VIEW ==========
                 elif comparison_mode == "Blend View":
                     st.markdown("<h4 style='text-align:center;'>🎨 Blend Comparison</h4>", unsafe_allow_html=True)
                     
-                    # Prepare images
                     original_img = Image.fromarray(st.session_state.original_image)
                     
-                    # Handle RGBA mode
                     if result_pil.mode == 'RGBA':
                         result_rgb = Image.new('RGB', result_pil.size, (255, 255, 255))
                         result_rgb.paste(result_pil, (0, 0), result_pil)
                     else:
                         result_rgb = result_pil.convert('RGB')
                     
-                    # Match dimensions
                     if original_img.size != result_rgb.size:
                         result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
                     
-                    # Blend controls
                     col_blend1, col_blend2 = st.columns([3, 1])
                     
                     with col_blend1:
@@ -1121,43 +1075,34 @@ def main():
                         st.caption(f"Original: {int((1-blend_value)*100)}%")
                         st.caption(f"Processed: {int(blend_value*100)}%")
                     
-                    # Create blended image
                     orig_rgb = original_img.convert('RGB')
                     blended = Image.blend(orig_rgb, result_rgb, float(blend_value))
                     
-                    # Display
                     display_blended = blended.copy()
                     display_blended.thumbnail((800, 600), Image.LANCZOS)
                     st.image(display_blended, use_container_width=True, caption=f"Blended View ({int(blend_value*100)}% Processed)")
 
-                # ========== MODE 4: GRID VIEW ==========
                 elif comparison_mode == "Grid View":
                     st.markdown("<h4 style='text-align:center;'>📐 Grid Comparison</h4>", unsafe_allow_html=True)
                     
-                    # Prepare images
                     original_img = Image.fromarray(st.session_state.original_image)
                     
-                    # Handle RGBA mode
                     if result_pil.mode == 'RGBA':
                         result_rgb = Image.new('RGB', result_pil.size, (255, 255, 255))
                         result_rgb.paste(result_pil, (0, 0), result_pil)
                     else:
                         result_rgb = result_pil.convert('RGB')
                     
-                    # Match dimensions
                     if original_img.size != result_rgb.size:
                         result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
                     
-                    # Create difference map
                     orig_arr = np.array(original_img.convert('RGB'))
                     result_arr = np.array(result_rgb)
                     diff_arr = np.abs(orig_arr.astype(float) - result_arr.astype(float)).astype(np.uint8)
                     diff_img = Image.fromarray(diff_arr)
                     
-                    # Create blend at 50%
                     blend_50 = Image.blend(original_img.convert('RGB'), result_rgb, 0.5)
                     
-                    # Display grid
                     col1, col2 = st.columns(2)
                     
                     with col1:
@@ -1215,7 +1160,6 @@ def main():
 
                 st.session_state.current_step = 4
 
-    # Batch Processing
     if st.session_state.batch_mode and len(st.session_state.uploaded_images) > 0:
         st.markdown("---")
         st.markdown("### 🔄 Batch Processing")
@@ -1269,7 +1213,6 @@ def main():
                     st.download_button(f"⬇️ {idx + 1}", buf.getvalue(), f"batch_{idx + 1}.{export_format.lower()}",
                                      f"image/{export_format.lower()}", key=f"batch_dl_{idx}", use_container_width=True)
 
-    # Footer
     st.markdown("---")
     st.markdown("""
     <div class="footer-professional">
@@ -1279,4 +1222,5 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-if
+if __name__ == "__main__":
+    main()
