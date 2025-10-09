@@ -1032,3 +1032,203 @@ def main():
                         label1="Original",
                         label2="Processed"
                     )
+
+                elif comparison_mode == "Side-by-Side":
+                    st.markdown("<h4 style='text-align:center;'>📊 Side-by-Side Comparison</h4>", unsafe_allow_html=True)
+                    
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.markdown("##### 📷 Original")
+                        original_img = Image.fromarray(st.session_state.original_image)
+                        display_orig = original_img.copy()
+                        display_orig.thumbnail((600, 600), Image.LANCZOS)
+                        st.image(display_orig, use_container_width=True)
+                        
+                        orig_w, orig_h = original_img.size
+                        st.caption(f"Size: {orig_w} × {orig_h} px")
+                        st.caption(f"Mode: {original_img.mode}")
+                    
+                    with col2:
+                        st.markdown("##### ✨ Processed")
+                        display_result = result_pil.copy()
+                        display_result.thumbnail((600, 600), Image.LANCZOS)
+                        st.image(display_result, use_container_width=True)
+                        
+                        res_w, res_h = result_pil.size
+                        st.caption(f"Size: {res_w} × {res_h} px")
+                        st.caption(f"Mode: {result_pil.mode}")
+
+                elif comparison_mode == "Blend View":
+                    st.markdown("<h4 style='text-align:center;'>🎨 Blend Comparison</h4>", unsafe_allow_html=True)
+                    
+                    original_img = Image.fromarray(st.session_state.original_image)
+                    
+                    if result_pil.mode == 'RGBA':
+                        result_rgb = Image.new('RGB', result_pil.size, (255, 255, 255))
+                        result_rgb.paste(result_pil, (0, 0), result_pil)
+                    else:
+                        result_rgb = result_pil.convert('RGB')
+                    
+                    if original_img.size != result_rgb.size:
+                        result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
+                    
+                    col_blend1, col_blend2 = st.columns([3, 1])
+                    
+                    with col_blend1:
+                        blend_value = st.slider("Blend Amount", 0.0, 1.0, 0.5, 0.01, key="blend_amount")
+                    
+                    with col_blend2:
+                        st.markdown("**Blend Info**")
+                        st.caption(f"Original: {int((1-blend_value)*100)}%")
+                        st.caption(f"Processed: {int(blend_value*100)}%")
+                    
+                    orig_rgb = original_img.convert('RGB')
+                    blended = Image.blend(orig_rgb, result_rgb, float(blend_value))
+                    
+                    display_blended = blended.copy()
+                    display_blended.thumbnail((800, 600), Image.LANCZOS)
+                    st.image(display_blended, use_container_width=True, caption=f"Blended View ({int(blend_value*100)}% Processed)")
+
+                elif comparison_mode == "Grid View":
+                    st.markdown("<h4 style='text-align:center;'>📐 Grid Comparison</h4>", unsafe_allow_html=True)
+                    
+                    original_img = Image.fromarray(st.session_state.original_image)
+                    
+                    if result_pil.mode == 'RGBA':
+                        result_rgb = Image.new('RGB', result_pil.size, (255, 255, 255))
+                        result_rgb.paste(result_pil, (0, 0), result_pil)
+                    else:
+                        result_rgb = result_pil.convert('RGB')
+                    
+                    if original_img.size != result_rgb.size:
+                        result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
+                    
+                    orig_arr = np.array(original_img.convert('RGB'))
+                    result_arr = np.array(result_rgb)
+                    diff_arr = np.abs(orig_arr.astype(float) - result_arr.astype(float)).astype(np.uint8)
+                    diff_img = Image.fromarray(diff_arr)
+                    
+                    blend_50 = Image.blend(original_img.convert('RGB'), result_rgb, 0.5)
+                    
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.markdown("##### 📷 Original")
+                        display_orig = original_img.copy()
+                        display_orig.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_orig, use_container_width=True)
+                    
+                    with col2:
+                        st.markdown("##### ✨ Processed")
+                        display_result = result_rgb.copy()
+                        display_result.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_result, use_container_width=True)
+                    
+                    col3, col4 = st.columns(2)
+                    
+                    with col3:
+                        st.markdown("##### 🔍 Difference Map")
+                        display_diff = diff_img.copy()
+                        display_diff.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_diff, use_container_width=True)
+                    
+                    with col4:
+                        st.markdown("##### 🎨 50% Blend")
+                        display_blend = blend_50.copy()
+                        display_blend.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_blend, use_container_width=True)
+
+                st.markdown("---")
+                st.markdown("### 📥 Export Options")
+                
+                export_col1, export_col2, export_col3 = st.columns(3)
+
+                with export_col1:
+                    get_download_button(result_pil, export_format, quality, "⬇️ Download Final",
+                                      f"visionextract_result.{export_format.lower()}", "download_final")
+
+                with export_col2:
+                    buf_orig = BytesIO()
+                    Image.fromarray(st.session_state.original_image).save(buf_orig, format="PNG")
+                    st.download_button("📥 Download Original", buf_orig.getvalue(), "original.png",
+                                     "image/png", key="download_orig", use_container_width=True)
+
+                with export_col3:
+                    original_img = Image.fromarray(st.session_state.original_image)
+                    result_rgb = result_pil.convert("RGB")
+                    if original_img.size != result_rgb.size:
+                        result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
+                    
+                    comparison = np.concatenate([np.array(original_img), np.array(result_rgb)], axis=1)
+                    buf_comp = BytesIO()
+                    Image.fromarray(comparison).save(buf_comp, format="PNG")
+                    st.download_button("📊 Download Comparison", buf_comp.getvalue(), "comparison.png",
+                                     "image/png", key="download_comp", use_container_width=True)
+
+                st.session_state.current_step = 4
+
+    if st.session_state.batch_mode and len(st.session_state.uploaded_images) > 0:
+        st.markdown("---")
+        st.markdown("### 🔄 Batch Processing")
+        st.info(f"Processing {len(st.session_state.uploaded_images)} images")
+
+        if st.button("▶️ Process All Images", use_container_width=True):
+            progress_bar = st.progress(0)
+            batch_results = []
+
+            for idx, img_array in enumerate(st.session_state.uploaded_images):
+                prob = predict_mask(model, img_array, CONFIG["device"], CONFIG["img_size"])
+                mask = postprocess_mask(prob, st.session_state.fg_thresh, st.session_state.min_area)
+                mask_bin = (mask > 127).astype(np.uint8)
+
+                bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
+                result_pil = apply_background(img_array, mask_bin, st.session_state.extraction_mode, bg_path, st.session_state.custom_color)
+                result_pil = apply_filters_and_adjustments(result_pil)
+                result_pil = crop_image(result_pil, st.session_state.crop_preset)
+
+                if st.session_state.resize_percent != 100:
+                    orig_w, orig_h = result_pil.size
+                    new_w = int(orig_w * st.session_state.resize_percent / 100)
+                    new_h = int(orig_h * st.session_state.resize_percent / 100)
+                    result_pil = result_pil.resize((new_w, new_h), Image.LANCZOS)
+
+                batch_results.append(result_pil)
+                progress_bar.progress((idx + 1) / len(st.session_state.uploaded_images))
+
+            st.success("✅ All images processed!")
+
+            st.markdown("#### 📸 Results Preview")
+            cols = st.columns(3)
+            for idx, result in enumerate(batch_results):
+                with cols[idx % 3]:
+                    display_result = result.copy()
+                    display_result.thumbnail((300, 250), Image.LANCZOS)
+                    st.image(display_result, caption=f"Image {idx + 1}", use_container_width=True)
+
+            st.markdown("#### 📥 Download Results")
+            download_cols = st.columns(min(len(batch_results), 4))
+            for idx, result in enumerate(batch_results):
+                with download_cols[idx % len(download_cols)]:
+                    buf = BytesIO()
+                    if export_format == "PNG" and result.mode == "RGBA":
+                        result.save(buf, format="PNG")
+                    elif export_format in ["JPEG", "JPG"]:
+                        result.convert("RGB").save(buf, format="JPEG", quality=quality)
+                    else:
+                        result.convert("RGB").save(buf, format=export_format, quality=quality)
+
+                    st.download_button(f"⬇️ {idx + 1}", buf.getvalue(), f"batch_{idx + 1}.{export_format.lower()}",
+                                     f"image/{export_format.lower()}", key=f"batch_dl_{idx}", use_container_width=True)
+
+    st.markdown("---")
+    st.markdown("""
+    <div class="footer-professional">
+        <h3>OneView</h3>
+        <p>Professional AI-Powered Image Processing Solution</p>
+        <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.7;">Developed by Manusha</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+if __name__ == "__main__":
+    main()
