@@ -20,7 +20,8 @@ CONFIG = {
     "img_size": (512, 512),
     "model_name": "deeplabv3_resnet50",
     "num_classes": 2,
-    "device": "cuda" if torch.cuda.is_available() else "cpu",
+    "device": "cuda" if __name__ == "__main__":
+    main() torch.cuda.is_available() else "cpu",
     "model_path": "best_seg_model.pth",
     "fg_thresh": 0.3,
 }
@@ -778,29 +779,33 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-    # Demo Section
+    # Demo Section - UPDATED WITH BETTER SPACING AND QUALITY
     st.markdown("### 📸 See What's Possible")
     
-    # Create centered columns with padding
-    _, demo_col1, demo_col2, _ = st.columns([0.5, 1, 1, 0.5])
+    # Create centered columns with more spacing
+    _, demo_col1, spacer, demo_col2, _ = st.columns([0.3, 1, 0.4, 1, 0.3])
 
     with demo_col1:
         st.markdown("#### Original Image")
         if os.path.exists(DEMO_IMAGE_PATHS["Demo Image 1"]):
             demo_orig = Image.open(DEMO_IMAGE_PATHS["Demo Image 1"])
-            # Maintain aspect ratio while resizing with high quality
-            demo_orig.thumbnail((300, 225), Image.Resampling.LANCZOS)
-            st.image(demo_orig, use_container_width=False, caption="Before", width=300)
+            # Higher quality resize - keep larger size for better quality
+            demo_orig.thumbnail((450, 450), Image.Resampling.LANCZOS)
+            st.image(demo_orig, use_container_width=True, caption="Before")
         else:
             st.info("Demo image not available")
+
+    with spacer:
+        # Add visual separator
+        st.markdown("<div style='height: 200px; display: flex; align-items: center; justify-content: center; font-size: 3rem;'>→</div>", unsafe_allow_html=True)
 
     with demo_col2:
         st.markdown("#### Extracted Subject")
         if os.path.exists(DEMO_IMAGE_PATHS["Demo Image 2"]):
             demo_extracted = Image.open(DEMO_IMAGE_PATHS["Demo Image 2"])
-            # Maintain aspect ratio while resizing with high quality
-            demo_extracted.thumbnail((300, 225), Image.Resampling.LANCZOS)
-            st.image(demo_extracted, use_container_width=False, caption="After", width=300)
+            # Higher quality resize - keep larger size for better quality
+            demo_extracted.thumbnail((450, 450), Image.Resampling.LANCZOS)
+            st.image(demo_extracted, use_container_width=True, caption="After")
         else:
             st.info("Demo image not available")
 
@@ -1272,5 +1277,4 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-if __name__ == "__main__":
-    main()
+if
