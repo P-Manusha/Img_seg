@@ -78,7 +78,7 @@ CUSTOM_CSS = """
 }
 
 .stApp {
-    background: linear-gradient(135deg, #C8A2C8 0%, #065535 100%) !important;
+    background: linear-gradient(135deg, #228b22 0%, #00563B 100%) !important;
 }
 
 .main-header {
@@ -93,7 +93,7 @@ CUSTOM_CSS = """
 
 .main-header h1 {
     margin: 0;
-    background: linear-gradient(135deg, #C8A2C8 0%, #065535 100%);
+    background: linear-gradient(135deg, #065535 0%, #088F8F 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-size: 2.8rem;
@@ -119,7 +119,7 @@ CUSTOM_CSS = """
 
 .stTabs [data-baseweb="tab"] {
     height: 60px;
-    background: linear-gradient(135deg, #C8A2C8 0%, #065535 100%);
+    background: linear-gradient(135deg, #228b22 0%, #00563B 100%);
     color: white;
     border-radius: 12px;
     font-weight: 600;
@@ -131,11 +131,11 @@ CUSTOM_CSS = """
 
 .stTabs [data-baseweb="tab"]:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(200, 162, 200, 0.4);
+    box-shadow: 0 8px 20px rgba(34, 139, 34, 0.4);
 }
 
 .stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, #065535 0%, #C8A2C8 100%);
+    background: linear-gradient(135deg, #065535 0%, #088F8F 100%);
     box-shadow: 0 5px 25px rgba(6, 85, 53, 0.5);
     transform: scale(1.05);
 }
@@ -167,7 +167,7 @@ section[data-testid="stSidebar"] input[type="text"]::placeholder {
 }
 
 .stButton > button {
-    background: linear-gradient(135deg, #C8A2C8 0%, #065535 100%) !important;
+    background: linear-gradient(135deg, #228b22 0%, #00563B 100%) !important;
     color: white !important;
     border: none !important;
     padding: 0.6rem 1.5rem !important;
@@ -179,12 +179,12 @@ section[data-testid="stSidebar"] input[type="text"]::placeholder {
 
 .stButton > button:hover {
     transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 8px 25px rgba(200, 162, 200, 0.4) !important;
+    box-shadow: 0 8px 25px rgba(34, 139, 34, 0.4) !important;
     filter: brightness(1.1);
 }
 
 section[data-testid="stFileUploadDropzone"] {
-    background: linear-gradient(135deg, #C8A2C8 0%, #065535 100%) !important;
+    background: linear-gradient(135deg, #228b22 0%, #00563B 100%) !important;
     border: 3px dashed rgba(255, 255, 255, 0.6) !important;
     border-radius: 20px !important;
     padding: 2rem !important;
@@ -213,7 +213,7 @@ section[data-testid="stFileUploadDropzone"] {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #C8A2C8 0%, #065535 100%);
+    background: linear-gradient(135deg, #228b22 0%, #00563B 100%);
     color: white;
     display: flex;
     align-items: center;
@@ -225,7 +225,7 @@ section[data-testid="stFileUploadDropzone"] {
 }
 
 .step-number.active {
-    box-shadow: 0 0 30px rgba(200, 162, 200, 0.8);
+    box-shadow: 0 0 30px rgba(34, 139, 34, 0.8);
     transform: scale(1.15);
 }
 
@@ -237,7 +237,7 @@ section[data-testid="stFileUploadDropzone"] {
 
 .step-connector {
     height: 3px;
-    background: linear-gradient(90deg, #C8A2C8 0%, #065535 100%);
+    background: linear-gradient(90deg, #228b22 0%, #00563B 100%);
     flex: 1;
     margin: 0 1rem;
 }
@@ -253,7 +253,7 @@ section[data-testid="stFileUploadDropzone"] {
 }
 
 .footer-professional h3 {
-    background: linear-gradient(135deg, #C8A2C8 0%, #065535 100%);
+    background: linear-gradient(135deg, #065535 0%, #088F8F 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
