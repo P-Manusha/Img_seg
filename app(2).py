@@ -65,11 +65,15 @@ FILTERS = {
 }
 
 # ============================================================================
-# CUSTOM CSS - SIMPLIFIED PROFESSIONAL CLASSIC DESIGN
+# CUSTOM CSS - PROFESSIONAL CLASSIC DESIGN
 # ============================================================================
 CUSTOM_CSS = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
+
+* {
+    font-family: 'Montserrat', sans-serif;
+}
 
 .stApp {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
@@ -139,9 +143,29 @@ section[data-testid="stSidebar"] {
     background: linear-gradient(180deg, #2c3e50 0%, #34495e 50%, #1a1a2e 100%);
 }
 
+section[data-testid="stSidebar"] * {
+    color: #e0e0e0 !important;
+}
+
 section[data-testid="stSidebar"] h3 {
-    color: #d4af37;
-    font-family: 'Playfair Display', serif;
+    color: #d4af37 !important;
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 700 !important;
+}
+
+section[data-testid="stSidebar"] label {
+    color: #c9c9c9 !important;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+section[data-testid="stSidebar"] .stNumberInput input,
+section[data-testid="stSidebar"] .stSelectbox select,
+section[data-testid="stSidebar"] input[type="text"],
+section[data-testid="stSidebar"] textarea {
+    color: #1a1a2e !important;
+    background: #f5f5f5 !important;
+    border: 2px solid rgba(212, 175, 55, 0.3) !important;
+    border-radius: 8px !important;
 }
 
 .stButton > button {
@@ -154,11 +178,20 @@ section[data-testid="stSidebar"] h3 {
     font-size: 0.95rem;
     font-family: 'Montserrat', sans-serif;
     box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+    transition: all 0.3s ease;
 }
 
 .stButton > button:hover {
     box-shadow: 0 10px 35px rgba(212, 175, 55, 0.6);
     background: linear-gradient(135deg, #e6c85c 0%, #d4af37 100%);
+    transform: translateY(-2px);
+}
+
+section[data-testid="stFileUploadDropzone"] {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
+    border: 3px dashed rgba(212, 175, 55, 0.5) !important;
+    border-radius: 20px !important;
+    padding: 3rem !important;
 }
 
 .step-indicator {
@@ -193,6 +226,7 @@ section[data-testid="stSidebar"] h3 {
     font-size: 1.6rem;
     margin-bottom: 0.7rem;
     box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+    transition: all 0.3s ease;
 }
 
 .step-number.active {
@@ -240,8 +274,26 @@ section[data-testid="stSidebar"] h3 {
     font-weight: 500;
 }
 
+h4, h5 {
+    color: #d4af37 !important;
+    font-family: 'Playfair Display', serif !important;
+}
+
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a2e;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #d4af37 0%, #8b7355 100%);
+    border-radius: 6px;
+}
 </style>
 """
 
@@ -627,7 +679,7 @@ def main():
     init_session_state()
 
     st.set_page_config(
-        page_title="OneView",
+        page_title="OneView - Professional Image Editor",
         page_icon="🔷",
         layout="wide",
         initial_sidebar_state="expanded"
@@ -692,3 +744,508 @@ def main():
                             try:
                                 thumb_img = base64_to_image(proj['original_image'])
                                 thumb_pil = Image.fromarray(thumb_img)
+                                thumb_pil.thumbnail((150, 150), Image.LANCZOS)
+                                st.image(thumb_pil, use_container_width=True)
+                            except:
+                                st.caption("📷 Image preview unavailable")
+                        
+                        col1, col2 = st.columns(2)
+                        with col1:
+                            if st.button("📂 Load", key=f"load_{idx}", use_container_width=True):
+                                if load_project(proj['name']):
+                                    st.success("✅ Loaded!")
+                                    st.rerun()
+                        
+                        with col2:
+                            if st.button("🗑️ Delete", key=f"del_{idx}", use_container_width=True):
+                                delete_project(proj['name'])
+                                st.success("🗑️ Deleted!")
+                                st.rerun()
+                        st.markdown("---")
+
+    st.markdown(f"""
+    <div class="step-indicator">
+        <div class="step">
+            <div class="step-number {'active' if st.session_state.current_step == 1 else ''}">1</div>
+            <div class="step-label">Upload</div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step">
+            <div class="step-number {'active' if st.session_state.current_step == 2 else ''}">2</div>
+            <div class="step-label">Extract</div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step">
+            <div class="step-number {'active' if st.session_state.current_step == 3 else ''}">3</div>
+            <div class="step-label">Customize</div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step">
+            <div class="step-number {'active' if st.session_state.current_step == 4 else ''}">4</div>
+            <div class="step-label">Export</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("### 📸 See What's Possible")
+    
+    _, demo_col1, spacer, demo_col2, _ = st.columns([0.3, 1, 0.4, 1, 0.3])
+
+    with demo_col1:
+        st.markdown("#### Original Image")
+        if os.path.exists(DEMO_IMAGE_PATHS["Demo Image 1"]):
+            demo_orig = Image.open(DEMO_IMAGE_PATHS["Demo Image 1"])
+            demo_orig.thumbnail((450, 450), Image.Resampling.LANCZOS)
+            st.image(demo_orig, use_container_width=True, caption="Before")
+        else:
+            st.info("Demo image not available")
+
+    with spacer:
+        st.markdown("<div style='height: 200px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #d4af37;'>→</div>", unsafe_allow_html=True)
+
+    with demo_col2:
+        st.markdown("#### Extracted Subject")
+        if os.path.exists(DEMO_IMAGE_PATHS["Demo Image 2"]):
+            demo_extracted = Image.open(DEMO_IMAGE_PATHS["Demo Image 2"])
+            demo_extracted.thumbnail((450, 450), Image.Resampling.LANCZOS)
+            st.image(demo_extracted, use_container_width=True, caption="After")
+        else:
+            st.info("Demo image not available")
+
+    st.markdown("---")
+
+    st.markdown("### 📤 Upload Your Images")
+    uploaded_files = st.file_uploader(
+        "Drop your images here",
+        type=["jpg", "jpeg", "png"],
+        accept_multiple_files=st.session_state.batch_mode,
+        label_visibility="collapsed"
+    )
+
+    if uploaded_files:
+        if st.session_state.batch_mode and not isinstance(uploaded_files, list):
+            uploaded_files = [uploaded_files]
+        elif not st.session_state.batch_mode and isinstance(uploaded_files, list):
+            uploaded_files = uploaded_files[0]
+
+        if st.session_state.batch_mode:
+            st.session_state.uploaded_images = []
+            for file in uploaded_files:
+                img = Image.open(file).convert("RGB")
+                st.session_state.uploaded_images.append(np.array(img))
+            st.success(f"✅ {len(uploaded_files)} images uploaded!")
+            st.session_state.current_step = 2
+        else:
+            img = Image.open(uploaded_files).convert("RGB")
+            st.session_state.original_image = np.array(img)
+            st.session_state.current_image = np.array(img)
+            st.session_state.current_step = 2
+
+            with st.spinner("🔍 Detecting subject..."):
+                prob = predict_mask(model, st.session_state.original_image, CONFIG["device"], CONFIG["img_size"])
+                st.session_state.prob_map = prob
+                mask = postprocess_mask(prob, st.session_state.fg_thresh, st.session_state.min_area)
+                st.session_state.mask = (mask > 127).astype(np.uint8)
+
+    if st.session_state.current_image is not None or st.session_state.batch_mode:
+        tabs = st.tabs(["🎨 Background", "🎛️ Filters & Effects", "✂️ Crop & Resize", "🖼️ Final Preview"])
+
+        with tabs[0]:
+            st.markdown("### Background Options")
+            col_left, col_right = st.columns([1, 2])
+
+            with col_left:
+                st.markdown("#### Choose Background")
+                
+                if st.button("✨ Transparent", key="bg_transparent", use_container_width=True):
+                    st.session_state.extraction_mode = "Transparent"
+                    st.session_state.current_step = 3
+                    st.rerun()
+
+                if st.button("⚪ White", key="bg_white", use_container_width=True):
+                    st.session_state.extraction_mode = "White"
+                    st.session_state.current_step = 3
+                    st.rerun()
+
+                if st.button("⚫ Black", key="bg_black", use_container_width=True):
+                    st.session_state.extraction_mode = "Black"
+                    st.session_state.current_step = 3
+                    st.rerun()
+
+                if st.button("💫 Blur", key="bg_blur", use_container_width=True):
+                    st.session_state.extraction_mode = "Blur"
+                    st.session_state.current_step = 3
+                    st.rerun()
+
+                if st.button("🎨 Custom Color", key="bg_custom_color", use_container_width=True):
+                    st.session_state.extraction_mode = "Custom Color"
+                    st.session_state.current_step = 3
+                    st.rerun()
+
+                if st.button("🖼️ Custom Background", key="bg_custom_image", use_container_width=True):
+                    st.session_state.extraction_mode = "Custom Image"
+                    st.session_state.current_step = 3
+                    st.rerun()
+
+                if st.button("📚 Preset Backgrounds", key="toggle_presets", use_container_width=True):
+                    st.session_state.show_bg_presets = not st.session_state.show_bg_presets
+                    st.rerun()
+
+                if st.session_state.show_bg_presets:
+                    st.markdown("---")
+                    for bg_key, bg_path in BG_IMAGE_PATHS.items():
+                        if os.path.exists(bg_path):
+                            if st.button(bg_key, key=f"preset_{bg_key}", use_container_width=True):
+                                st.session_state.extraction_mode = bg_key
+                                st.rerun()
+
+                if st.session_state.extraction_mode == "Custom Color":
+                    st.markdown("---")
+                    st.session_state.custom_color = st.color_picker("Pick a color", st.session_state.custom_color)
+
+                if st.session_state.extraction_mode == "Custom Image":
+                    st.markdown("---")
+                    custom_bg = st.file_uploader("Upload background", type=["jpg", "jpeg", "png"], key="custom_bg_upload")
+                    if custom_bg:
+                        st.session_state.selected_bg = Image.open(custom_bg)
+
+            with col_right:
+                if st.session_state.current_image is not None and st.session_state.mask is not None:
+                    st.markdown("#### Preview")
+                    bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
+                    result_pil = apply_background(st.session_state.current_image, st.session_state.mask, 
+                                                 st.session_state.extraction_mode, bg_path, st.session_state.custom_color)
+                    
+                    display_img = result_pil.copy()
+                    display_img.thumbnail((700, 500), Image.LANCZOS)
+                    st.image(display_img, use_container_width=True)
+                    
+                    st.markdown("---")
+                    get_download_button(result_pil, export_format, quality, "⬇️ Download Preview", 
+                                      f"background_preview.{export_format.lower()}", "download_bg")
+
+        with tabs[1]:
+            st.markdown("### Filters & Effects")
+            col1, col2 = st.columns([1, 2])
+
+            with col1:
+                st.markdown("#### Filter Presets")
+                st.session_state.filter_type = st.selectbox("Select Filter", list(FILTERS.keys()))
+                
+                st.markdown("---")
+                st.markdown("#### Adjustments")
+                st.session_state.brightness = st.slider("☀️ Brightness", 0.0, 2.0, st.session_state.brightness, 0.1)
+                st.session_state.contrast = st.slider("🔆 Contrast", 0.0, 2.0, st.session_state.contrast, 0.1)
+                st.session_state.saturation = st.slider("🌈 Saturation", 0.0, 2.0, st.session_state.saturation, 0.1)
+
+            with col2:
+                if st.session_state.current_image is not None:
+                    st.markdown("#### Preview with Effects")
+                    bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
+                    result_pil = apply_background(st.session_state.current_image, st.session_state.mask,
+                                                 st.session_state.extraction_mode, bg_path, st.session_state.custom_color)
+                    result_pil = apply_filters_and_adjustments(result_pil)
+                    
+                    display_img = result_pil.copy()
+                    display_img.thumbnail((700, 500), Image.LANCZOS)
+                    st.image(display_img, use_container_width=True)
+                    
+                    st.markdown("---")
+                    get_download_button(result_pil, export_format, quality, "⬇️ Download Filtered",
+                                      f"filtered_image.{export_format.lower()}", "download_filter")
+
+        with tabs[2]:
+            st.markdown("### Crop & Resize")
+            col1, col2 = st.columns([1, 2])
+
+            with col1:
+                st.markdown("#### Crop Presets")
+                st.session_state.crop_preset = st.selectbox("Select Preset", list(CROP_PRESETS.keys()))
+                
+                st.markdown("---")
+                st.markdown("#### Resize")
+                
+                if st.session_state.current_image is not None:
+                    orig_h, orig_w = st.session_state.current_image.shape[:2]
+                    st.caption(f"Original: {orig_w} × {orig_h} px")
+                    
+                    st.session_state.resize_percent = st.slider("Scale (%)", 10, 200, st.session_state.resize_percent)
+                    new_w = int(orig_w * st.session_state.resize_percent / 100)
+                    new_h = int(orig_h * st.session_state.resize_percent / 100)
+                    st.caption(f"New: {new_w} × {new_h} px")
+
+            with col2:
+                if st.session_state.current_image is not None:
+                    st.markdown("#### Preview")
+                    bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
+                    result_pil = apply_background(st.session_state.current_image, st.session_state.mask,
+                                                 st.session_state.extraction_mode, bg_path, st.session_state.custom_color)
+                    result_pil = apply_filters_and_adjustments(result_pil)
+                    result_pil = crop_image(result_pil, st.session_state.crop_preset)
+                    
+                    if st.session_state.resize_percent != 100:
+                        result_pil = result_pil.resize((new_w, new_h), Image.LANCZOS)
+                    
+                    display_img = result_pil.copy()
+                    display_img.thumbnail((700, 500), Image.LANCZOS)
+                    st.image(display_img, use_container_width=True)
+                    
+                    st.markdown("---")
+                    get_download_button(result_pil, export_format, quality, "⬇️ Download Cropped",
+                                      f"cropped_image.{export_format.lower()}", "download_crop")
+
+        with tabs[3]:
+            st.markdown("### Final Preview & Export")
+
+            if st.session_state.current_image is not None and st.session_state.mask is not None:
+                bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
+                result_pil = apply_background(st.session_state.current_image, st.session_state.mask,
+                                             st.session_state.extraction_mode, bg_path, st.session_state.custom_color)
+                result_pil = apply_filters_and_adjustments(result_pil)
+                result_pil = crop_image(result_pil, st.session_state.crop_preset)
+                
+                if st.session_state.resize_percent != 100:
+                    orig_w, orig_h = result_pil.size
+                    new_w = int(orig_w * st.session_state.resize_percent / 100)
+                    new_h = int(orig_h * st.session_state.resize_percent / 100)
+                    result_pil = result_pil.resize((new_w, new_h), Image.LANCZOS)
+
+                st.markdown("#### 🔍 Comparison Mode")
+                comparison_mode = st.radio(
+                    "Select View",
+                    ["Interactive Slider", "Side-by-Side", "Blend View", "Grid View"],
+                    horizontal=True,
+                    label_visibility="collapsed"
+                )
+
+                if comparison_mode == "Interactive Slider":
+                    st.markdown("<h4 style='text-align:center;'>🔄 Interactive Slider</h4>", unsafe_allow_html=True)
+                    st.markdown("##### Move the zoom slider")
+                    
+                    original_img = Image.fromarray(st.session_state.original_image)
+                    
+                    if result_pil.mode == 'RGBA':
+                        result_rgb = Image.new('RGB', result_pil.size, (255, 255, 255))
+                        result_rgb.paste(result_pil, (0, 0), result_pil)
+                    else:
+                        result_rgb = result_pil.convert('RGB')
+                    
+                    if original_img.size != result_rgb.size:
+                        result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
+                    
+                    zoom_value = st.slider("🔍 Zoom (%)", 50, 200, st.session_state.zoom_percentage, 5, key="zoom_slider")
+                    st.session_state.zoom_percentage = zoom_value
+                    
+                    scale = zoom_value / 100.0
+                    new_w = max(1, int(original_img.size[0] * scale))
+                    new_h = max(1, int(original_img.size[1] * scale))
+                    
+                    zoomed_orig = original_img.resize((new_w, new_h), Image.LANCZOS)
+                    zoomed_result = result_rgb.resize((new_w, new_h), Image.LANCZOS)
+                    
+                    image_comparison(
+                        img1=zoomed_orig, 
+                        img2=zoomed_result, 
+                        label1="Original",
+                        label2="Processed"
+                    )
+
+                elif comparison_mode == "Side-by-Side":
+                    st.markdown("<h4 style='text-align:center;'>📊 Side-by-Side Comparison</h4>", unsafe_allow_html=True)
+                    
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.markdown("##### 📷 Original")
+                        original_img = Image.fromarray(st.session_state.original_image)
+                        display_orig = original_img.copy()
+                        display_orig.thumbnail((600, 600), Image.LANCZOS)
+                        st.image(display_orig, use_container_width=True)
+                        
+                        orig_w, orig_h = original_img.size
+                        st.caption(f"Size: {orig_w} × {orig_h} px")
+                        st.caption(f"Mode: {original_img.mode}")
+                    
+                    with col2:
+                        st.markdown("##### ✨ Processed")
+                        display_result = result_pil.copy()
+                        display_result.thumbnail((600, 600), Image.LANCZOS)
+                        st.image(display_result, use_container_width=True)
+                        
+                        res_w, res_h = result_pil.size
+                        st.caption(f"Size: {res_w} × {res_h} px")
+                        st.caption(f"Mode: {result_pil.mode}")
+
+                elif comparison_mode == "Blend View":
+                    st.markdown("<h4 style='text-align:center;'>🎨 Blend Comparison</h4>", unsafe_allow_html=True)
+                    
+                    original_img = Image.fromarray(st.session_state.original_image)
+                    
+                    if result_pil.mode == 'RGBA':
+                        result_rgb = Image.new('RGB', result_pil.size, (255, 255, 255))
+                        result_rgb.paste(result_pil, (0, 0), result_pil)
+                    else:
+                        result_rgb = result_pil.convert('RGB')
+                    
+                    if original_img.size != result_rgb.size:
+                        result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
+                    
+                    col_blend1, col_blend2 = st.columns([3, 1])
+                    
+                    with col_blend1:
+                        blend_value = st.slider("Blend Amount", 0.0, 1.0, 0.5, 0.01, key="blend_amount")
+                    
+                    with col_blend2:
+                        st.markdown("**Blend Info**")
+                        st.caption(f"Original: {int((1-blend_value)*100)}%")
+                        st.caption(f"Processed: {int(blend_value*100)}%")
+                    
+                    orig_rgb = original_img.convert('RGB')
+                    blended = Image.blend(orig_rgb, result_rgb, float(blend_value))
+                    
+                    display_blended = blended.copy()
+                    display_blended.thumbnail((800, 600), Image.LANCZOS)
+                    st.image(display_blended, use_container_width=True, caption=f"Blended View ({int(blend_value*100)}% Processed)")
+
+                elif comparison_mode == "Grid View":
+                    st.markdown("<h4 style='text-align:center;'>📐 Grid Comparison</h4>", unsafe_allow_html=True)
+                    
+                    original_img = Image.fromarray(st.session_state.original_image)
+                    
+                    if result_pil.mode == 'RGBA':
+                        result_rgb = Image.new('RGB', result_pil.size, (255, 255, 255))
+                        result_rgb.paste(result_pil, (0, 0), result_pil)
+                    else:
+                        result_rgb = result_pil.convert('RGB')
+                    
+                    if original_img.size != result_rgb.size:
+                        result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
+                    
+                    orig_arr = np.array(original_img.convert('RGB'))
+                    result_arr = np.array(result_rgb)
+                    diff_arr = np.abs(orig_arr.astype(float) - result_arr.astype(float)).astype(np.uint8)
+                    diff_img = Image.fromarray(diff_arr)
+                    
+                    blend_50 = Image.blend(original_img.convert('RGB'), result_rgb, 0.5)
+                    
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.markdown("##### 📷 Original")
+                        display_orig = original_img.copy()
+                        display_orig.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_orig, use_container_width=True)
+                    
+                    with col2:
+                        st.markdown("##### ✨ Processed")
+                        display_result = result_rgb.copy()
+                        display_result.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_result, use_container_width=True)
+                    
+                    col3, col4 = st.columns(2)
+                    
+                    with col3:
+                        st.markdown("##### 🔍 Difference Map")
+                        display_diff = diff_img.copy()
+                        display_diff.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_diff, use_container_width=True)
+                    
+                    with col4:
+                        st.markdown("##### 🎨 50% Blend")
+                        display_blend = blend_50.copy()
+                        display_blend.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_blend, use_container_width=True)
+
+                st.markdown("---")
+                st.markdown("### 📥 Export Options")
+                
+                export_col1, export_col2, export_col3 = st.columns(3)
+
+                with export_col1:
+                    get_download_button(result_pil, export_format, quality, "⬇️ Download Final",
+                                      f"oneview_result.{export_format.lower()}", "download_final")
+
+                with export_col2:
+                    buf_orig = BytesIO()
+                    Image.fromarray(st.session_state.original_image).save(buf_orig, format="PNG")
+                    st.download_button("📥 Download Original", buf_orig.getvalue(), "original.png",
+                                     "image/png", key="download_orig", use_container_width=True)
+
+                with export_col3:
+                    original_img = Image.fromarray(st.session_state.original_image)
+                    result_rgb = result_pil.convert("RGB")
+                    if original_img.size != result_rgb.size:
+                        result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
+                    
+                    comparison = np.concatenate([np.array(original_img), np.array(result_rgb)], axis=1)
+                    buf_comp = BytesIO()
+                    Image.fromarray(comparison).save(buf_comp, format="PNG")
+                    st.download_button("📊 Download Comparison", buf_comp.getvalue(), "comparison.png",
+                                     "image/png", key="download_comp", use_container_width=True)
+
+                st.session_state.current_step = 4
+
+    if st.session_state.batch_mode and len(st.session_state.uploaded_images) > 0:
+        st.markdown("---")
+        st.markdown("### 🔄 Batch Processing")
+        st.info(f"Processing {len(st.session_state.uploaded_images)} images")
+
+        if st.button("▶️ Process All Images", use_container_width=True):
+            progress_bar = st.progress(0)
+            batch_results = []
+
+            for idx, img_array in enumerate(st.session_state.uploaded_images):
+                prob = predict_mask(model, img_array, CONFIG["device"], CONFIG["img_size"])
+                mask = postprocess_mask(prob, st.session_state.fg_thresh, st.session_state.min_area)
+                mask_bin = (mask > 127).astype(np.uint8)
+
+                bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
+                result_pil = apply_background(img_array, mask_bin, st.session_state.extraction_mode, bg_path, st.session_state.custom_color)
+                result_pil = apply_filters_and_adjustments(result_pil)
+                result_pil = crop_image(result_pil, st.session_state.crop_preset)
+
+                if st.session_state.resize_percent != 100:
+                    orig_w, orig_h = result_pil.size
+                    new_w = int(orig_w * st.session_state.resize_percent / 100)
+                    new_h = int(orig_h * st.session_state.resize_percent / 100)
+                    result_pil = result_pil.resize((new_w, new_h), Image.LANCZOS)
+
+                batch_results.append(result_pil)
+                progress_bar.progress((idx + 1) / len(st.session_state.uploaded_images))
+
+            st.success("✅ All images processed!")
+
+            st.markdown("#### 📸 Results Preview")
+            cols = st.columns(3)
+            for idx, result in enumerate(batch_results):
+                with cols[idx % 3]:
+                    display_result = result.copy()
+                    display_result.thumbnail((300, 250), Image.LANCZOS)
+                    st.image(display_result, caption=f"Image {idx + 1}", use_container_width=True)
+
+            st.markdown("#### 📥 Download Results")
+            download_cols = st.columns(min(len(batch_results), 4))
+            for idx, result in enumerate(batch_results):
+                with download_cols[idx % len(download_cols)]:
+                    buf = BytesIO()
+                    if export_format == "PNG" and result.mode == "RGBA":
+                        result.save(buf, format="PNG")
+                    elif export_format in ["JPEG", "JPG"]:
+                        result.convert("RGB").save(buf, format="JPEG", quality=quality)
+                    else:
+                        result.convert("RGB").save(buf, format=export_format, quality=quality)
+
+                    st.download_button(f"⬇️ {idx + 1}", buf.getvalue(), f"batch_{idx + 1}.{export_format.lower()}",
+                                     f"image/{export_format.lower()}", key=f"batch_dl_{idx}", use_container_width=True)
+
+    st.markdown("---")
+    st.markdown("""
+    <div class="footer-professional">
+        <h3>OneView</h3>
+        <p>Professional AI-Powered Image Processing Solution</p>
+        <p style="font-size: 0.9rem; margin-top: 0.8rem; opacity: 0.8;">Developed by Manusha</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+if __name__ == "__main__":
+    main()
