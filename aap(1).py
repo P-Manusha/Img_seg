@@ -65,188 +65,215 @@ FILTERS = {
 }
 
 # ============================================================================
-# CUSTOM CSS - PROFESSIONAL CLASSIC DESIGN
+# CUSTOM CSS - PROFESSIONAL CLASSIC THEME
 # ============================================================================
 CUSTOM_CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Lora:wght@400;500;600;700&family=Crimson+Text:wght@400;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap');
 
 * {
-    font-family: 'Open Sans', 'Montserrat', sans-serif;
+    font-family: 'Lora', serif;
     box-sizing: border-box;
 }
 
 .stApp {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
+    position: relative;
+}
+
+.stApp::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(218, 165, 32, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 69, 19, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .main-header {
-    background: linear-gradient(135deg, rgba(230, 230, 250, 0.98) 0%, rgba(245, 245, 255, 0.98) 100%);
+    background: linear-gradient(135deg, #2c2c3e 0%, #1f1f2e 100%);
     padding: 3rem 2.5rem;
     border-radius: 20px;
     text-align: center;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(212, 175, 55, 0.2);
+    box-shadow: 0 15px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(218, 165, 32, 0.3);
     margin-bottom: 2.5rem;
-    border: 2px solid rgba(212, 175, 55, 0.3);
+    border: 2px solid rgba(218, 165, 32, 0.2);
     position: relative;
     overflow: hidden;
 }
 
 .main-header::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #d4af37 0%, #8b7355 50%, #d4af37 100%);
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #daa520, transparent);
 }
 
 .main-header h1 {
     margin: 0;
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+    background: linear-gradient(135deg, #daa520 0%, #b8860b 50%, #daa520 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    font-size: 3.2rem;
-    font-weight: 700;
-    font-family: 'Playfair Display', 'Lora', serif;
-    letter-spacing: 2px;
+    font-size: 3.5rem;
+    font-weight: 900;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    position: relative;
+    text-shadow: 0 2px 10px rgba(218, 165, 32, 0.3);
 }
 
 .main-header p {
     margin: 1rem 0 0 0;
-    color: #34495e;
-    font-size: 1.15rem;
+    color: #e0e0e0;
+    font-size: 1.2rem;
     font-weight: 500;
-    font-family: 'Montserrat', sans-serif;
-    letter-spacing: 0.5px;
+    font-family: 'Crimson Text', serif;
+    letter-spacing: 1px;
 }
 
 .stTabs [data-baseweb="tab-list"] {
-    gap: 10px;
-    background: linear-gradient(135deg, rgba(44, 62, 80, 0.95) 0%, rgba(52, 73, 94, 0.95) 100%);
-    padding: 1.2rem;
-    border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(212, 175, 55, 0.2);
+    gap: 12px;
+    background: linear-gradient(135deg, #2c2c3e 0%, #1f1f2e 100%);
+    padding: 1.5rem;
+    border-radius: 18px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(218, 165, 32, 0.2);
+    border: 1px solid rgba(218, 165, 32, 0.15);
 }
 
 .stTabs [data-baseweb="tab"] {
-    height: 60px;
-    background: linear-gradient(135deg, #d4af37 0%, #c9a961 100%);
-    color: #1a1a2e;
-    border-radius: 12px;
+    height: 65px;
+    background: linear-gradient(135deg, #3a3a4e 0%, #2a2a3e 100%);
+    color: #daa520;
+    border-radius: 14px;
     font-weight: 600;
-    font-size: 1rem;
-    padding: 0 2rem;
-    border: none;
-    transition: all 0.4s ease;
-    font-family: 'Montserrat', sans-serif;
+    font-size: 1.05rem;
+    font-family: 'Crimson Text', serif;
+    padding: 0 2.5rem;
+    border: 2px solid rgba(218, 165, 32, 0.3);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     letter-spacing: 0.5px;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 }
 
 .stTabs [data-baseweb="tab"]:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
-    background: linear-gradient(135deg, #e6c85c 0%, #d4af37 100%);
+    box-shadow: 0 12px 35px rgba(218, 165, 32, 0.4);
+    border-color: rgba(218, 165, 32, 0.6);
+    background: linear-gradient(135deg, #4a4a5e 0%, #3a3a4e 100%);
 }
 
 .stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, #8b7355 0%, #6d5d4b 100%);
-    color: #f5f5ff;
-    box-shadow: 0 6px 30px rgba(139, 115, 85, 0.6);
-    transform: scale(1.05);
-    border: 2px solid rgba(212, 175, 55, 0.5);
+    background: linear-gradient(135deg, #daa520 0%, #b8860b 100%) !important;
+    color: #1a1a2e !important;
+    box-shadow: 0 8px 30px rgba(218, 165, 32, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: scale(1.08);
+    border-color: #daa520;
+    font-weight: 700;
 }
 
 section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #2c3e50 0%, #34495e 50%, #1a1a2e 100%) !important;
-    border-right: 3px solid rgba(212, 175, 55, 0.3);
+    background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1e 100%) !important;
+    border-right: 2px solid rgba(218, 165, 32, 0.2);
 }
 
 section[data-testid="stSidebar"] * {
-    color: #e6e6fa !important;
+    color: #e0e0e0 !important;
 }
 
-section[data-testid="stSidebar"] h3,
-section[data-testid="stSidebar"] h4 {
-    color: #d4af37 !important;
-    font-family: 'Playfair Display', serif;
-    letter-spacing: 1px;
+section[data-testid="stSidebar"] h3 {
+    color: #daa520 !important;
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
 }
 
 section[data-testid="stSidebar"] label {
-    color: #f5f5ff !important;
-    font-weight: 500;
-    font-family: 'Montserrat', sans-serif;
+    color: #c9c9c9 !important;
+    font-family: 'Crimson Text', serif !important;
+    font-weight: 600 !important;
 }
 
 section[data-testid="stSidebar"] .stNumberInput input,
 section[data-testid="stSidebar"] .stSelectbox select,
 section[data-testid="stSidebar"] input[type="text"],
 section[data-testid="stSidebar"] textarea {
-    color: #2c3e50 !important;
-    background: linear-gradient(135deg, #f5f5ff 0%, #e6e6fa 100%) !important;
-    border: 2px solid #d4af37 !important;
-    border-radius: 8px;
-    font-weight: 500;
+    color: #1a1a2e !important;
+    background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%) !important;
+    border: 2px solid rgba(218, 165, 32, 0.3) !important;
+    border-radius: 8px !important;
+    font-family: 'Lora', serif !important;
 }
 
-section[data-testid="stSidebar"] .stNumberInput input::placeholder,
-section[data-testid="stSidebar"] input[type="text"]::placeholder {
-    color: #7f8c8d !important;
+section[data-testid="stSidebar"] .stNumberInput input:focus,
+section[data-testid="stSidebar"] .stSelectbox select:focus,
+section[data-testid="stSidebar"] input[type="text"]:focus,
+section[data-testid="stSidebar"] textarea:focus {
+    border-color: #daa520 !important;
+    box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.2) !important;
 }
 
 .stButton > button {
-    background: linear-gradient(135deg, #d4af37 0%, #c9a961 100%) !important;
+    background: linear-gradient(135deg, #daa520 0%, #b8860b 50%, #daa520 100%) !important;
     color: #1a1a2e !important;
-    border: 2px solid rgba(139, 115, 85, 0.3) !important;
-    padding: 0.7rem 1.8rem !important;
+    border: none !important;
+    padding: 0.8rem 2rem !important;
     font-weight: 700 !important;
+    font-family: 'Crimson Text', serif !important;
     border-radius: 12px !important;
-    font-size: 0.95rem !important;
-    transition: all 0.4s ease !important;
-    font-family: 'Montserrat', sans-serif !important;
-    letter-spacing: 0.8px !important;
-    text-transform: uppercase;
-    box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4) !important;
+    font-size: 1rem !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    letter-spacing: 1px !important;
+    box-shadow: 0 6px 20px rgba(218, 165, 32, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
 .stButton > button:hover {
     transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 10px 35px rgba(212, 175, 55, 0.6) !important;
-    background: linear-gradient(135deg, #e6c85c 0%, #d4af37 100%) !important;
-    border-color: rgba(139, 115, 85, 0.5) !important;
+    box-shadow: 0 12px 35px rgba(218, 165, 32, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    filter: brightness(1.15);
+}
+
+.stButton > button:active {
+    transform: translateY(-1px) scale(1.01);
 }
 
 section[data-testid="stFileUploadDropzone"] {
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
-    border: 3px dashed rgba(212, 175, 55, 0.7) !important;
+    background: linear-gradient(135deg, #2c2c3e 0%, #1f1f2e 100%) !important;
+    border: 3px dashed rgba(218, 165, 32, 0.5) !important;
     border-radius: 20px !important;
-    padding: 2.5rem !important;
-    transition: all 0.3s ease;
+    padding: 3rem !important;
+    transition: all 0.3s ease !important;
 }
 
 section[data-testid="stFileUploadDropzone"]:hover {
-    border-color: rgba(212, 175, 55, 1) !important;
-    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3) !important;
+    border-color: rgba(218, 165, 32, 0.8) !important;
+    background: linear-gradient(135deg, #3c3c4e 0%, #2f2f3e 100%) !important;
 }
 
 .step-indicator {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(135deg, rgba(230, 230, 250, 0.98) 0%, rgba(245, 245, 255, 0.98) 100%);
-    padding: 2rem 1.5rem;
-    border-radius: 18px;
-    margin: 2rem 0;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
-    border: 2px solid rgba(212, 175, 55, 0.3);
+    background: linear-gradient(135deg, #2c2c3e 0%, #1f1f2e 100%);
+    padding: 2rem;
+    border-radius: 20px;
+    margin: 2.5rem 0;
+    box-shadow: 0 12px 45px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(218, 165, 32, 0.2);
+    border: 2px solid rgba(218, 165, 32, 0.2);
 }
 
 .step {
@@ -257,122 +284,140 @@ section[data-testid="stFileUploadDropzone"]:hover {
 }
 
 .step-number {
-    width: 55px;
-    height: 55px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #d4af37 0%, #c9a961 100%);
-    color: #1a1a2e;
+    background: linear-gradient(135deg, #3a3a4e 0%, #2a2a3e 100%);
+    color: #daa520;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 1.6rem;
-    margin-bottom: 0.7rem;
+    font-weight: 800;
+    font-size: 1.8rem;
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 0.8rem;
     transition: all 0.4s ease;
-    box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
-    border: 2px solid rgba(139, 115, 85, 0.3);
-    font-family: 'Montserrat', sans-serif;
+    border: 3px solid rgba(218, 165, 32, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .step-number.active {
-    background: linear-gradient(135deg, #8b7355 0%, #6d5d4b 100%);
-    color: #f5f5ff;
-    box-shadow: 0 0 40px rgba(139, 115, 85, 0.8);
+    background: linear-gradient(135deg, #daa520 0%, #b8860b 100%);
+    color: #1a1a2e;
+    box-shadow: 0 0 40px rgba(218, 165, 32, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
     transform: scale(1.2);
-    border-color: rgba(212, 175, 55, 0.6);
+    border-color: #daa520;
 }
 
 .step-label {
-    color: #2c3e50;
+    color: #c9c9c9;
     font-weight: 600;
-    font-size: 0.95rem;
-    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-family: 'Crimson Text', serif;
     letter-spacing: 0.5px;
 }
 
 .step-connector {
     height: 4px;
-    background: linear-gradient(90deg, #d4af37 0%, #8b7355 50%, #d4af37 100%);
+    background: linear-gradient(90deg, rgba(218, 165, 32, 0.3) 0%, rgba(218, 165, 32, 0.6) 50%, rgba(218, 165, 32, 0.3) 100%);
     flex: 1;
-    margin: 0 1rem;
+    margin: 0 1.5rem;
     border-radius: 2px;
 }
 
 .footer-professional {
     text-align: center;
-    padding: 2.5rem;
-    background: linear-gradient(135deg, rgba(230, 230, 250, 0.98) 0%, rgba(245, 245, 255, 0.98) 100%);
-    border-radius: 18px;
-    box-shadow: 0 12px 45px rgba(0, 0, 0, 0.25);
-    margin-top: 3rem;
-    border: 2px solid rgba(212, 175, 55, 0.3);
+    padding: 3rem;
+    background: linear-gradient(135deg, #2c2c3e 0%, #1f1f2e 100%);
+    border-radius: 20px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(218, 165, 32, 0.3);
+    margin-top: 4rem;
+    border: 2px solid rgba(218, 165, 32, 0.2);
     position: relative;
 }
 
 .footer-professional::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #d4af37 0%, #8b7355 50%, #d4af37 100%);
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #daa520, transparent);
 }
 
 .footer-professional h3 {
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    background: linear-gradient(135deg, #daa520 0%, #b8860b 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     font-family: 'Playfair Display', serif;
     margin: 0;
-    font-size: 1.8rem;
+    font-size: 2rem;
+    font-weight: 800;
     letter-spacing: 2px;
-    font-weight: 700;
 }
 
 .footer-professional p {
-    color: #34495e !important;
-    margin-top: 0.7rem;
+    color: #c9c9c9 !important;
+    margin-top: 0.8rem;
     font-weight: 500;
+    font-family: 'Crimson Text', serif;
     background: transparent !important;
-    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.5px;
 }
 
-/* Enhanced styling for markdown headers */
-h1, h2, h3, h4, h5, h6 {
-    color: #f5f5ff !important;
+.stDownloadButton > button {
+    background: linear-gradient(135deg, #daa520 0%, #b8860b 100%) !important;
+    color: #1a1a2e !important;
+    border: none !important;
+    font-family: 'Crimson Text', serif !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+}
+
+.stSlider > div > div > div {
+    background: linear-gradient(90deg, #daa520 0%, #b8860b 100%) !important;
+}
+
+.stRadio > label {
+    color: #c9c9c9 !important;
+    font-family: 'Crimson Text', serif !important;
+}
+
+h4, h5 {
+    color: #daa520 !important;
     font-family: 'Playfair Display', serif !important;
+    font-weight: 700 !important;
     letter-spacing: 1px !important;
 }
 
-/* Slider styling */
-.stSlider > div > div > div {
-    background: linear-gradient(90deg, #d4af37 0%, #8b7355 100%) !important;
-}
-
-/* Radio button styling */
-.stRadio > label {
-    color: #f5f5ff !important;
-    font-family: 'Montserrat', sans-serif !important;
-}
-
-/* Select box styling */
-.stSelectbox > div > div {
-    background: linear-gradient(135deg, #f5f5ff 0%, #e6e6fa 100%) !important;
-    border: 2px solid #d4af37 !important;
-    color: #2c3e50 !important;
-}
-
-/* Info/Success/Warning boxes */
-.stAlert {
-    background: linear-gradient(135deg, rgba(230, 230, 250, 0.95) 0%, rgba(245, 245, 255, 0.95) 100%) !important;
-    border-left: 4px solid #d4af37 !important;
-    color: #2c3e50 !important;
+.stMarkdown {
+    color: #e0e0e0 !important;
 }
 
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a2e;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #daa520 0%, #b8860b 100%);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #b8860b 0%, #daa520 100%);
+}
 </style>
 """
 
@@ -422,12 +467,10 @@ def init_session_state():
 def apply_sepia(img):
     arr = np.array(img).astype(np.float32)
     
-    # Apply sepia transformation using matrix multiplication
     sepia_filter = np.array([[0.393, 0.769, 0.189],
                               [0.349, 0.686, 0.168],
                               [0.272, 0.534, 0.131]])
     
-    # Reshape for matrix multiplication
     h, w, c = arr.shape
     sepia_arr = arr.reshape(-1, 3) @ sepia_filter.T
     sepia_arr = sepia_arr.reshape(h, w, 3)
@@ -764,7 +807,7 @@ def main():
     init_session_state()
 
     st.set_page_config(
-        page_title="One View",
+        page_title="OneView - Professional Image Editor",
         page_icon="🔷",
         layout="wide",
         initial_sidebar_state="expanded"
@@ -776,8 +819,8 @@ def main():
 
     st.markdown("""
     <div class="main-header">
-        <h1>OneView</h1>
-        <p>Create pro-level cutouts by removing distractions and letting your subject shine in every image.</p>
+        <h1>ONEVIEW</h1>
+        <p>Premium AI-Powered Image Processing & Background Removal Suite</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -886,7 +929,7 @@ def main():
             st.info("Demo image not available")
 
     with spacer:
-        st.markdown("<div style='height: 200px; display: flex; align-items: center; justify-content: center; font-size: 3rem;'>→</div>", unsafe_allow_html=True)
+        st.markdown("<div style='height: 200px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #daa520;'>→</div>", unsafe_allow_html=True)
 
     with demo_col2:
         st.markdown("#### Extracted Subject")
@@ -1326,9 +1369,9 @@ def main():
     st.markdown("---")
     st.markdown("""
     <div class="footer-professional">
-        <h3>OneView</h3>
-        <p>Professional AI-Powered Image Processing Solution</p>
-        <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.7;">Developed by Manusha</p>
+        <h3>ONEVIEW</h3>
+        <p>Premium AI-Powered Image Processing Suite</p>
+        <p style="font-size: 0.9rem; margin-top: 0.8rem; opacity: 0.8;">Crafted with Excellence by Manusha</p>
     </div>
     """, unsafe_allow_html=True)
 
