@@ -426,17 +426,47 @@ h1, h2, h3, h4, h5, h6 {
 """
 
 # ============================================================================
-# MODEL FUNCTIONS (keeping your existing functions)
+# MODEL FUNCTIONS
 # ============================================================================
 
 @st.cache_resource
 def load_model():
-    """Load the segmentation model"""
+    """Load the segmentation model with improved error handling"""
     model = getattr(segmentation_models, CONFIG["model_name"])(pretrained=False, num_classes=CONFIG["num_classes"])
     
     if os.path.exists(CONFIG["model_path"]):
-        checkpoint = torch.load(CONFIG["model_path"], map_location=CONFIG["device"])
-        model.load_state_dict(checkpoint["model_state_dict"])
+        try:
+            checkpoint = torch.load(CONFIG["model_path"], map_location=CONFIG["device"])
+            
+            # Handle different checkpoint formats
+            if isinstance(checkpoint, dict):
+                # Try different possible keys for the model state
+                if "model_state_dict" in checkpoint:
+                    model.load_state_dict(checkpoint["model_state_dict"])
+                elif "state_dict" in checkpoint:
+                    model.load_state_dict(checkpoint["state_dict"])
+                elif "model" in checkpoint:
+                    model.load_state_dict(checkpoint["model"])
+                else:
+                    # Checkpoint dict might be the state_dict itself
+                    try:
+                        model.load_state_dict(checkpoint)
+                    except:
+                        st.error(f"❌ Checkpoint keys found: {checkpoint.keys()}")
+                        raise ValueError("Could not find model weights in checkpoint")
+            else:
+                # Checkpoint is directly the state_dict
+                model.load_state_dict(checkpoint)
+            
+            st.success("✅ Custom model loaded successfully!")
+        except Exception as e:
+            st.warning(f"⚠️ Could not load custom checkpoint: {str(e)}. Using pretrained model instead.")
+            # Fall back to pretrained model
+            model = getattr(segmentation_models, CONFIG["model_name"])(pretrained=True, num_classes=21)
+            st.info("ℹ️ Using pretrained DeepLabV3 model (21 classes)")
+    else:
+        st.info(f"ℹ️ Model checkpoint not found at {CONFIG['model_path']}. Using pretrained model.")
+        model = getattr(segmentation_models, CONFIG["model_name"])(pretrained=True, num_classes=21)
     
     model.to(CONFIG["device"])
     model.eval()
