@@ -25,7 +25,6 @@ CONFIG = {
     "fg_thresh": 0.3,
 }
 
-# Paths - Updated for deployment
 DEMO_IMAGE_PATHS = {
     "Demo Image 1": "demo/Orginal.jpg",
     "Demo Image 2": "demo/Extracted.jpg"
@@ -38,7 +37,6 @@ BG_IMAGE_PATHS = {
     "Background 4": "backgrounds/bg4.jpg",
 }
 
-# Crop Presets
 CROP_PRESETS = {
     "Freeform": None,
     "Square (1:1)": (1, 1),
@@ -50,7 +48,6 @@ CROP_PRESETS = {
     "Twitter Post (16:9)": (16, 9),
 }
 
-# Filter Presets
 FILTERS = {
     "None": lambda img: img,
     "Grayscale": lambda img: ImageEnhance.Color(img).enhance(0),
@@ -80,7 +77,6 @@ CUSTOM_CSS = """
     background-attachment: fixed;
 }
 
-/* Subtle animated background pattern */
 .stApp::before {
     content: '';
     position: fixed;
@@ -397,7 +393,6 @@ footer {visibility: hidden;}
     background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 100%);
 }
 
-/* Enhanced input styling */
 input, select, textarea {
     transition: all 0.3s ease !important;
 }
@@ -407,7 +402,6 @@ input:focus, select:focus, textarea:focus {
     box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.1) !important;
 }
 
-/* Slider styling */
 .stSlider {
     padding: 1rem 0;
 }
@@ -418,12 +412,10 @@ input:focus, select:focus, textarea:focus {
     border-radius: 15px;
 }
 
-/* Improved contrast for text */
 p, span, div {
     color: #c4b5fd;
 }
 
-/* Caption styling */
 .stCaption {
     color: #a78bfa !important;
     font-style: italic;
@@ -884,126 +876,6 @@ def main():
                                 st.caption("📷 Image preview unavailable")
                         
                         col1, col2 = st.columns(2)
-                    
-                    with col1:
-                        st.markdown("##### 📷 Original")
-                        display_orig = original_img.copy()
-                        display_orig.thumbnail((400, 400), Image.LANCZOS)
-                        st.image(display_orig, use_container_width=True)
-                    
-                    with col2:
-                        st.markdown("##### ✨ Processed")
-                        display_result = result_rgb.copy()
-                        display_result.thumbnail((400, 400), Image.LANCZOS)
-                        st.image(display_result, use_container_width=True)
-                    
-                    col3, col4 = st.columns(2)
-                    
-                    with col3:
-                        st.markdown("##### 🔍 Difference Map")
-                        display_diff = diff_img.copy()
-                        display_diff.thumbnail((400, 400), Image.LANCZOS)
-                        st.image(display_diff, use_container_width=True)
-                    
-                    with col4:
-                        st.markdown("##### 🎨 50% Blend")
-                        display_blend = blend_50.copy()
-                        display_blend.thumbnail((400, 400), Image.LANCZOS)
-                        st.image(display_blend, use_container_width=True)
-
-                st.markdown("---")
-                st.markdown("### 📥 Export Options")
-                
-                export_col1, export_col2, export_col3 = st.columns(3)
-
-                with export_col1:
-                    get_download_button(result_pil, export_format, quality, "⬇️ Download Final",
-                                      f"oneview_result.{export_format.lower()}", "download_final")
-
-                with export_col2:
-                    buf_orig = BytesIO()
-                    Image.fromarray(st.session_state.original_image).save(buf_orig, format="PNG")
-                    st.download_button("📥 Download Original", buf_orig.getvalue(), "original.png",
-                                     "image/png", key="download_orig", use_container_width=True)
-
-                with export_col3:
-                    original_img = Image.fromarray(st.session_state.original_image)
-                    result_rgb = result_pil.convert("RGB")
-                    if original_img.size != result_rgb.size:
-                        result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
-                    
-                    comparison = np.concatenate([np.array(original_img), np.array(result_rgb)], axis=1)
-                    buf_comp = BytesIO()
-                    Image.fromarray(comparison).save(buf_comp, format="PNG")
-                    st.download_button("📊 Download Comparison", buf_comp.getvalue(), "comparison.png",
-                                     "image/png", key="download_comp", use_container_width=True)
-
-                st.session_state.current_step = 4
-
-    if st.session_state.batch_mode and len(st.session_state.uploaded_images) > 0:
-        st.markdown("---")
-        st.markdown("### 🔄 Batch Processing")
-        st.info(f"Processing {len(st.session_state.uploaded_images)} images")
-
-        if st.button("▶️ Process All Images", use_container_width=True):
-            progress_bar = st.progress(0)
-            batch_results = []
-
-            for idx, img_array in enumerate(st.session_state.uploaded_images):
-                prob = predict_mask(model, img_array, CONFIG["device"], CONFIG["img_size"])
-                mask = postprocess_mask(prob, st.session_state.fg_thresh, st.session_state.min_area)
-                mask_bin = (mask > 127).astype(np.uint8)
-
-                bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
-                result_pil = apply_background(img_array, mask_bin, st.session_state.extraction_mode, bg_path, st.session_state.custom_color)
-                result_pil = apply_filters_and_adjustments(result_pil)
-                result_pil = crop_image(result_pil, st.session_state.crop_preset)
-
-                if st.session_state.resize_percent != 100:
-                    orig_w, orig_h = result_pil.size
-                    new_w = int(orig_w * st.session_state.resize_percent / 100)
-                    new_h = int(orig_h * st.session_state.resize_percent / 100)
-                    result_pil = result_pil.resize((new_w, new_h), Image.LANCZOS)
-
-                batch_results.append(result_pil)
-                progress_bar.progress((idx + 1) / len(st.session_state.uploaded_images))
-
-            st.success("✅ All images processed!")
-
-            st.markdown("#### 📸 Results Preview")
-            cols = st.columns(3)
-            for idx, result in enumerate(batch_results):
-                with cols[idx % 3]:
-                    display_result = result.copy()
-                    display_result.thumbnail((300, 250), Image.LANCZOS)
-                    st.image(display_result, caption=f"Image {idx + 1}", use_container_width=True)
-
-            st.markdown("#### 📥 Download Results")
-            download_cols = st.columns(min(len(batch_results), 4))
-            for idx, result in enumerate(batch_results):
-                with download_cols[idx % len(download_cols)]:
-                    buf = BytesIO()
-                    if export_format == "PNG" and result.mode == "RGBA":
-                        result.save(buf, format="PNG")
-                    elif export_format in ["JPEG", "JPG"]:
-                        result.convert("RGB").save(buf, format="JPEG", quality=quality)
-                    else:
-                        result.convert("RGB").save(buf, format=export_format, quality=quality)
-
-                    st.download_button(f"⬇️ {idx + 1}", buf.getvalue(), f"batch_{idx + 1}.{export_format.lower()}",
-                                     f"image/{export_format.lower()}", key=f"batch_dl_{idx}", use_container_width=True)
-
-    st.markdown("---")
-    st.markdown("""
-    <div class="footer-professional">
-        <h3>OneView</h3>
-        <p>Professional AI-Powered Image Processing Solution</p>
-        <p style="font-size: 0.9rem; margin-top: 0.8rem; opacity: 0.8;">Developed by Manusha</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-if __name__ == "__main__":
-    main() st.columns(2)
                         with col1:
                             if st.button("📂 Load", key=f"load_{idx}", use_container_width=True):
                                 if load_project(proj['name']):
@@ -1382,4 +1254,124 @@ if __name__ == "__main__":
                     
                     blend_50 = Image.blend(original_img.convert('RGB'), result_rgb, 0.5)
                     
-                    col1, col2 =
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.markdown("##### 📷 Original")
+                        display_orig = original_img.copy()
+                        display_orig.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_orig, use_container_width=True)
+                    
+                    with col2:
+                        st.markdown("##### ✨ Processed")
+                        display_result = result_rgb.copy()
+                        display_result.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_result, use_container_width=True)
+                    
+                    col3, col4 = st.columns(2)
+                    
+                    with col3:
+                        st.markdown("##### 🔍 Difference Map")
+                        display_diff = diff_img.copy()
+                        display_diff.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_diff, use_container_width=True)
+                    
+                    with col4:
+                        st.markdown("##### 🎨 50% Blend")
+                        display_blend = blend_50.copy()
+                        display_blend.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_blend, use_container_width=True)
+
+                st.markdown("---")
+                st.markdown("### 📥 Export Options")
+                
+                export_col1, export_col2, export_col3 = st.columns(3)
+
+                with export_col1:
+                    get_download_button(result_pil, export_format, quality, "⬇️ Download Final",
+                                      f"oneview_result.{export_format.lower()}", "download_final")
+
+                with export_col2:
+                    buf_orig = BytesIO()
+                    Image.fromarray(st.session_state.original_image).save(buf_orig, format="PNG")
+                    st.download_button("📥 Download Original", buf_orig.getvalue(), "original.png",
+                                     "image/png", key="download_orig", use_container_width=True)
+
+                with export_col3:
+                    original_img = Image.fromarray(st.session_state.original_image)
+                    result_rgb = result_pil.convert("RGB")
+                    if original_img.size != result_rgb.size:
+                        result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
+                    
+                    comparison = np.concatenate([np.array(original_img), np.array(result_rgb)], axis=1)
+                    buf_comp = BytesIO()
+                    Image.fromarray(comparison).save(buf_comp, format="PNG")
+                    st.download_button("📊 Download Comparison", buf_comp.getvalue(), "comparison.png",
+                                     "image/png", key="download_comp", use_container_width=True)
+
+                st.session_state.current_step = 4
+
+    if st.session_state.batch_mode and len(st.session_state.uploaded_images) > 0:
+        st.markdown("---")
+        st.markdown("### 🔄 Batch Processing")
+        st.info(f"Processing {len(st.session_state.uploaded_images)} images")
+
+        if st.button("▶️ Process All Images", use_container_width=True):
+            progress_bar = st.progress(0)
+            batch_results = []
+
+            for idx, img_array in enumerate(st.session_state.uploaded_images):
+                prob = predict_mask(model, img_array, CONFIG["device"], CONFIG["img_size"])
+                mask = postprocess_mask(prob, st.session_state.fg_thresh, st.session_state.min_area)
+                mask_bin = (mask > 127).astype(np.uint8)
+
+                bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
+                result_pil = apply_background(img_array, mask_bin, st.session_state.extraction_mode, bg_path, st.session_state.custom_color)
+                result_pil = apply_filters_and_adjustments(result_pil)
+                result_pil = crop_image(result_pil, st.session_state.crop_preset)
+
+                if st.session_state.resize_percent != 100:
+                    orig_w, orig_h = result_pil.size
+                    new_w = int(orig_w * st.session_state.resize_percent / 100)
+                    new_h = int(orig_h * st.session_state.resize_percent / 100)
+                    result_pil = result_pil.resize((new_w, new_h), Image.LANCZOS)
+
+                batch_results.append(result_pil)
+                progress_bar.progress((idx + 1) / len(st.session_state.uploaded_images))
+
+            st.success("✅ All images processed!")
+
+            st.markdown("#### 📸 Results Preview")
+            cols = st.columns(3)
+            for idx, result in enumerate(batch_results):
+                with cols[idx % 3]:
+                    display_result = result.copy()
+                    display_result.thumbnail((300, 250), Image.LANCZOS)
+                    st.image(display_result, caption=f"Image {idx + 1}", use_container_width=True)
+
+            st.markdown("#### 📥 Download Results")
+            download_cols = st.columns(min(len(batch_results), 4))
+            for idx, result in enumerate(batch_results):
+                with download_cols[idx % len(download_cols)]:
+                    buf = BytesIO()
+                    if export_format == "PNG" and result.mode == "RGBA":
+                        result.save(buf, format="PNG")
+                    elif export_format in ["JPEG", "JPG"]:
+                        result.convert("RGB").save(buf, format="JPEG", quality=quality)
+                    else:
+                        result.convert("RGB").save(buf, format=export_format, quality=quality)
+
+                    st.download_button(f"⬇️ {idx + 1}", buf.getvalue(), f"batch_{idx + 1}.{export_format.lower()}",
+                                     f"image/{export_format.lower()}", key=f"batch_dl_{idx}", use_container_width=True)
+
+    st.markdown("---")
+    st.markdown("""
+    <div class="footer-professional">
+        <h3>OneView</h3>
+        <p>Professional AI-Powered Image Processing Solution</p>
+        <p style="font-size: 0.9rem; margin-top: 0.8rem; opacity: 0.8;">Developed by Manusha</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+if __name__ == "__main__":
+    main()
