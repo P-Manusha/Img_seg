@@ -62,7 +62,7 @@ FILTERS = {
 }
 
 # ============================================================================
-# MODERN PROFESSIONAL CSS - CLASSIC BUSINESS DESIGN
+# MODERN PROFESSIONAL CSS - ENHANCED BUTTON STYLING
 # ============================================================================
 CUSTOM_CSS = """
 <style>
@@ -73,404 +73,242 @@ CUSTOM_CSS = """
 }
 
 .stApp {
-    background: linear-gradient(135deg, #1a1d29 0%, #2d3748 100%);
-    background-attachment: fixed;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    color: #f1f5f9;
 }
 
-/* Sophisticated header with glassmorphism */
-.modern-header {
-    background: rgba(45, 55, 72, 0.7);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    padding: 2rem 2.5rem;
-    border-radius: 24px;
-    text-align: center;
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    margin-bottom: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    position: relative;
-    overflow: hidden;
-}
+/* ============================================
+   ENHANCED BUTTON STYLING - PRIMARY FOCUS
+   ============================================ */
 
-.modern-header::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(52, 73, 94, 0.15) 0%, transparent 70%);
-    animation: rotate 20s linear infinite;
-}
-
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-.modern-header h1 {
-    margin: 0;
-    font-size: 3.5rem;
-    font-weight: 700;
-    font-family: 'Space Grotesk', sans-serif;
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #455a64 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: -1px;
-    position: relative;
-    z-index: 1;
-}
-
-.modern-header p {
-    margin: 1rem 0 0 0;
-    color: #cbd5e1;
-    font-size: 1.1rem;
-    font-weight: 400;
-    position: relative;
-    z-index: 1;
-}
-
-/* Sidebar styling */
-section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #1e293b 0%, #334155 100%);
-    border-right: 1px solid rgba(148, 163, 184, 0.1);
-}
-
-section[data-testid="stSidebar"] * {
-    color: #e2e8f0 !important;
-}
-
-section[data-testid="stSidebar"] h3 {
-    color: #f1f5f9 !important;
-    font-family: 'Space Grotesk', sans-serif !important;
-    font-weight: 600 !important;
-    font-size: 1.2rem !important;
-    margin-bottom: 1rem !important;
-}
-
-/* Left sidebar navigation */
-.sidebar-nav {
-    background: rgba(30, 41, 59, 0.6);
-    backdrop-filter: blur(10px);
-    padding: 1.5rem;
-    border-radius: 16px;
-    margin-bottom: 1.5rem;
-    border: 1px solid rgba(148, 163, 184, 0.1);
-}
-
-.nav-item {
-    background: rgba(51, 65, 85, 0.5);
-    padding: 0.8rem 1.2rem;
-    border-radius: 12px;
-    margin-bottom: 0.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 1px solid transparent;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-}
-
-.nav-item:hover {
-    background: rgba(52, 73, 94, 0.3);
-    border-color: rgba(52, 73, 94, 0.4);
-    transform: translateX(5px);
-}
-
-.nav-item.active {
-    background: linear-gradient(135deg, rgba(52, 73, 94, 0.4) 0%, rgba(44, 62, 80, 0.4) 100%);
-    border-color: rgba(52, 73, 94, 0.6);
-}
-
-/* Main content tabs - horizontal workflow */
-.stTabs [data-baseweb="tab-list"] {
-    gap: 8px;
-    background: rgba(30, 41, 59, 0.6);
-    backdrop-filter: blur(10px);
-    padding: 1rem;
-    border-radius: 20px;
-    border: 1px solid rgba(148, 163, 184, 0.1);
-    margin-bottom: 2rem;
-}
-
-.stTabs [data-baseweb="tab"] {
-    height: auto;
-    min-height: 45px;
-    background: rgba(51, 65, 85, 0.5);
-    color: #cbd5e1;
-    border-radius: 12px;
-    font-weight: 500;
-    font-size: 0.9rem;
-    padding: 0.6rem 1.4rem;
-    border: 1px solid rgba(148, 163, 184, 0.1);
-    transition: all 0.3s ease;
-    white-space: nowrap;
-}
-
-.stTabs [data-baseweb="tab"]:hover {
-    background: rgba(52, 73, 94, 0.3);
-    border-color: rgba(52, 73, 94, 0.4);
-    transform: translateY(-2px);
-}
-
-.stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-    color: #ffffff;
-    border-color: rgba(52, 73, 94, 0.5);
-    box-shadow: 0 4px 15px rgba(44, 62, 80, 0.3);
-}
-
-/* Classic Professional Buttons - Smaller & Compact */
+/* Primary Buttons (Download, Process, etc.) */
 .stButton > button {
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-    color: #ffffff;
-    border: 1px solid rgba(52, 73, 94, 0.4);
-    padding: 0.45rem 1.1rem;
-    font-weight: 500;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.2);
-    transition: all 0.3s ease;
-    text-transform: none;
-    letter-spacing: 0.3px;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 0.75rem 2rem !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4), 
+                0 4px 10px rgba(139, 92, 246, 0.3) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    text-transform: uppercase !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.stButton > button:before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: -100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent) !important;
+    transition: left 0.5s !important;
 }
 
 .stButton > button:hover {
-    background: linear-gradient(135deg, #34495e 0%, #455a64 100%);
-    box-shadow: 0 4px 12px rgba(44, 62, 80, 0.3);
-    transform: translateY(-1px);
-    border-color: rgba(52, 73, 94, 0.6);
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c026d3 100%) !important;
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 12px 28px rgba(99, 102, 241, 0.5), 
+                0 6px 14px rgba(139, 92, 246, 0.4),
+                0 0 30px rgba(168, 85, 247, 0.3) !important;
+}
+
+.stButton > button:hover:before {
+    left: 100% !important;
 }
 
 .stButton > button:active {
-    transform: translateY(0px);
-    box-shadow: 0 1px 4px rgba(44, 62, 80, 0.3);
+    transform: translateY(0px) scale(0.98) !important;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4) !important;
 }
 
-/* Download buttons - Professional green accent */
+/* Download Buttons - Special Styling */
 .stDownloadButton > button {
-    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
-    color: #ffffff;
-    border: 1px solid rgba(39, 174, 96, 0.4);
-    padding: 0.45rem 1.1rem;
-    font-weight: 500;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    box-shadow: 0 2px 8px rgba(39, 174, 96, 0.2);
-    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 0.75rem 2rem !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4), 
+                0 4px 10px rgba(5, 150, 105, 0.3) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    text-transform: uppercase !important;
 }
 
 .stDownloadButton > button:hover {
-    background: linear-gradient(135deg, #229954 0%, #1e8449 100%);
-    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
-    transform: translateY(-1px);
+    background: linear-gradient(135deg, #059669 0%, #047857 50%, #065f46 100%) !important;
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 12px 28px rgba(16, 185, 129, 0.5), 
+                0 6px 14px rgba(5, 150, 105, 0.4),
+                0 0 30px rgba(16, 185, 129, 0.3) !important;
 }
 
-/* File uploader */
-section[data-testid="stFileUploadDropzone"] {
-    background: rgba(30, 41, 59, 0.4) !important;
-    backdrop-filter: blur(10px) !important;
-    border: 2px dashed rgba(52, 73, 94, 0.4) !important;
-    border-radius: 20px !important;
-    padding: 3rem !important;
+.stDownloadButton > button:active {
+    transform: translateY(0px) scale(0.98) !important;
+}
+
+/* File Uploader Button */
+.stFileUploader > div > button {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 0.75rem 2rem !important;
+    font-weight: 600 !important;
+    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4) !important;
     transition: all 0.3s ease !important;
 }
 
-section[data-testid="stFileUploadDropzone"]:hover {
-    border-color: rgba(52, 73, 94, 0.7) !important;
-    background: rgba(30, 41, 59, 0.6) !important;
+.stFileUploader > div > button:hover {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 50%, #92400e 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 28px rgba(245, 158, 11, 0.5) !important;
 }
 
-/* Process flow indicator */
-.process-flow {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(30, 41, 59, 0.6);
-    backdrop-filter: blur(10px);
-    padding: 2rem;
+/* ============================================
+   REST OF THE STYLING (UNCHANGED)
+   ============================================ */
+
+.main-header {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+    padding: 3rem 2rem;
     border-radius: 20px;
-    margin: 2rem 0;
-    border: 1px solid rgba(148, 163, 184, 0.1);
+    text-align: center;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    box-shadow: 0 8px 32px rgba(99, 102, 241, 0.1);
 }
 
-.flow-step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-    position: relative;
+.main-header h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
 }
 
-.flow-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: rgba(51, 65, 85, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    margin-bottom: 0.8rem;
-    border: 2px solid rgba(148, 163, 184, 0.2);
-    transition: all 0.4s ease;
+.main-header p {
+    font-size: 1.2rem;
+    color: #cbd5e1;
+    margin-top: 0.5rem;
 }
 
-.flow-step.active .flow-icon {
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-    border-color: rgba(52, 73, 94, 0.6);
-    box-shadow: 0 0 25px rgba(44, 62, 80, 0.4);
-    transform: scale(1.1);
-}
-
-.flow-label {
-    color: #94a3b8;
-    font-weight: 500;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.flow-step.active .flow-label {
-    color: #b0bec5;
-    font-weight: 600;
-}
-
-.flow-connector {
-    height: 3px;
-    background: linear-gradient(90deg, rgba(52, 73, 94, 0.3) 0%, rgba(148, 163, 184, 0.3) 100%);
-    flex: 1;
-    margin: 0 1rem;
-    align-self: flex-start;
-    margin-top: 30px;
-}
-
-/* Settings panel */
-.settings-panel {
-    background: rgba(30, 41, 59, 0.6);
+.feature-card {
+    background: rgba(51, 65, 85, 0.5);
     backdrop-filter: blur(10px);
     padding: 1.5rem;
     border-radius: 16px;
     border: 1px solid rgba(148, 163, 184, 0.1);
-    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    height: 100%;
 }
 
-.settings-section {
-    margin-bottom: 1.5rem;
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 10px 40px rgba(99, 102, 241, 0.2);
+    background: rgba(51, 65, 85, 0.7);
 }
 
-.settings-title {
-    color: #f1f5f9;
-    font-weight: 600;
-    font-size: 0.95rem;
+.feature-icon {
+    font-size: 2.5rem;
     margin-bottom: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
-/* Input styling */
-section[data-testid="stSidebar"] .stNumberInput input,
-section[data-testid="stSidebar"] .stSelectbox select,
-section[data-testid="stSidebar"] input[type="text"],
-section[data-testid="stSidebar"] textarea {
-    background: rgba(51, 65, 85, 0.5) !important;
-    border: 1px solid rgba(148, 163, 184, 0.2) !important;
-    border-radius: 10px !important;
-    color: #f1f5f9 !important;
-    padding: 0.6rem !important;
-}
-
-/* Sliders */
-.stSlider [data-baseweb="slider"] {
-    background: rgba(30, 41, 59, 0.4);
-    padding: 0.8rem;
-    border-radius: 12px;
-}
-
-/* Image preview cards */
 .preview-card {
     background: rgba(30, 41, 59, 0.6);
     backdrop-filter: blur(10px);
     padding: 1.5rem;
     border-radius: 16px;
     border: 1px solid rgba(148, 163, 184, 0.1);
-    margin-bottom: 1.5rem;
+    margin: 1rem 0;
 }
 
 .preview-header {
-    color: #f1f5f9;
+    font-size: 1.5rem;
     font-weight: 600;
-    font-size: 1.1rem;
     margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    color: #a855f7;
+    font-family: 'Space Grotesk', sans-serif;
 }
 
-/* Footer */
 .modern-footer {
     text-align: center;
-    padding: 2.5rem;
-    background: rgba(30, 41, 59, 0.6);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
+    padding: 2rem;
+    background: rgba(30, 41, 59, 0.5);
+    border-radius: 16px;
     border: 1px solid rgba(148, 163, 184, 0.1);
     margin-top: 3rem;
 }
 
 .modern-footer h3 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 2rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #2c3e50 0%, #455a64 100%);
+    background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin: 0;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
 }
 
-.modern-footer p {
-    color: #94a3b8;
-    margin-top: 0.5rem;
-    font-weight: 400;
-}
-
-/* Comparison view styling */
-.comparison-controls {
-    background: rgba(30, 41, 59, 0.6);
+.metric-card {
+    background: rgba(51, 65, 85, 0.5);
     backdrop-filter: blur(10px);
     padding: 1.5rem;
-    border-radius: 16px;
+    border-radius: 12px;
     border: 1px solid rgba(148, 163, 184, 0.1);
-    margin-bottom: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
 }
 
-/* Info boxes */
+.metric-card:hover {
+    border-color: rgba(99, 102, 241, 0.3);
+    transform: translateY(-3px);
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #a855f7;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-top: 0.5rem;
+}
+
 .info-box {
-    background: rgba(52, 152, 219, 0.1);
-    border: 1px solid rgba(52, 152, 219, 0.3);
-    padding: 1rem 1.5rem;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.3);
     border-radius: 12px;
-    color: #85c1e9;
+    padding: 1rem;
     margin: 1rem 0;
+    color: #93c5fd;
 }
 
 .success-box {
-    background: rgba(39, 174, 96, 0.1);
-    border: 1px solid rgba(39, 174, 96, 0.3);
-    color: #82e0aa;
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #86efac;
 }
 
 .warning-box {
-    background: rgba(230, 126, 34, 0.1);
-    border: 1px solid rgba(230, 126, 34, 0.3);
-    color: #f5b041;
+    background: rgba(251, 146, 60, 0.1);
+    border: 1px solid rgba(251, 146, 60, 0.3);
+    color: #fdba74;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
     width: 12px;
 }
@@ -480,18 +318,22 @@ section[data-testid="stSidebar"] textarea {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+    background: linear-gradient(180deg, #6366f1 0%, #8b5cf6 100%);
     border-radius: 10px;
     border: 2px solid #1e293b;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #34495e 0%, #455a64 100%);
+    background: linear-gradient(180deg, #7c3aed 0%, #a78bfa 100%);
 }
 
-/* General text colors */
 p, span, div, label {
     color: #cbd5e1;
+}
+
+h1, h2, h3 {
+    color: #f1f5f9 !important;
+    font-family: 'Space Grotesk', sans-serif !important;
 }
 
 h4, h5, h6 {
@@ -504,11 +346,9 @@ h4, h5, h6 {
     font-style: italic;
 }
 
-/* Hide Streamlit branding */
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 
-/* Radio buttons horizontal */
 .stRadio > div {
     flex-direction: row;
     gap: 1rem;
@@ -518,14 +358,12 @@ footer {visibility: hidden;}
     gap: 1rem;
 }
 
-/* Expander styling */
 .streamlit-expanderHeader {
     background: rgba(51, 65, 85, 0.5);
     border-radius: 12px;
     border: 1px solid rgba(148, 163, 184, 0.1);
 }
 
-/* Project cards */
 .project-card {
     background: rgba(51, 65, 85, 0.5);
     backdrop-filter: blur(10px);
@@ -537,8 +375,65 @@ footer {visibility: hidden;}
 }
 
 .project-card:hover {
-    border-color: rgba(52, 73, 94, 0.4);
+    border-color: rgba(99, 102, 241, 0.3);
     background: rgba(51, 65, 85, 0.7);
+}
+
+.stTabs [data-baseweb="tab-list"] {
+    gap: 8px;
+    background: rgba(30, 41, 59, 0.5);
+    padding: 0.5rem;
+    border-radius: 12px;
+}
+
+.stTabs [data-baseweb="tab"] {
+    background: rgba(51, 65, 85, 0.5);
+    border-radius: 8px;
+    color: #cbd5e1;
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.stTabs [aria-selected="true"] {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: white;
+    border-color: transparent;
+}
+
+.stSlider {
+    padding: 1rem 0;
+}
+
+[data-testid="stSlider"] [role="slider"] {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+.stSelectbox > div > div {
+    background: rgba(51, 65, 85, 0.5);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 8px;
+    color: #cbd5e1;
+}
+
+.stTextInput > div > div > input {
+    background: rgba(51, 65, 85, 0.5);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 8px;
+    color: #cbd5e1;
+}
+
+.stNumberInput > div > div > input {
+    background: rgba(51, 65, 85, 0.5);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 8px;
+    color: #cbd5e1;
+}
+
+[data-testid="stColorPicker"] > div > div {
+    background: rgba(51, 65, 85, 0.5);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 8px;
 }
 </style>
 """
@@ -568,7 +463,7 @@ def init_session_state():
         'contrast': 1.0,
         'saturation': 1.0,
         'batch_mode': False,
-        'custom_color': '#2c3e50',
+        'custom_color': '#6366f1',
         'resize_percent': 100,
         'show_bg_presets': False,
         'zoom_percentage': 100,
@@ -695,603 +590,375 @@ def apply_background(orig_np, mask_bin, mode, bg_path=None, custom_color=None):
         result[..., 3] = mask_bin * 255
         return Image.fromarray(result, 'RGBA')
 
-    elif mode == "Blur":
-        blur = cv2.GaussianBlur(orig_np, (51, 51), 0)
-        result = blur.copy()
+    elif mode == "Black":
+        result = np.zeros((h, w, 3), np.uint8)
         result[mask_bin == 1] = orig_np[mask_bin == 1]
-        return Image.fromarray(result)
-
-    elif mode == "Custom Color" and custom_color:
-        hex_color = custom_color.lstrip('#')
-        rgb = tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
-        result = np.full_like(orig_np, rgb)
-        result[mask_bin == 1] = orig_np[mask_bin == 1]
-        return Image.fromarray(result)
-
-    elif mode in ["Background 1", "Background 2", "Background 3", "Background 4"] and bg_path:
-        if os.path.exists(bg_path):
-            bg = np.array(Image.open(bg_path).convert("RGB"))
-            bg = cv2.resize(bg, (w, h))
-            result = bg.copy()
-            result[mask_bin == 1] = orig_np[mask_bin == 1]
-            return Image.fromarray(result)
-
-    elif mode == "Custom Image" and st.session_state.selected_bg is not None:
-        bg = np.array(st.session_state.selected_bg.convert("RGB"))
-        bg = cv2.resize(bg, (w, h))
-        result = bg.copy()
-        result[mask_bin == 1] = orig_np[mask_bin == 1]
-        return Image.fromarray(result)
+        return Image.fromarray(result, 'RGB')
 
     elif mode == "White":
-        result = np.full_like(orig_np, 255)
+        result = np.full((h, w, 3), 255, np.uint8)
         result[mask_bin == 1] = orig_np[mask_bin == 1]
-        return Image.fromarray(result)
+        return Image.fromarray(result, 'RGB')
 
-    elif mode == "Black":
-        result = np.zeros_like(orig_np)
+    elif mode == "Custom Color":
+        hex_color = custom_color.lstrip('#')
+        rgb = tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+        result = np.full((h, w, 3), rgb, np.uint8)
         result[mask_bin == 1] = orig_np[mask_bin == 1]
-        return Image.fromarray(result)
+        return Image.fromarray(result, 'RGB')
 
-    return Image.fromarray(orig_np)
+    elif mode == "Blur":
+        bg_blur = cv2.GaussianBlur(orig_np, (51, 51), 0)
+        result = bg_blur.copy()
+        result[mask_bin == 1] = orig_np[mask_bin == 1]
+        return Image.fromarray(result, 'RGB')
+
+    elif mode in BG_IMAGE_PATHS and bg_path:
+        if Path(bg_path).exists():
+            bg_img = cv2.imread(bg_path)
+            bg_img = cv2.cvtColor(bg_img, cv2.COLOR_BGR2RGB)
+            bg_img = cv2.resize(bg_img, (w, h))
+            result = bg_img.copy()
+            result[mask_bin == 1] = orig_np[mask_bin == 1]
+            return Image.fromarray(result, 'RGB')
+        else:
+            result = np.zeros((h, w, 3), np.uint8)
+            result[mask_bin == 1] = orig_np[mask_bin == 1]
+            return Image.fromarray(result, 'RGB')
+
+    else:
+        result = np.zeros((h, w, 3), np.uint8)
+        result[mask_bin == 1] = orig_np[mask_bin == 1]
+        return Image.fromarray(result, 'RGB')
 
 def apply_filters_and_adjustments(img):
-    filter_func = FILTERS.get(st.session_state.filter_type, FILTERS["None"])
-    img = filter_func(img)
+    img = FILTERS[st.session_state.filter_type](img)
     img = ImageEnhance.Brightness(img).enhance(st.session_state.brightness)
     img = ImageEnhance.Contrast(img).enhance(st.session_state.contrast)
     img = ImageEnhance.Color(img).enhance(st.session_state.saturation)
     return img
 
-def crop_image(img, preset):
-    if preset == "Freeform" or CROP_PRESETS[preset] is None:
+def crop_image(img, preset_name):
+    if preset_name == "Freeform" or CROP_PRESETS[preset_name] is None:
         return img
 
-    ratio = CROP_PRESETS[preset]
     w, h = img.size
-    target_ratio = ratio[0] / ratio[1]
-    current_ratio = w / h
+    aspect_w, aspect_h = CROP_PRESETS[preset_name]
+    target_aspect = aspect_w / aspect_h
+    current_aspect = w / h
 
-    if current_ratio > target_ratio:
-        new_w = int(h * target_ratio)
-        left = (w - new_w) // 2
-        img = img.crop((left, 0, left + new_w, h))
+    if current_aspect > target_aspect:
+        new_w = int(h * target_aspect)
+        new_h = h
     else:
-        new_h = int(w / target_ratio)
-        top = (h - new_h) // 2
-        img = img.crop((0, top, w, top + new_h))
+        new_w = w
+        new_h = int(w / target_aspect)
 
-    return img
+    left = (w - new_w) // 2
+    top = (h - new_h) // 2
+    right = left + new_w
+    bottom = top + new_h
 
-def get_download_button(image, format_type, quality, button_text, file_name, key):
+    return img.crop((left, top, right, bottom))
+
+def get_download_button(img, fmt, quality, label, filename, key):
     buf = BytesIO()
-    if format_type == "PNG" and image.mode == "RGBA":
-        image.save(buf, format="PNG")
-    elif format_type in ["JPEG", "JPG"]:
-        if image.mode == "RGBA":
-            image = image.convert("RGB")
-        image.save(buf, format="JPEG", quality=quality)
-    elif format_type == "WEBP":
-        if image.mode == "RGBA":
-            image = image.convert("RGB")
-        image.save(buf, format="WEBP", quality=quality)
-    else:
-        if image.mode == "RGBA":
-            image = image.convert("RGB")
-        image.save(buf, format=format_type, quality=quality)
-
-    return st.download_button(
-        button_text,
-        buf.getvalue(),
-        file_name,
-        f"image/{format_type.lower()}",
-        key=key,
-        use_container_width=True
-    )
+    save_kwargs = {"format": fmt}
+    if fmt.upper() in ["JPEG", "JPG"]:
+        save_kwargs["quality"] = quality
+        img = img.convert("RGB")
+    img.save(buf, **save_kwargs)
+    st.download_button(label, buf.getvalue(), filename, f"image/{fmt.lower()}", 
+                      key=key, use_container_width=True)
 
 # ============================================================================
-# HELPER FUNCTIONS
-# ============================================================================
-
-def image_to_base64(img_array):
-    img_pil = Image.fromarray(img_array)
-    buffered = BytesIO()
-    img_pil.save(buffered, format="PNG")
-    img_str = base64.b64encode(buffered.getvalue()).decode()
-    return img_str
-
-def base64_to_image(img_str):
-    img_data = base64.b64decode(img_str)
-    img_pil = Image.open(BytesIO(img_data))
-    return np.array(img_pil)
-
-# ============================================================================
-# PROJECT MANAGEMENT
-# ============================================================================
-
-def save_project():
-    try:
-        if st.session_state.get('original_image') is None:
-            return False
-        
-        project_name = st.session_state.get('current_project_name', '').strip()
-        if not project_name:
-            return False
-        
-        from datetime import datetime
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        
-        original_img_b64 = image_to_base64(st.session_state.original_image)
-        current_img_b64 = image_to_base64(st.session_state.current_image) if st.session_state.current_image is not None else None
-        
-        mask_b64 = None
-        if st.session_state.mask is not None:
-            mask_img = (st.session_state.mask * 255).astype(np.uint8)
-            if len(mask_img.shape) == 2:
-                mask_img = np.stack([mask_img] * 3, axis=-1)
-            mask_b64 = image_to_base64(mask_img)
-        
-        project_data = {
-            'name': project_name,
-            'timestamp': timestamp,
-            'original_image': original_img_b64,
-            'current_image': current_img_b64,
-            'mask': mask_b64,
-            'settings': {
-                'fg_thresh': float(st.session_state.get('fg_thresh', 0.4)),
-                'min_area': int(st.session_state.get('min_area', 300)),
-                'extraction_mode': str(st.session_state.get('extraction_mode', 'Black')),
-                'filter_type': str(st.session_state.get('filter_type', 'None')),
-                'brightness': float(st.session_state.get('brightness', 1.0)),
-                'contrast': float(st.session_state.get('contrast', 1.0)),
-                'saturation': float(st.session_state.get('saturation', 1.0)),
-                'crop_preset': str(st.session_state.get('crop_preset', 'Freeform')),
-                'resize_percent': int(st.session_state.get('resize_percent', 100)),
-                'custom_color': str(st.session_state.get('custom_color', '#2c3e50')),
-            }
-        }
-        
-        if 'saved_projects' not in st.session_state:
-            st.session_state.saved_projects = []
-        
-        existing_index = next((i for i, p in enumerate(st.session_state.saved_projects) if p.get('name') == project_name), -1)
-        
-        if existing_index >= 0:
-            st.session_state.saved_projects[existing_index] = project_data
-        else:
-            st.session_state.saved_projects.append(project_data)
-        
-        return True
-    except Exception as e:
-        st.error(f"Error saving project: {str(e)}")
-        return False
-
-def load_project(project_name):
-    try:
-        for proj in st.session_state.get('saved_projects', []):
-            if proj.get('name') == project_name:
-                if proj.get('original_image'):
-                    st.session_state.original_image = base64_to_image(proj['original_image'])
-                
-                if proj.get('current_image'):
-                    st.session_state.current_image = base64_to_image(proj['current_image'])
-                else:
-                    st.session_state.current_image = st.session_state.original_image.copy()
-                
-                if proj.get('mask'):
-                    mask_img = base64_to_image(proj['mask'])
-                    if len(mask_img.shape) == 3:
-                        mask_img = mask_img[:, :, 0]
-                    st.session_state.mask = (mask_img > 127).astype(np.uint8)
-                
-                settings = proj.get('settings', {})
-                st.session_state.fg_thresh = float(settings.get('fg_thresh', 0.4))
-                st.session_state.min_area = int(settings.get('min_area', 300))
-                st.session_state.extraction_mode = str(settings.get('extraction_mode', 'Black'))
-                st.session_state.filter_type = str(settings.get('filter_type', 'None'))
-                st.session_state.brightness = float(settings.get('brightness', 1.0))
-                st.session_state.contrast = float(settings.get('contrast', 1.0))
-                st.session_state.saturation = float(settings.get('saturation', 1.0))
-                st.session_state.crop_preset = str(settings.get('crop_preset', 'Freeform'))
-                st.session_state.resize_percent = int(settings.get('resize_percent', 100))
-                st.session_state.custom_color = str(settings.get('custom_color', '#2c3e50'))
-                st.session_state.current_project_name = project_name
-                st.session_state.current_step = 2
-                
-                return True
-        return False
-    except Exception as e:
-        st.error(f"Error loading project: {str(e)}")
-        return False
-
-def delete_project(project_name):
-    try:
-        st.session_state.saved_projects = [
-            p for p in st.session_state.get('saved_projects', []) if p.get('name') != project_name
-        ]
-        
-        if st.session_state.get('current_project_name') == project_name:
-            st.session_state.current_project_name = ""
-        
-        return True
-    except Exception as e:
-        st.error(f"Error deleting project: {str(e)}")
-        return False
-
-# ============================================================================
-# MAIN APP
+# MAIN APPLICATION
 # ============================================================================
 
 def main():
+    st.set_page_config(page_title="OneView - AI Image Processing", 
+                      page_icon="🎨", 
+                      layout="wide",
+                      initial_sidebar_state="expanded")
+    
+    st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
     init_session_state()
 
-    st.set_page_config(
-        page_title="OneView - Professional Image Editor",
-        page_icon="🎨",
-        layout="wide",
-        initial_sidebar_state="expanded"
-    )
-
-    st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
-
-    model = get_model()
-
-    # Modern Header
     st.markdown("""
-    <div class="modern-header">
-        <h1>OneView</h1>
-        <p>Professional AI-Powered Background Removal & Image Enhancement</p>
+    <div class="main-header">
+        <h1>🎨 OneView</h1>
+        <p>Professional AI-Powered Image Background Processing</p>
     </div>
     """, unsafe_allow_html=True)
 
-    # Sidebar Configuration
-    with st.sidebar:
-        st.markdown("### ⚙️ Configuration")
-        
-        with st.expander("🎯 Processing Settings", expanded=True):
-            st.session_state.fg_thresh = st.slider("Detection Threshold", 0.0, 1.0, st.session_state.fg_thresh, 0.01)
-            st.session_state.min_area = st.number_input("Minimum Area (px)", 1, 5000, st.session_state.min_area, 50)
-        
-        with st.expander("📦 Export Settings", expanded=False):
-            export_format = st.selectbox("Format", ["PNG", "JPEG", "JPG", "WEBP"])
-            quality = st.slider("Quality", 1, 100, 95) if export_format in ["JPEG", "JPG"] else 95
-        
-        st.markdown("---")
-        
-        with st.expander("💼 Project Management", expanded=False):
-            project_name = st.text_input("📝 Project Name", value=st.session_state.get('current_project_name', ''))
-            
-            if project_name != st.session_state.get('current_project_name', ''):
-                st.session_state.current_project_name = project_name
-            
-            if st.button("💾 Save Project", use_container_width=True):
-                if project_name.strip() and st.session_state.get('original_image') is not None:
-                    if save_project():
-                        st.success(f"✅ '{project_name}' saved!")
-                        st.rerun()
-                else:
-                    st.warning("⚠️ Enter project name and upload an image")
-            
-            st.markdown("---")
-            
-            if st.session_state.get('saved_projects', []):
-                st.markdown("**📚 Saved Projects**")
-                for idx, proj in enumerate(st.session_state.saved_projects):
-                    with st.container():
-                        col1, col2 = st.columns([3, 1])
-                        with col1:
-                            st.markdown(f"**{proj['name']}**")
-                            st.caption(f"🕒 {proj['timestamp']}")
-                        with col2:
-                            if st.button("📂", key=f"load_{idx}"):
-                                if load_project(proj['name']):
-                                    st.success("✅ Loaded!")
-                                    st.rerun()
-                        
-                        if st.button("🗑️ Delete", key=f"del_{idx}", use_container_width=True):
-                            delete_project(proj['name'])
-                            st.success("🗑️ Deleted!")
-                            st.rerun()
-                        st.markdown("---")
+    tabs = st.tabs(["📤 Upload", "🎯 Extract", "🎨 Customize", "👁️ Preview", "📥 Export"])
 
-    # Process Flow Indicator
-    st.markdown(f"""
-    <div class="process-flow">
-        <div class="flow-step {'active' if st.session_state.current_step == 1 else ''}">
-            <div class="flow-icon">📤</div>
-            <div class="flow-label">Upload</div>
-        </div>
-        <div class="flow-connector"></div>
-        <div class="flow-step {'active' if st.session_state.current_step == 2 else ''}">
-            <div class="flow-icon">🎯</div>
-            <div class="flow-label">Process</div>
-        </div>
-        <div class="flow-connector"></div>
-        <div class="flow-step {'active' if st.session_state.current_step == 3 else ''}">
-            <div class="flow-icon">🎨</div>
-            <div class="flow-label">Customize</div>
-        </div>
-        <div class="flow-connector"></div>
-        <div class="flow-step {'active' if st.session_state.current_step == 4 else ''}">
-            <div class="flow-icon">💾</div>
-            <div class="flow-label">Export</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    with tabs[0]:
+        st.markdown("### Upload Your Images")
+        
+        col1, col2 = st.columns([2, 1])
+        
+        with col1:
+            uploaded_files = st.file_uploader("Choose images", 
+                                            type=['png', 'jpg', 'jpeg', 'webp'],
+                                            accept_multiple_files=True,
+                                            key="file_uploader")
+            
+            if uploaded_files:
+                st.session_state.uploaded_images = uploaded_files
+                st.success(f"✅ {len(uploaded_files)} image(s) uploaded successfully!")
+                
+                if len(uploaded_files) > 1:
+                    selected_img_name = st.selectbox("Select image to process", 
+                                                    [f.name for f in uploaded_files])
+                    st.session_state.current_image_idx = [f.name for f in uploaded_files].index(selected_img_name)
+                
+                current_file = st.session_state.uploaded_images[st.session_state.current_image_idx]
+                img = Image.open(current_file).convert('RGB')
+                img_np = np.array(img)
+                st.session_state.original_image = img_np
+                st.session_state.current_image = img_np.copy()
+                
+                st.markdown('<div class="preview-card">', unsafe_allow_html=True)
+                st.markdown('<div class="preview-header">Preview</div>', unsafe_allow_html=True)
+                display_img = img.copy()
+                display_img.thumbnail((800, 600), Image.LANCZOS)
+                st.image(display_img, use_container_width=True)
+                st.markdown('</div>', unsafe_allow_html=True)
+        
+        with col2:
+            st.markdown("### 📊 Quick Info")
+            if st.session_state.original_image is not None:
+                h, w = st.session_state.original_image.shape[:2]
+                st.markdown(f"""
+                <div class="metric-card">
+                    <div class="metric-value">{w} × {h}</div>
+                    <div class="metric-label">Resolution</div>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                st.markdown(f"""
+                <div class="metric-card">
+                    <div class="metric-value">{st.session_state.original_image.shape[2]}</div>
+                    <div class="metric-label">Channels</div>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            st.markdown("### 💡 Tips")
+            st.markdown("""
+            <div class="info-box">
+            • Use high-resolution images for best results<br>
+            • Ensure good contrast between subject and background<br>
+            • Supported formats: PNG, JPG, JPEG, WEBP
+            </div>
+            """, unsafe_allow_html=True)
 
-    # Upload Section
-    st.markdown("### 📤 Upload Your Image")
-    
-    uploaded_files = st.file_uploader(
-        "Drop your images here or click to browse",
-        type=["jpg", "jpeg", "png"],
-        accept_multiple_files=st.session_state.batch_mode,
-        label_visibility="collapsed"
-    )
-
-    if uploaded_files:
-        if st.session_state.batch_mode and not isinstance(uploaded_files, list):
-            uploaded_files = [uploaded_files]
-        elif not st.session_state.batch_mode and isinstance(uploaded_files, list):
-            uploaded_files = uploaded_files[0]
-
-        if st.session_state.batch_mode:
-            st.session_state.uploaded_images = []
-            for file in uploaded_files:
-                img = Image.open(file).convert("RGB")
-                st.session_state.uploaded_images.append(np.array(img))
-            st.success(f"✅ {len(uploaded_files)} images uploaded successfully!")
-            st.session_state.current_step = 2
+    with tabs[1]:
+        st.markdown("### AI Background Extraction")
+        
+        if st.session_state.original_image is None:
+            st.warning("⚠️ Please upload an image first!")
         else:
-            img = Image.open(uploaded_files).convert("RGB")
-            st.session_state.original_image = np.array(img)
-            st.session_state.current_image = np.array(img)
-            st.session_state.current_step = 2
-
-            with st.spinner("🔍 AI is detecting the subject..."):
-                prob = predict_mask(model, st.session_state.original_image, CONFIG["device"], CONFIG["img_size"])
-                st.session_state.prob_map = prob
-                mask = postprocess_mask(prob, st.session_state.fg_thresh, st.session_state.min_area)
-                st.session_state.mask = (mask > 127).astype(np.uint8)
+            col1, col2 = st.columns([1, 1])
             
-            st.success("✅ Subject detected successfully!")
+            with col1:
+                st.markdown("#### 🎛️ Extraction Settings")
+                
+                fg_thresh = st.slider("Foreground Threshold", 0.0, 1.0, 
+                                     st.session_state.fg_thresh, 0.05,
+                                     help="Higher values = stricter foreground detection")
+                st.session_state.fg_thresh = fg_thresh
+                
+                min_area = st.slider("Minimum Object Area", 100, 5000, 
+                                    st.session_state.min_area, 100,
+                                    help="Remove small artifacts")
+                st.session_state.min_area = min_area
+                
+                if st.button("🚀 Extract Background", use_container_width=True):
+                    with st.spinner("🔮 AI is processing your image..."):
+                        model = get_model()
+                        prob_map = predict_mask(model, st.session_state.current_image, 
+                                              CONFIG["device"], CONFIG["img_size"])
+                        st.session_state.prob_map = prob_map
+                        
+                        mask = postprocess_mask(prob_map, fg_thresh, min_area)
+                        st.session_state.mask = (mask // 255).astype(np.uint8)
+                        
+                        st.success("✅ Extraction complete!")
+                        st.session_state.current_step = 2
+            
+            with col2:
+                st.markdown("#### 🎭 Results")
+                if st.session_state.mask is not None:
+                    result = apply_background(st.session_state.current_image, 
+                                            st.session_state.mask, "Black")
+                    
+                    st.markdown('<div class="preview-card">', unsafe_allow_html=True)
+                    display_result = result.copy()
+                    display_result.thumbnail((800, 600), Image.LANCZOS)
+                    st.image(display_result, use_container_width=True, caption="Extracted Subject")
+                    st.markdown('</div>', unsafe_allow_html=True)
+                    
+                    col_a, col_b = st.columns(2)
+                    with col_a:
+                        if st.button("✅ Accept", use_container_width=True):
+                            st.success("Extraction accepted! Move to Customize tab.")
+                    with col_b:
+                        if st.button("🔄 Retry", use_container_width=True):
+                            st.session_state.mask = None
+                            st.rerun()
 
-    # Main Editing Interface
-    if st.session_state.current_image is not None and st.session_state.mask is not None:
+    with tabs[2]:
+        st.markdown("### Customize Your Image")
         
-        tabs = st.tabs(["🎨 Background", "🎛️ Enhancement", "✂️ Crop & Resize", "🔍 Compare", "💾 Export"])
-
-        # Background Tab
-        with tabs[0]:
-            st.markdown("### Background Options")
+        if st.session_state.mask is None:
+            st.warning("⚠️ Please extract the background first!")
+        else:
+            col1, col2 = st.columns([1, 2])
             
-            col_options, col_preview = st.columns([1, 2])
-            
-            with col_options:
-                st.markdown('<div class="settings-panel">', unsafe_allow_html=True)
-                st.markdown("#### Choose Style")
+            with col1:
+                st.markdown("#### 🎨 Background Options")
                 
-                bg_options = {
-                    "✨ Transparent": "Transparent",
-                    "⚪ White": "White", 
-                    "⚫ Black": "Black",
-                    "💫 Blur": "Blur",
-                    "🎨 Custom Color": "Custom Color",
-                    "🖼️ Custom Image": "Custom Image"
-                }
+                bg_options = ["Black", "White", "Transparent", "Blur", "Custom Color"] + list(BG_IMAGE_PATHS.keys())
+                extraction_mode = st.selectbox("Background Type", bg_options, 
+                                              index=bg_options.index(st.session_state.extraction_mode))
+                st.session_state.extraction_mode = extraction_mode
                 
-                for label, mode in bg_options.items():
-                    if st.button(label, key=f"bg_{mode}", use_container_width=True):
-                        st.session_state.extraction_mode = mode
-                        st.session_state.current_step = 3
-                        st.rerun()
-                
-                if st.button("📚 Preset Backgrounds", key="toggle_presets", use_container_width=True):
-                    st.session_state.show_bg_presets = not st.session_state.show_bg_presets
-                    st.rerun()
-                
-                if st.session_state.show_bg_presets:
-                    st.markdown("---")
-                    for bg_key, bg_path in BG_IMAGE_PATHS.items():
-                        if os.path.exists(bg_path):
-                            if st.button(bg_key, key=f"preset_{bg_key}", use_container_width=True):
-                                st.session_state.extraction_mode = bg_key
-                                st.rerun()
-                
-                if st.session_state.extraction_mode == "Custom Color":
-                    st.markdown("---")
-                    st.session_state.custom_color = st.color_picker("Pick Color", st.session_state.custom_color)
-                
-                if st.session_state.extraction_mode == "Custom Image":
-                    st.markdown("---")
-                    custom_bg = st.file_uploader("Upload Background", type=["jpg", "jpeg", "png"], key="custom_bg_upload")
-                    if custom_bg:
-                        st.session_state.selected_bg = Image.open(custom_bg)
-                
-                st.markdown('</div>', unsafe_allow_html=True)
-            
-            with col_preview:
-                st.markdown('<div class="preview-card">', unsafe_allow_html=True)
-                st.markdown('<div class="preview-header">🖼️ Live Preview</div>', unsafe_allow_html=True)
-                
-                bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
-                result_pil = apply_background(st.session_state.current_image, st.session_state.mask, 
-                                             st.session_state.extraction_mode, bg_path, st.session_state.custom_color)
-                
-                display_img = result_pil.copy()
-                display_img.thumbnail((800, 600), Image.LANCZOS)
-                st.image(display_img, use_container_width=True)
-                
-                st.markdown('</div>', unsafe_allow_html=True)
-
-        # Enhancement Tab
-        with tabs[1]:
-            st.markdown("### Enhancement Controls")
-            
-            col_controls, col_preview = st.columns([1, 2])
-            
-            with col_controls:
-                st.markdown('<div class="settings-panel">', unsafe_allow_html=True)
-                
-                st.markdown("#### 🎨 Filter Presets")
-                st.session_state.filter_type = st.selectbox("Select Filter", list(FILTERS.keys()))
+                if extraction_mode == "Custom Color":
+                    custom_color = st.color_picker("Pick Background Color", st.session_state.custom_color)
+                    st.session_state.custom_color = custom_color
                 
                 st.markdown("---")
-                st.markdown("#### ⚡ Adjustments")
-                st.session_state.brightness = st.slider("☀️ Brightness", 0.0, 2.0, st.session_state.brightness, 0.1)
-                st.session_state.contrast = st.slider("🔆 Contrast", 0.0, 2.0, st.session_state.contrast, 0.1)
-                st.session_state.saturation = st.slider("🌈 Saturation", 0.0, 2.0, st.session_state.saturation, 0.1)
+                st.markdown("#### 🎭 Filters & Effects")
                 
-                st.markdown('</div>', unsafe_allow_html=True)
+                filter_type = st.selectbox("Filter", list(FILTERS.keys()), 
+                                          index=list(FILTERS.keys()).index(st.session_state.filter_type))
+                st.session_state.filter_type = filter_type
+                
+                st.markdown("#### 🔧 Adjustments")
+                brightness = st.slider("Brightness", 0.5, 2.0, st.session_state.brightness, 0.1)
+                st.session_state.brightness = brightness
+                
+                contrast = st.slider("Contrast", 0.5, 2.0, st.session_state.contrast, 0.1)
+                st.session_state.contrast = contrast
+                
+                saturation = st.slider("Saturation", 0.0, 2.0, st.session_state.saturation, 0.1)
+                st.session_state.saturation = saturation
+                
+                st.markdown("#### ✂️ Crop Preset")
+                crop_preset = st.selectbox("Crop Ratio", list(CROP_PRESETS.keys()),
+                                          index=list(CROP_PRESETS.keys()).index(st.session_state.crop_preset))
+                st.session_state.crop_preset = crop_preset
+                
+                st.markdown("#### 📏 Resize")
+                resize_percent = st.slider("Scale (%)", 10, 200, st.session_state.resize_percent, 5)
+                st.session_state.resize_percent = resize_percent
             
-            with col_preview:
-                st.markdown('<div class="preview-card">', unsafe_allow_html=True)
-                st.markdown('<div class="preview-header">✨ Enhanced Preview</div>', unsafe_allow_html=True)
+            with col2:
+                st.markdown("#### 👁️ Live Preview")
                 
                 bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
-                result_pil = apply_background(st.session_state.current_image, st.session_state.mask,
-                                             st.session_state.extraction_mode, bg_path, st.session_state.custom_color)
-                result_pil = apply_filters_and_adjustments(result_pil)
-                
-                display_img = result_pil.copy()
-                display_img.thumbnail((800, 600), Image.LANCZOS)
-                st.image(display_img, use_container_width=True)
-                
-                st.markdown('</div>', unsafe_allow_html=True)
-
-        # Crop & Resize Tab
-        with tabs[2]:
-            st.markdown("### Crop & Resize")
-            
-            col_settings, col_preview = st.columns([1, 2])
-            
-            with col_settings:
-                st.markdown('<div class="settings-panel">', unsafe_allow_html=True)
-                
-                st.markdown("#### ✂️ Crop Presets")
-                st.session_state.crop_preset = st.selectbox("Select Aspect Ratio", list(CROP_PRESETS.keys()))
-                
-                st.markdown("---")
-                st.markdown("#### 📐 Resize")
-                
-                orig_h, orig_w = st.session_state.current_image.shape[:2]
-                st.caption(f"Original: {orig_w} × {orig_h} px")
-                
-                st.session_state.resize_percent = st.slider("Scale (%)", 10, 200, st.session_state.resize_percent)
-                new_w = int(orig_w * st.session_state.resize_percent / 100)
-                new_h = int(orig_h * st.session_state.resize_percent / 100)
-                st.caption(f"New Size: {new_w} × {new_h} px")
-                
-                st.markdown('</div>', unsafe_allow_html=True)
-            
-            with col_preview:
-                st.markdown('<div class="preview-card">', unsafe_allow_html=True)
-                st.markdown('<div class="preview-header">✂️ Cropped Preview</div>', unsafe_allow_html=True)
-                
-                bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
-                result_pil = apply_background(st.session_state.current_image, st.session_state.mask,
-                                             st.session_state.extraction_mode, bg_path, st.session_state.custom_color)
-                result_pil = apply_filters_and_adjustments(result_pil)
-                result_pil = crop_image(result_pil, st.session_state.crop_preset)
+                result = apply_background(st.session_state.current_image, st.session_state.mask,
+                                        st.session_state.extraction_mode, bg_path, st.session_state.custom_color)
+                result = apply_filters_and_adjustments(result)
+                result = crop_image(result, st.session_state.crop_preset)
                 
                 if st.session_state.resize_percent != 100:
-                    result_pil = result_pil.resize((new_w, new_h), Image.LANCZOS)
-                
-                display_img = result_pil.copy()
-                display_img.thumbnail((800, 600), Image.LANCZOS)
-                st.image(display_img, use_container_width=True)
-                
-                st.markdown('</div>', unsafe_allow_html=True)
-
-        # Compare Tab
-        with tabs[3]:
-            st.markdown("### Comparison View")
-            
-            bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
-            result_pil = apply_background(st.session_state.current_image, st.session_state.mask,
-                                         st.session_state.extraction_mode, bg_path, st.session_state.custom_color)
-            result_pil = apply_filters_and_adjustments(result_pil)
-            result_pil = crop_image(result_pil, st.session_state.crop_preset)
-            
-            if st.session_state.resize_percent != 100:
-                orig_w, orig_h = result_pil.size
-                new_w = int(orig_w * st.session_state.resize_percent / 100)
-                new_h = int(orig_h * st.session_state.resize_percent / 100)
-                result_pil = result_pil.resize((new_w, new_h), Image.LANCZOS)
-
-            st.markdown('<div class="comparison-controls">', unsafe_allow_html=True)
-            comparison_mode = st.radio(
-                "Comparison Mode",
-                ["Side-by-Side", "Interactive Slider", "Blend View"],
-                horizontal=True
-            )
-            st.markdown('</div>', unsafe_allow_html=True)
-
-            if comparison_mode == "Side-by-Side":
-                col1, col2 = st.columns(2)
-                
-                with col1:
-                    st.markdown('<div class="preview-card">', unsafe_allow_html=True)
-                    st.markdown('<div class="preview-header">📷 Original</div>', unsafe_allow_html=True)
-                    original_img = Image.fromarray(st.session_state.original_image)
-                    display_orig = original_img.copy()
-                    display_orig.thumbnail((600, 600), Image.LANCZOS)
-                    st.image(display_orig, use_container_width=True)
-                    st.markdown('</div>', unsafe_allow_html=True)
-                
-                with col2:
-                    st.markdown('<div class="preview-card">', unsafe_allow_html=True)
-                    st.markdown('<div class="preview-header">✨ Processed</div>', unsafe_allow_html=True)
-                    display_result = result_pil.copy()
-                    display_result.thumbnail((600, 600), Image.LANCZOS)
-                    st.image(display_result, use_container_width=True)
-                    st.markdown('</div>', unsafe_allow_html=True)
-
-            elif comparison_mode == "Interactive Slider":
-                original_img = Image.fromarray(st.session_state.original_image)
-                
-                if result_pil.mode == 'RGBA':
-                    result_rgb = Image.new('RGB', result_pil.size, (255, 255, 255))
-                    result_rgb.paste(result_pil, (0, 0), result_pil)
-                else:
-                    result_rgb = result_pil.convert('RGB')
-                
-                if original_img.size != result_rgb.size:
-                    result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
-                
-                image_comparison(
-                    img1=original_img, 
-                    img2=result_rgb, 
-                    label1="Original",
-                    label2="Processed"
-                )
-
-            elif comparison_mode == "Blend View":
-                original_img = Image.fromarray(st.session_state.original_image)
-                
-                if result_pil.mode == 'RGBA':
-                    result_rgb = Image.new('RGB', result_pil.size, (255, 255, 255))
-                    result_rgb.paste(result_pil, (0, 0), result_pil)
-                else:
-                    result_rgb = result_pil.convert('RGB')
-                
-                if original_img.size != result_rgb.size:
-                    result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
-                
-                blend_value = st.slider("Blend Amount", 0.0, 1.0, 0.5, 0.01)
-                
-                orig_rgb = original_img.convert('RGB')
-                blended = Image.blend(orig_rgb, result_rgb, float(blend_value))
+                    orig_w, orig_h = result.size
+                    new_w = int(orig_w * st.session_state.resize_percent / 100)
+                    new_h = int(orig_h * st.session_state.resize_percent / 100)
+                    result = result.resize((new_w, new_h), Image.LANCZOS)
                 
                 st.markdown('<div class="preview-card">', unsafe_allow_html=True)
-                display_blended = blended.copy()
-                display_blended.thumbnail((800, 600), Image.LANCZOS)
-                st.image(display_blended, use_container_width=True, caption=f"Blend: {int(blend_value*100)}%")
+                display_preview = result.copy()
+                display_preview.thumbnail((900, 700), Image.LANCZOS)
+                st.image(display_preview, use_container_width=True, caption="Customized Result")
                 st.markdown('</div>', unsafe_allow_html=True)
+                
+                if st.button("✨ Apply Changes", use_container_width=True):
+                    st.success("✅ Changes applied! Check the Preview tab.")
+                    st.session_state.current_step = 3
 
-        # Export Tab
-        with tabs[4]:
-            st.markdown("### Export Your Work")
+    with tabs[3]:
+        st.markdown("### Preview & Compare")
+        
+        if st.session_state.mask is None:
+            st.warning("⚠️ Please extract the background first!")
+        else:
+            export_format = st.selectbox("Export Format", ["PNG", "JPEG", "WEBP"], index=0)
+            quality = 95
+            if export_format == "JPEG":
+                quality = st.slider("JPEG Quality", 50, 100, 95, 5)
+            
+            bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
+            result = apply_background(st.session_state.current_image, st.session_state.mask,
+                                     st.session_state.extraction_mode, bg_path, st.session_state.custom_color)
+            result = apply_filters_and_adjustments(result)
+            result = crop_image(result, st.session_state.crop_preset)
+            
+            if st.session_state.resize_percent != 100:
+                orig_w, orig_h = result.size
+                new_w = int(orig_w * st.session_state.resize_percent / 100)
+                new_h = int(orig_h * st.session_state.resize_percent / 100)
+                result = result.resize((new_w, new_h), Image.LANCZOS)
+            
+            st.markdown("#### 🔄 Side-by-Side Comparison")
+            
+            original_img = Image.fromarray(st.session_state.original_image)
+            result_rgb = result.convert("RGB")
+            
+            if original_img.size != result_rgb.size:
+                result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown('<div class="preview-card">', unsafe_allow_html=True)
+                display_orig = original_img.copy()
+                display_orig.thumbnail((800, 600), Image.LANCZOS)
+                st.image(display_orig, use_container_width=True, caption="Original")
+                st.markdown('</div>', unsafe_allow_html=True)
+            
+            with col2:
+                st.markdown('<div class="preview-card">', unsafe_allow_html=True)
+                display_result = result_rgb.copy()
+                display_result.thumbnail((800, 600), Image.LANCZOS)
+                st.image(display_result, use_container_width=True, caption="Processed")
+                st.markdown('</div>', unsafe_allow_html=True)
+            
+            st.markdown("---")
+            st.markdown("#### 🎚️ Interactive Blend")
+            
+            blend_value = st.slider("Blend Original ↔ Processed", 0.0, 1.0, 0.5, 0.05)
+            
+            if original_img.mode != 'RGB':
+                orig_rgb = original_img.convert('RGB')
+            else:
+                orig_rgb = original_img
+            
+            if orig_rgb.size != result_rgb.size:
+                result_rgb_resized = result_rgb.resize(orig_rgb.size, Image.LANCZOS)
+            else:
+                result_rgb_resized = result_rgb
+            
+            blended = Image.blend(orig_rgb, result_rgb_resized, float(blend_value))
+            
+            st.markdown('<div class="preview-card">', unsafe_allow_html=True)
+            display_blended = blended.copy()
+            display_blended.thumbnail((800, 600), Image.LANCZOS)
+            st.image(display_blended, use_container_width=True, caption=f"Blend: {int(blend_value*100)}%")
+            st.markdown('</div>', unsafe_allow_html=True)
+
+    with tabs[4]:
+        st.markdown("### Export Your Work")
+        
+        if st.session_state.mask is None:
+            st.warning("⚠️ Please extract the background first!")
+        else:
+            export_format = st.selectbox("Select Export Format", ["PNG", "JPEG", "WEBP"], 
+                                        index=0, key="export_format_final")
+            quality = 95
+            if export_format == "JPEG":
+                quality = st.slider("Image Quality", 50, 100, 95, 5, key="export_quality")
             
             bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
             final_result = apply_background(st.session_state.current_image, st.session_state.mask,
@@ -1341,7 +1008,6 @@ def main():
             
             st.session_state.current_step = 4
 
-    # Footer
     st.markdown("---")
     st.markdown("""
     <div class="modern-footer">
