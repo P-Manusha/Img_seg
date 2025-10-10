@@ -65,97 +65,156 @@ FILTERS = {
 }
 
 # ============================================================================
-# CUSTOM CSS - PROFESSIONAL CLASSIC DESIGN
+# CUSTOM CSS - CULT CLASSIC PROFESSIONAL DESIGN
 # ============================================================================
 CUSTOM_CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700;800&family=Cinzel:wght@400;500;600;700&display=swap');
 
 * {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Raleway', sans-serif;
 }
 
 .stApp {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    background: linear-gradient(135deg, #0a0a0f 0%, #1a1625 25%, #2d1b4e 50%, #1a1625 75%, #0a0a0f 100%);
+    background-attachment: fixed;
+}
+
+/* Subtle animated background pattern */
+.stApp::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(138, 43, 226, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(75, 0, 130, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .main-header {
-    background: linear-gradient(135deg, #e6e6fa 0%, #f5f5ff 100%);
-    padding: 3rem 2.5rem;
-    border-radius: 20px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f1923 100%);
+    padding: 3.5rem 3rem;
+    border-radius: 25px;
     text-align: center;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
-    margin-bottom: 2.5rem;
-    border: 2px solid #d4af37;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 0 1px rgba(138, 43, 226, 0.3);
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(138, 43, 226, 0.2);
+}
+
+.main-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(138, 43, 226, 0.1), transparent);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
 }
 
 .main-header h1 {
     margin: 0;
-    color: #2c3e50;
-    font-size: 3.2rem;
+    background: linear-gradient(135deg, #e6d5ff 0%, #b794f6 50%, #9f7aea 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 4rem;
     font-weight: 700;
-    font-family: 'Playfair Display', serif;
-    letter-spacing: 2px;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 4px;
     text-transform: uppercase;
+    text-shadow: 0 0 40px rgba(138, 43, 226, 0.5);
+    position: relative;
 }
 
 .main-header p {
-    margin: 1rem 0 0 0;
-    color: #34495e;
-    font-size: 1.15rem;
-    font-weight: 500;
-    font-family: 'Montserrat', sans-serif;
+    margin: 1.2rem 0 0 0;
+    color: #c4b5fd;
+    font-size: 1.2rem;
+    font-weight: 400;
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 1px;
+    opacity: 0.9;
 }
 
 .stTabs [data-baseweb="tab-list"] {
-    gap: 10px;
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-    padding: 1.2rem;
-    border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    gap: 12px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 1.5rem;
+    border-radius: 20px;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(138, 43, 226, 0.2);
 }
 
 .stTabs [data-baseweb="tab"] {
-    height: 60px;
-    background: linear-gradient(135deg, #d4af37 0%, #c9a961 100%);
-    color: #1a1a2e;
-    border-radius: 12px;
+    height: 65px;
+    background: linear-gradient(135deg, #2d1b4e 0%, #3d2659 100%);
+    color: #e6d5ff;
+    border-radius: 15px;
     font-weight: 600;
-    font-size: 1rem;
-    padding: 0 2rem;
-    border: none;
-    font-family: 'Montserrat', sans-serif;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    font-size: 1.05rem;
+    padding: 0 2.5rem;
+    border: 1px solid rgba(138, 43, 226, 0.3);
+    font-family: 'Raleway', sans-serif;
+    box-shadow: 0 4px 20px rgba(138, 43, 226, 0.2);
+    transition: all 0.4s ease;
+    letter-spacing: 0.5px;
 }
 
 .stTabs [data-baseweb="tab"]:hover {
-    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
-    background: linear-gradient(135deg, #e6c85c 0%, #d4af37 100%);
+    box-shadow: 0 8px 30px rgba(138, 43, 226, 0.4);
+    background: linear-gradient(135deg, #3d2659 0%, #4d3166 100%);
+    transform: translateY(-2px);
+    border-color: rgba(138, 43, 226, 0.5);
 }
 
 .stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, #8b7355 0%, #6d5d4b 100%);
-    color: #f5f5ff;
-    box-shadow: 0 6px 30px rgba(139, 115, 85, 0.6);
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #5b21b6 100%);
+    color: #ffffff;
+    box-shadow: 
+        0 8px 35px rgba(124, 58, 237, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-color: rgba(167, 139, 250, 0.8);
 }
 
 section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #2c3e50 0%, #34495e 50%, #1a1a2e 100%);
+    background: linear-gradient(180deg, #0f0f1e 0%, #1a1a2e 50%, #0f0f1e 100%);
+    border-right: 1px solid rgba(138, 43, 226, 0.2);
 }
 
 section[data-testid="stSidebar"] * {
-    color: #e0e0e0 !important;
+    color: #d8b4fe !important;
 }
 
 section[data-testid="stSidebar"] h3 {
-    color: #d4af37 !important;
-    font-family: 'Playfair Display', serif !important;
-    font-weight: 700 !important;
+    color: #e9d5ff !important;
+    font-family: 'Cinzel', serif !important;
+    font-weight: 600 !important;
+    font-size: 1.3rem !important;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 10px rgba(138, 43, 226, 0.3);
 }
 
 section[data-testid="stSidebar"] label {
-    color: #c9c9c9 !important;
-    font-family: 'Montserrat', sans-serif !important;
+    color: #c4b5fd !important;
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 500 !important;
 }
 
 section[data-testid="stSidebar"] .stNumberInput input,
@@ -163,47 +222,58 @@ section[data-testid="stSidebar"] .stSelectbox select,
 section[data-testid="stSidebar"] input[type="text"],
 section[data-testid="stSidebar"] textarea {
     color: #1a1a2e !important;
-    background: #f5f5f5 !important;
-    border: 2px solid rgba(212, 175, 55, 0.3) !important;
-    border-radius: 8px !important;
+    background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%) !important;
+    border: 2px solid rgba(138, 43, 226, 0.3) !important;
+    border-radius: 12px !important;
+    font-weight: 500 !important;
 }
 
 .stButton > button {
-    background: linear-gradient(135deg, #d4af37 0%, #c9a961 100%);
-    color: #1a1a2e;
-    border: none;
-    padding: 0.7rem 1.8rem;
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #5b21b6 100%);
+    color: #ffffff;
+    border: 1px solid rgba(167, 139, 250, 0.5);
+    padding: 0.85rem 2rem;
     font-weight: 700;
-    border-radius: 12px;
-    font-size: 0.95rem;
-    font-family: 'Montserrat', sans-serif;
-    box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
-    transition: all 0.3s ease;
+    border-radius: 15px;
+    font-size: 1rem;
+    font-family: 'Raleway', sans-serif;
+    box-shadow: 
+        0 6px 25px rgba(124, 58, 237, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.4s ease;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .stButton > button:hover {
-    box-shadow: 0 10px 35px rgba(212, 175, 55, 0.6);
-    background: linear-gradient(135deg, #e6c85c 0%, #d4af37 100%);
-    transform: translateY(-2px);
+    box-shadow: 
+        0 12px 40px rgba(124, 58, 237, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
+    transform: translateY(-3px);
+    border-color: rgba(167, 139, 250, 0.8);
 }
 
 section[data-testid="stFileUploadDropzone"] {
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
-    border: 3px dashed rgba(212, 175, 55, 0.5) !important;
-    border-radius: 20px !important;
-    padding: 3rem !important;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%) !important;
+    border: 3px dashed rgba(138, 43, 226, 0.5) !important;
+    border-radius: 25px !important;
+    padding: 3.5rem !important;
+    box-shadow: inset 0 0 30px rgba(138, 43, 226, 0.1) !important;
 }
 
 .step-indicator {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(135deg, #e6e6fa 0%, #f5f5ff 100%);
-    padding: 2rem 1.5rem;
-    border-radius: 18px;
-    margin: 2rem 0;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
-    border: 2px solid #d4af37;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 2.5rem 2rem;
+    border-radius: 25px;
+    margin: 2.5rem 0;
+    box-shadow: 
+        0 15px 50px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(138, 43, 226, 0.3);
 }
 
 .step {
@@ -214,85 +284,149 @@ section[data-testid="stFileUploadDropzone"] {
 }
 
 .step-number {
-    width: 55px;
-    height: 55px;
+    width: 65px;
+    height: 65px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #d4af37 0%, #c9a961 100%);
-    color: #1a1a2e;
+    background: linear-gradient(135deg, #2d1b4e 0%, #3d2659 100%);
+    color: #e6d5ff;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 1.6rem;
-    margin-bottom: 0.7rem;
-    box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
-    transition: all 0.3s ease;
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+    box-shadow: 
+        0 6px 25px rgba(138, 43, 226, 0.3),
+        inset 0 -2px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.5s ease;
+    border: 2px solid rgba(138, 43, 226, 0.4);
+    font-family: 'Cinzel', serif;
 }
 
 .step-number.active {
-    background: linear-gradient(135deg, #8b7355 0%, #6d5d4b 100%);
-    color: #f5f5ff;
-    box-shadow: 0 0 40px rgba(139, 115, 85, 0.8);
-    transform: scale(1.2);
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #5b21b6 100%);
+    color: #ffffff;
+    box-shadow: 
+        0 0 50px rgba(124, 58, 237, 0.8),
+        0 8px 30px rgba(124, 58, 237, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: scale(1.15);
+    border-color: rgba(167, 139, 250, 0.8);
 }
 
 .step-label {
-    color: #2c3e50;
+    color: #c4b5fd;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 1rem;
+    font-family: 'Raleway', sans-serif;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .step-connector {
-    height: 4px;
-    background: linear-gradient(90deg, #d4af37 0%, #8b7355 50%, #d4af37 100%);
+    height: 5px;
+    background: linear-gradient(90deg, 
+        rgba(138, 43, 226, 0.3) 0%, 
+        rgba(167, 139, 250, 0.6) 50%, 
+        rgba(138, 43, 226, 0.3) 100%);
     flex: 1;
-    margin: 0 1rem;
-    border-radius: 2px;
+    margin: 0 1.5rem;
+    border-radius: 3px;
+    box-shadow: 0 2px 10px rgba(138, 43, 226, 0.3);
 }
 
 .footer-professional {
     text-align: center;
-    padding: 2.5rem;
-    background: linear-gradient(135deg, #e6e6fa 0%, #f5f5ff 100%);
-    border-radius: 18px;
-    box-shadow: 0 12px 45px rgba(0, 0, 0, 0.25);
-    margin-top: 3rem;
-    border: 2px solid #d4af37;
+    padding: 3rem;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f1923 100%);
+    border-radius: 25px;
+    box-shadow: 
+        0 15px 60px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    margin-top: 3.5rem;
+    border: 1px solid rgba(138, 43, 226, 0.3);
 }
 
 .footer-professional h3 {
-    color: #2c3e50;
-    font-family: 'Playfair Display', serif;
+    background: linear-gradient(135deg, #e6d5ff 0%, #b794f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: 'Cinzel', serif;
     margin: 0;
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     font-weight: 700;
+    letter-spacing: 2px;
 }
 
 .footer-professional p {
-    color: #34495e;
-    margin-top: 0.7rem;
+    color: #c4b5fd;
+    margin-top: 0.8rem;
     font-weight: 500;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
 }
 
 h4, h5 {
-    color: #d4af37 !important;
-    font-family: 'Playfair Display', serif !important;
+    color: #e9d5ff !important;
+    font-family: 'Cinzel', serif !important;
+    text-shadow: 0 2px 10px rgba(138, 43, 226, 0.3);
+    letter-spacing: 1px;
 }
 
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 
 ::-webkit-scrollbar {
-    width: 12px;
+    width: 14px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #1a1a2e;
+    background: #0a0a0f;
+    border-left: 1px solid rgba(138, 43, 226, 0.2);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #d4af37 0%, #8b7355 100%);
-    border-radius: 6px;
+    background: linear-gradient(180deg, #7c3aed 0%, #5b21b6 100%);
+    border-radius: 10px;
+    border: 2px solid #0a0a0f;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 100%);
+}
+
+/* Enhanced input styling */
+input, select, textarea {
+    transition: all 0.3s ease !important;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: rgba(138, 43, 226, 0.6) !important;
+    box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.1) !important;
+}
+
+/* Slider styling */
+.stSlider {
+    padding: 1rem 0;
+}
+
+.stSlider [data-baseweb="slider"] {
+    background: linear-gradient(135deg, #2d1b4e 0%, #1a1a2e 100%);
+    padding: 1rem;
+    border-radius: 15px;
+}
+
+/* Improved contrast for text */
+p, span, div {
+    color: #c4b5fd;
+}
+
+/* Caption styling */
+.stCaption {
+    color: #a78bfa !important;
+    font-style: italic;
 }
 </style>
 """
@@ -750,6 +884,126 @@ def main():
                                 st.caption("📷 Image preview unavailable")
                         
                         col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.markdown("##### 📷 Original")
+                        display_orig = original_img.copy()
+                        display_orig.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_orig, use_container_width=True)
+                    
+                    with col2:
+                        st.markdown("##### ✨ Processed")
+                        display_result = result_rgb.copy()
+                        display_result.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_result, use_container_width=True)
+                    
+                    col3, col4 = st.columns(2)
+                    
+                    with col3:
+                        st.markdown("##### 🔍 Difference Map")
+                        display_diff = diff_img.copy()
+                        display_diff.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_diff, use_container_width=True)
+                    
+                    with col4:
+                        st.markdown("##### 🎨 50% Blend")
+                        display_blend = blend_50.copy()
+                        display_blend.thumbnail((400, 400), Image.LANCZOS)
+                        st.image(display_blend, use_container_width=True)
+
+                st.markdown("---")
+                st.markdown("### 📥 Export Options")
+                
+                export_col1, export_col2, export_col3 = st.columns(3)
+
+                with export_col1:
+                    get_download_button(result_pil, export_format, quality, "⬇️ Download Final",
+                                      f"oneview_result.{export_format.lower()}", "download_final")
+
+                with export_col2:
+                    buf_orig = BytesIO()
+                    Image.fromarray(st.session_state.original_image).save(buf_orig, format="PNG")
+                    st.download_button("📥 Download Original", buf_orig.getvalue(), "original.png",
+                                     "image/png", key="download_orig", use_container_width=True)
+
+                with export_col3:
+                    original_img = Image.fromarray(st.session_state.original_image)
+                    result_rgb = result_pil.convert("RGB")
+                    if original_img.size != result_rgb.size:
+                        result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
+                    
+                    comparison = np.concatenate([np.array(original_img), np.array(result_rgb)], axis=1)
+                    buf_comp = BytesIO()
+                    Image.fromarray(comparison).save(buf_comp, format="PNG")
+                    st.download_button("📊 Download Comparison", buf_comp.getvalue(), "comparison.png",
+                                     "image/png", key="download_comp", use_container_width=True)
+
+                st.session_state.current_step = 4
+
+    if st.session_state.batch_mode and len(st.session_state.uploaded_images) > 0:
+        st.markdown("---")
+        st.markdown("### 🔄 Batch Processing")
+        st.info(f"Processing {len(st.session_state.uploaded_images)} images")
+
+        if st.button("▶️ Process All Images", use_container_width=True):
+            progress_bar = st.progress(0)
+            batch_results = []
+
+            for idx, img_array in enumerate(st.session_state.uploaded_images):
+                prob = predict_mask(model, img_array, CONFIG["device"], CONFIG["img_size"])
+                mask = postprocess_mask(prob, st.session_state.fg_thresh, st.session_state.min_area)
+                mask_bin = (mask > 127).astype(np.uint8)
+
+                bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
+                result_pil = apply_background(img_array, mask_bin, st.session_state.extraction_mode, bg_path, st.session_state.custom_color)
+                result_pil = apply_filters_and_adjustments(result_pil)
+                result_pil = crop_image(result_pil, st.session_state.crop_preset)
+
+                if st.session_state.resize_percent != 100:
+                    orig_w, orig_h = result_pil.size
+                    new_w = int(orig_w * st.session_state.resize_percent / 100)
+                    new_h = int(orig_h * st.session_state.resize_percent / 100)
+                    result_pil = result_pil.resize((new_w, new_h), Image.LANCZOS)
+
+                batch_results.append(result_pil)
+                progress_bar.progress((idx + 1) / len(st.session_state.uploaded_images))
+
+            st.success("✅ All images processed!")
+
+            st.markdown("#### 📸 Results Preview")
+            cols = st.columns(3)
+            for idx, result in enumerate(batch_results):
+                with cols[idx % 3]:
+                    display_result = result.copy()
+                    display_result.thumbnail((300, 250), Image.LANCZOS)
+                    st.image(display_result, caption=f"Image {idx + 1}", use_container_width=True)
+
+            st.markdown("#### 📥 Download Results")
+            download_cols = st.columns(min(len(batch_results), 4))
+            for idx, result in enumerate(batch_results):
+                with download_cols[idx % len(download_cols)]:
+                    buf = BytesIO()
+                    if export_format == "PNG" and result.mode == "RGBA":
+                        result.save(buf, format="PNG")
+                    elif export_format in ["JPEG", "JPG"]:
+                        result.convert("RGB").save(buf, format="JPEG", quality=quality)
+                    else:
+                        result.convert("RGB").save(buf, format=export_format, quality=quality)
+
+                    st.download_button(f"⬇️ {idx + 1}", buf.getvalue(), f"batch_{idx + 1}.{export_format.lower()}",
+                                     f"image/{export_format.lower()}", key=f"batch_dl_{idx}", use_container_width=True)
+
+    st.markdown("---")
+    st.markdown("""
+    <div class="footer-professional">
+        <h3>OneView</h3>
+        <p>Professional AI-Powered Image Processing Solution</p>
+        <p style="font-size: 0.9rem; margin-top: 0.8rem; opacity: 0.8;">Developed by Manusha</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+if __name__ == "__main__":
+    main() st.columns(2)
                         with col1:
                             if st.button("📂 Load", key=f"load_{idx}", use_container_width=True):
                                 if load_project(proj['name']):
@@ -801,7 +1055,7 @@ def main():
             st.info("Demo image not available")
 
     with spacer:
-        st.markdown("<div style='height: 200px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #d4af37;'>→</div>", unsafe_allow_html=True)
+        st.markdown("<div style='height: 200px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #a78bfa;'>→</div>", unsafe_allow_html=True)
 
     with demo_col2:
         st.markdown("#### Extracted Subject")
@@ -1128,124 +1382,4 @@ def main():
                     
                     blend_50 = Image.blend(original_img.convert('RGB'), result_rgb, 0.5)
                     
-                    col1, col2 = st.columns(2)
-                    
-                    with col1:
-                        st.markdown("##### 📷 Original")
-                        display_orig = original_img.copy()
-                        display_orig.thumbnail((400, 400), Image.LANCZOS)
-                        st.image(display_orig, use_container_width=True)
-                    
-                    with col2:
-                        st.markdown("##### ✨ Processed")
-                        display_result = result_rgb.copy()
-                        display_result.thumbnail((400, 400), Image.LANCZOS)
-                        st.image(display_result, use_container_width=True)
-                    
-                    col3, col4 = st.columns(2)
-                    
-                    with col3:
-                        st.markdown("##### 🔍 Difference Map")
-                        display_diff = diff_img.copy()
-                        display_diff.thumbnail((400, 400), Image.LANCZOS)
-                        st.image(display_diff, use_container_width=True)
-                    
-                    with col4:
-                        st.markdown("##### 🎨 50% Blend")
-                        display_blend = blend_50.copy()
-                        display_blend.thumbnail((400, 400), Image.LANCZOS)
-                        st.image(display_blend, use_container_width=True)
-
-                st.markdown("---")
-                st.markdown("### 📥 Export Options")
-                
-                export_col1, export_col2, export_col3 = st.columns(3)
-
-                with export_col1:
-                    get_download_button(result_pil, export_format, quality, "⬇️ Download Final",
-                                      f"oneview_result.{export_format.lower()}", "download_final")
-
-                with export_col2:
-                    buf_orig = BytesIO()
-                    Image.fromarray(st.session_state.original_image).save(buf_orig, format="PNG")
-                    st.download_button("📥 Download Original", buf_orig.getvalue(), "original.png",
-                                     "image/png", key="download_orig", use_container_width=True)
-
-                with export_col3:
-                    original_img = Image.fromarray(st.session_state.original_image)
-                    result_rgb = result_pil.convert("RGB")
-                    if original_img.size != result_rgb.size:
-                        result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
-                    
-                    comparison = np.concatenate([np.array(original_img), np.array(result_rgb)], axis=1)
-                    buf_comp = BytesIO()
-                    Image.fromarray(comparison).save(buf_comp, format="PNG")
-                    st.download_button("📊 Download Comparison", buf_comp.getvalue(), "comparison.png",
-                                     "image/png", key="download_comp", use_container_width=True)
-
-                st.session_state.current_step = 4
-
-    if st.session_state.batch_mode and len(st.session_state.uploaded_images) > 0:
-        st.markdown("---")
-        st.markdown("### 🔄 Batch Processing")
-        st.info(f"Processing {len(st.session_state.uploaded_images)} images")
-
-        if st.button("▶️ Process All Images", use_container_width=True):
-            progress_bar = st.progress(0)
-            batch_results = []
-
-            for idx, img_array in enumerate(st.session_state.uploaded_images):
-                prob = predict_mask(model, img_array, CONFIG["device"], CONFIG["img_size"])
-                mask = postprocess_mask(prob, st.session_state.fg_thresh, st.session_state.min_area)
-                mask_bin = (mask > 127).astype(np.uint8)
-
-                bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
-                result_pil = apply_background(img_array, mask_bin, st.session_state.extraction_mode, bg_path, st.session_state.custom_color)
-                result_pil = apply_filters_and_adjustments(result_pil)
-                result_pil = crop_image(result_pil, st.session_state.crop_preset)
-
-                if st.session_state.resize_percent != 100:
-                    orig_w, orig_h = result_pil.size
-                    new_w = int(orig_w * st.session_state.resize_percent / 100)
-                    new_h = int(orig_h * st.session_state.resize_percent / 100)
-                    result_pil = result_pil.resize((new_w, new_h), Image.LANCZOS)
-
-                batch_results.append(result_pil)
-                progress_bar.progress((idx + 1) / len(st.session_state.uploaded_images))
-
-            st.success("✅ All images processed!")
-
-            st.markdown("#### 📸 Results Preview")
-            cols = st.columns(3)
-            for idx, result in enumerate(batch_results):
-                with cols[idx % 3]:
-                    display_result = result.copy()
-                    display_result.thumbnail((300, 250), Image.LANCZOS)
-                    st.image(display_result, caption=f"Image {idx + 1}", use_container_width=True)
-
-            st.markdown("#### 📥 Download Results")
-            download_cols = st.columns(min(len(batch_results), 4))
-            for idx, result in enumerate(batch_results):
-                with download_cols[idx % len(download_cols)]:
-                    buf = BytesIO()
-                    if export_format == "PNG" and result.mode == "RGBA":
-                        result.save(buf, format="PNG")
-                    elif export_format in ["JPEG", "JPG"]:
-                        result.convert("RGB").save(buf, format="JPEG", quality=quality)
-                    else:
-                        result.convert("RGB").save(buf, format=export_format, quality=quality)
-
-                    st.download_button(f"⬇️ {idx + 1}", buf.getvalue(), f"batch_{idx + 1}.{export_format.lower()}",
-                                     f"image/{export_format.lower()}", key=f"batch_dl_{idx}", use_container_width=True)
-
-    st.markdown("---")
-    st.markdown("""
-    <div class="footer-professional">
-        <h3>OneView</h3>
-        <p>Professional AI-Powered Image Processing Solution</p>
-        <p style="font-size: 0.9rem; margin-top: 0.8rem; opacity: 0.8;">Developed by Manusha</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-if __name__ == "__main__":
-    main()
+                    col1, col2 =
