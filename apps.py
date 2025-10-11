@@ -238,7 +238,7 @@ section[data-testid="stSidebar"] h3 {
     font-weight: 600;
 }
 
-/* Default Buttons (gold) */
+/* Buttons */
 .stButton > button {
     background: linear-gradient(135deg, #d4af37 0%, #c9a227 100%);
     color: #0a0e27;
@@ -257,41 +257,38 @@ section[data-testid="stSidebar"] h3 {
     transform: translateY(-2px);
 }
 
-/* Special Glass Buttons - for specific actions */
-.stButton > button[kind="secondary"],
-button[data-testid*="Transparent"],
-button[data-testid*="Blur"],
-button[data-testid*="White"],
-button[data-testid*="Black"],
-button[data-testid*="Custom"],
-button[data-testid*="Preset"],
-button[data-testid*="Save"],
-button[data-testid*="Load"],
-button[data-testid*="Delete"] {
+/* Special styling for specific buttons */
+button[key="bg_transparent"],
+button[key="bg_blur"],
+button[key="bg_white"],
+button[key="bg_black"],
+button[key="bg_custom_color"],
+button[key="bg_custom_image"],
+button[key^="bg_Background"],
+button[key="save_project"],
+button[key="load_project"],
+button[key="delete_project"] {
     background: rgba(21, 25, 50, 0.6) !important;
     backdrop-filter: blur(10px) !important;
     color: #e8e8e8 !important;
     border: 1px solid rgba(212, 175, 55, 0.2) !important;
     padding: 0.7rem 1.5rem !important;
-    font-weight: 500 !important;
-    border-radius: 12px !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
-    transition: all 0.3s ease !important;
+    border-radius: 16px !important;
+    margin-bottom: 1.5rem !important;
 }
 
-.stButton > button[kind="secondary"]:hover,
-button[data-testid*="Transparent"]:hover,
-button[data-testid*="Blur"]:hover,
-button[data-testid*="White"]:hover,
-button[data-testid*="Black"]:hover,
-button[data-testid*="Custom"]:hover,
-button[data-testid*="Preset"]:hover,
-button[data-testid*="Save"]:hover,
-button[data-testid*="Load"]:hover,
-button[data-testid*="Delete"]:hover {
+button[key="bg_transparent"]:hover,
+button[key="bg_blur"]:hover,
+button[key="bg_white"]:hover,
+button[key="bg_black"]:hover,
+button[key="bg_custom_color"]:hover,
+button[key="bg_custom_image"]:hover,
+button[key^="bg_Background"]:hover,
+button[key="save_project"]:hover,
+button[key="load_project"]:hover,
+button[key="delete_project"]:hover {
     background: rgba(21, 25, 50, 0.8) !important;
     border-color: rgba(212, 175, 55, 0.4) !important;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2) !important;
     transform: translateY(-2px) !important;
 }
 
@@ -490,17 +487,6 @@ div[data-testid="stMetricLabel"] {
     background: rgba(21, 25, 50, 0.8) !important;
     border-color: rgba(212, 175, 55, 0.4) !important;
     box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2) !important;
-}
-
-/* Manage Projects Section alignment */
-.manage-projects-container {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.manage-projects-container > div {
-    flex: 1;
 }
 </style>
 """
@@ -746,17 +732,16 @@ def main():
                 st.error("❌ Please enter a name and load an image first")
         
         if st.session_state.saved_projects:
-            st.markdown('<div class="manage-projects-container">', unsafe_allow_html=True)
+            selected_project = st.selectbox(
+                "Select Project",
+                options=list(st.session_state.saved_projects.keys()),
+                key="project_selector"
+            )
+            
+            # Load and Delete buttons side by side
             col1, col2 = st.columns(2)
             
             with col1:
-                selected_project = st.selectbox(
-                    "Select Project",
-                    options=list(st.session_state.saved_projects.keys()),
-                    key="project_selector"
-                )
-            
-            with col2:
                 if st.button("📂 Load", key="load_project", use_container_width=True):
                     if selected_project:
                         project = st.session_state.saved_projects[selected_project]
@@ -774,13 +759,12 @@ def main():
                         st.success(f"✅ Loaded project '{selected_project}'")
                         st.rerun()
             
-            st.markdown('</div>', unsafe_allow_html=True)
-            
-            if st.button("🗑️ Delete Selected", key="delete_project", use_container_width=True):
-                if selected_project:
-                    del st.session_state.saved_projects[selected_project]
-                    st.success(f"✅ Deleted project '{selected_project}'")
-                    st.rerun()
+            with col2:
+                if st.button("🗑️ Delete", key="delete_project", use_container_width=True):
+                    if selected_project:
+                        del st.session_state.saved_projects[selected_project]
+                        st.success(f"✅ Deleted project '{selected_project}'")
+                        st.rerun()
         
         # Export Settings
         st.markdown("---")
