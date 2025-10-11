@@ -1026,7 +1026,7 @@ def main():
                                     st.success("Loaded!")
                                     st.rerun()
                         with col2:
-                            if st.button("Delete", key=f"del_{idx}", use_container_width=True, type="primary"):
+                            if st.button("🗑️", key=f"del_{idx}", use_container_width=True, type="primary"):
                                 delete_project(proj['name'])
                                 st.success("Deleted!")
                                 st.rerun()
@@ -1092,8 +1092,6 @@ def main():
                 st.session_state.prob_map = prob
                 mask = postprocess_mask(prob, st.session_state.fg_thresh, st.session_state.min_area)
                 st.session_state.mask = (mask > 127).astype(np.uint8)
-            
-            st.success("Subject detected successfully!")
 
     # Main Editing Interface
     if st.session_state.current_image is not None and st.session_state.mask is not None:
