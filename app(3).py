@@ -256,7 +256,7 @@ section[data-testid="stSidebar"] h3 {
     transform: translateY(-2px);
 }
 
-/* Special button styling for specific buttons */
+/* Special button styling for background buttons */
 button[key="bg_Transparent"],
 button[key="bg_White"],
 button[key="bg_Black"],
@@ -272,6 +272,7 @@ button[key^="preset_Background"] {
     padding: 1.5rem !important;
     border-radius: 16px !important;
     margin-bottom: 1.5rem !important;
+    box-shadow: none !important;
 }
 
 button[key="bg_Transparent"]:hover,
@@ -285,6 +286,44 @@ button[key^="preset_Background"]:hover {
     background: rgba(21, 25, 50, 0.8) !important;
     border-color: rgba(212, 175, 55, 0.4) !important;
     transform: translateY(-2px) !important;
+}
+
+/* Specific styling for Save Project button */
+section[data-testid="stSidebar"] button[kind="primary"]:not([key^="load_"]):not([key^="del_"]) {
+    background: rgba(21, 25, 50, 0.6) !important;
+    backdrop-filter: blur(10px) !important;
+    color: #e8e8e8 !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    padding: 0.8rem 1.5rem !important;
+    border-radius: 16px !important;
+    margin-bottom: 0.5rem !important;
+    box-shadow: none !important;
+}
+
+section[data-testid="stSidebar"] button[kind="primary"]:not([key^="load_"]):not([key^="del_"]):hover {
+    background: rgba(21, 25, 50, 0.8) !important;
+    border-color: rgba(212, 175, 55, 0.4) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Smaller Load and Delete buttons in project management */
+button[key^="load_"],
+button[key^="del_"] {
+    background: rgba(21, 25, 50, 0.6) !important;
+    backdrop-filter: blur(10px) !important;
+    color: #e8e8e8 !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    padding: 0.4rem 0.8rem !important;
+    border-radius: 8px !important;
+    font-size: 0.8rem !important;
+    box-shadow: none !important;
+}
+
+button[key^="load_"]:hover,
+button[key^="del_"]:hover {
+    background: rgba(21, 25, 50, 0.8) !important;
+    border-color: rgba(212, 175, 55, 0.4) !important;
+    transform: translateY(-1px) !important;
 }
 
 /* File uploader */
@@ -983,7 +1022,7 @@ def main():
             if project_name != st.session_state.get('current_project_name', ''):
                 st.session_state.current_project_name = project_name
             
-            if st.button("Save Project", use_container_width=True):
+            if st.button("Save Project", use_container_width=True, type="primary"):
                 if project_name.strip() and st.session_state.get('original_image') is not None:
                     if save_project():
                         st.success(f"Project '{project_name}' saved!")
@@ -1000,15 +1039,14 @@ def main():
                         st.markdown(f"**{proj['name']}**")
                         st.caption(f"{proj['timestamp']}")
                         
-                        # Load and Delete buttons side by side
                         col1, col2 = st.columns(2)
                         with col1:
-                            if st.button("Load", key=f"load_{idx}", use_container_width=True):
+                            if st.button("Load", key=f"load_{idx}", use_container_width=True, type="primary"):
                                 if load_project(proj['name']):
                                     st.success("Loaded!")
                                     st.rerun()
                         with col2:
-                            if st.button("Delete", key=f"del_{idx}", use_container_width=True):
+                            if st.button("🗑️", key=f"del_{idx}", use_container_width=True, type="primary"):
                                 delete_project(proj['name'])
                                 st.success("Deleted!")
                                 st.rerun()
@@ -1074,8 +1112,6 @@ def main():
                 st.session_state.prob_map = prob
                 mask = postprocess_mask(prob, st.session_state.fg_thresh, st.session_state.min_area)
                 st.session_state.mask = (mask > 127).astype(np.uint8)
-            
-            st.success("Subject detected successfully!")
 
     # Main Editing Interface
     if st.session_state.current_image is not None and st.session_state.mask is not None:
