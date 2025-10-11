@@ -62,19 +62,19 @@ FILTERS = {
 }
 
 # ============================================================================
-# MODERN PROFESSIONAL CSS - CYAN & DARK BLUE THEME
+# MODERN PROFESSIONAL CSS - GOLD & DARK BLUE THEME
 # ============================================================================
 CUSTOM_CSS = """
 <style>
 :root {
-    --primary-cyan: #00d4ff;
+    --primary-gold: #d4af37;
     --primary-dark: #0a0e27;
     --secondary-dark: #151932;
     --accent-blue: #4a90e2;
     --accent-purple: #9b59b6;
     --text-light: #e8e8e8;
     --text-muted: #a0a0a0;
-    --border-cyan: rgba(0, 212, 255, 0.3);
+    --border-gold: rgba(212, 175, 55, 0.3);
     --glass-bg: rgba(21, 25, 50, 0.85);
 }
 
@@ -99,9 +99,9 @@ CUSTOM_CSS = """
     text-align: center;
     box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(0, 212, 255, 0.1);
+        inset 0 1px 0 rgba(212, 175, 55, 0.1);
     margin-bottom: 2rem;
-    border: 1px solid rgba(0, 212, 255, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     position: relative;
     overflow: hidden;
 }
@@ -113,7 +113,7 @@ CUSTOM_CSS = """
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(0, 212, 255, 0.08) 0%, rgba(155, 89, 182, 0.04) 70%);
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, rgba(155, 89, 182, 0.04) 70%);
     animation: rotate 20s linear infinite;
 }
 
@@ -127,7 +127,7 @@ CUSTOM_CSS = """
     font-size: 3.5rem;
     font-weight: 700;
     font-family: 'Space Grotesk', sans-serif;
-    background: linear-gradient(135deg, #00d4ff 0%, #0099cc 50%, #00ffff 100%);
+    background: linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #c9a227 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -149,7 +149,7 @@ CUSTOM_CSS = """
 /* Sidebar styling */
 section[data-testid="stSidebar"] {
     background: linear-gradient(180deg, #151932 0%, #1a1f3a 100%);
-    border-right: 1px solid rgba(0, 212, 255, 0.2);
+    border-right: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 section[data-testid="stSidebar"] * {
@@ -171,7 +171,7 @@ section[data-testid="stSidebar"] h3 {
     padding: 1.5rem;
     border-radius: 16px;
     margin-bottom: 1.5rem;
-    border: 1px solid rgba(0, 212, 255, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .nav-item {
@@ -188,14 +188,14 @@ section[data-testid="stSidebar"] h3 {
 }
 
 .nav-item:hover {
-    background: rgba(0, 212, 255, 0.1);
-    border-color: rgba(0, 212, 255, 0.3);
+    background: rgba(212, 175, 55, 0.1);
+    border-color: rgba(212, 175, 55, 0.3);
     transform: translateX(5px);
 }
 
 .nav-item.active {
-    background: rgba(0, 212, 255, 0.2);
-    border-color: rgba(0, 212, 255, 0.5);
+    background: rgba(212, 175, 55, 0.2);
+    border-color: rgba(212, 175, 55, 0.5);
 }
 
 /* Main content tabs - horizontal workflow */
@@ -205,7 +205,7 @@ section[data-testid="stSidebar"] h3 {
     backdrop-filter: blur(10px);
     padding: 1rem;
     border-radius: 20px;
-    border: 1px solid rgba(0, 212, 255, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     margin-bottom: 2rem;
 }
 
@@ -218,41 +218,41 @@ section[data-testid="stSidebar"] h3 {
     font-weight: 500;
     font-size: 0.95rem;
     padding: 0.7rem 1.8rem;
-    border: 1px solid rgba(0, 212, 255, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     transition: all 0.3s ease;
     white-space: nowrap;
 }
 
 .stTabs [data-baseweb="tab"]:hover {
-    background: rgba(0, 212, 255, 0.1);
-    border-color: rgba(0, 212, 255, 0.3);
+    background: rgba(212, 175, 55, 0.1);
+    border-color: rgba(212, 175, 55, 0.3);
     transform: translateY(-2px);
 }
 
 .stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, rgba(0, 212, 255, 0.3) 0%, rgba(0, 153, 204, 0.2) 100%);
-    color: #00d4ff;
-    border-color: rgba(0, 212, 255, 0.5);
-    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(155, 89, 182, 0.2) 100%);
+    color: #d4af37;
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
     font-weight: 600;
 }
 
 /* Buttons */
 .stButton > button {
-    background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+    background: linear-gradient(135deg, #d4af37 0%, #c9a227 100%);
     color: #0a0e27;
-    border: 1px solid rgba(0, 212, 255, 0.5);
+    border: 1px solid rgba(212, 175, 55, 0.5);
     padding: 0.7rem 1.8rem;
     font-weight: 600;
     border-radius: 12px;
     font-size: 0.95rem;
-    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
     transition: all 0.3s ease;
 }
 
 .stButton > button:hover {
-    background: linear-gradient(135deg, #00ffff 0%, #00d4ff 100%);
-    box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+    background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
     transform: translateY(-2px);
 }
 
@@ -260,14 +260,14 @@ section[data-testid="stSidebar"] h3 {
 section[data-testid="stFileUploadDropzone"] {
     background: rgba(21, 25, 50, 0.4) !important;
     backdrop-filter: blur(10px) !important;
-    border: 2px dashed rgba(0, 212, 255, 0.3) !important;
+    border: 2px dashed rgba(212, 175, 55, 0.3) !important;
     border-radius: 20px !important;
     padding: 3rem !important;
     transition: all 0.3s ease !important;
 }
 
 section[data-testid="stFileUploadDropzone"]:hover {
-    border-color: rgba(0, 212, 255, 0.6) !important;
+    border-color: rgba(212, 175, 55, 0.6) !important;
     background: rgba(21, 25, 50, 0.6) !important;
 }
 
@@ -281,7 +281,7 @@ section[data-testid="stFileUploadDropzone"]:hover {
     padding: 2rem;
     border-radius: 20px;
     margin: 2rem 0;
-    border: 1px solid rgba(0, 212, 255, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .flow-step {
@@ -302,16 +302,16 @@ section[data-testid="stFileUploadDropzone"]:hover {
     justify-content: center;
     font-size: 1.5rem;
     margin-bottom: 0.8rem;
-    border: 2px solid rgba(0, 212, 255, 0.2);
+    border: 2px solid rgba(212, 175, 55, 0.2);
     transition: all 0.4s ease;
-    color: #00d4ff;
+    color: #d4af37;
     font-weight: 600;
 }
 
 .flow-step.active .flow-icon {
-    background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
-    border-color: rgba(0, 212, 255, 0.5);
-    box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+    background: linear-gradient(135deg, #d4af37 0%, #c9a227 100%);
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
     transform: scale(1.1);
     color: #0a0e27;
 }
@@ -325,13 +325,13 @@ section[data-testid="stFileUploadDropzone"]:hover {
 }
 
 .flow-step.active .flow-label {
-    color: #00d4ff;
+    color: #d4af37;
     font-weight: 600;
 }
 
 .flow-connector {
     height: 3px;
-    background: linear-gradient(90deg, rgba(0, 212, 255, 0.2) 0%, rgba(0, 153, 204, 0.2) 100%);
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.2) 0%, rgba(155, 89, 182, 0.2) 100%);
     flex: 1;
     margin: 0 1rem;
     align-self: flex-start;
@@ -344,7 +344,7 @@ section[data-testid="stFileUploadDropzone"]:hover {
     backdrop-filter: blur(10px);
     padding: 1.5rem;
     border-radius: 16px;
-    border: 1px solid rgba(0, 212, 255, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     margin-bottom: 1.5rem;
 }
 
@@ -353,7 +353,7 @@ section[data-testid="stFileUploadDropzone"]:hover {
 }
 
 .settings-title {
-    color: #00d4ff;
+    color: #d4af37;
     font-weight: 600;
     font-size: 0.95rem;
     margin-bottom: 1rem;
@@ -367,7 +367,7 @@ section[data-testid="stSidebar"] .stSelectbox select,
 section[data-testid="stSidebar"] input[type="text"],
 section[data-testid="stSidebar"] textarea {
     background: rgba(26, 35, 58, 0.5) !important;
-    border: 1px solid rgba(0, 212, 255, 0.2) !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
     border-radius: 10px !important;
     color: #e8e8e8 !important;
     padding: 0.6rem !important;
@@ -386,12 +386,12 @@ section[data-testid="stSidebar"] textarea {
     backdrop-filter: blur(10px);
     padding: 1.5rem;
     border-radius: 16px;
-    border: 1px solid rgba(0, 212, 255, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     margin-bottom: 1.5rem;
 }
 
 .preview-header {
-    color: #00d4ff;
+    color: #d4af37;
     font-weight: 600;
     font-size: 1.1rem;
     margin-bottom: 1rem;
@@ -407,7 +407,7 @@ section[data-testid="stSidebar"] textarea {
     background: rgba(21, 25, 50, 0.6);
     backdrop-filter: blur(10px);
     border-radius: 20px;
-    border: 1px solid rgba(0, 212, 255, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     margin-top: 3rem;
 }
 
@@ -415,7 +415,7 @@ section[data-testid="stSidebar"] textarea {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 2rem;
     font-weight: 700;
-    color: #00d4ff;
+    color: #d4af37;
     margin: 0;
     text-transform: uppercase;
 }
@@ -432,17 +432,17 @@ section[data-testid="stSidebar"] textarea {
     backdrop-filter: blur(10px);
     padding: 1.5rem;
     border-radius: 16px;
-    border: 1px solid rgba(0, 212, 255, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     margin-bottom: 1.5rem;
 }
 
 /* Info boxes */
 .info-box {
-    background: rgba(0, 212, 255, 0.1);
-    border: 1px solid rgba(0, 212, 255, 0.3);
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.3);
     padding: 1rem 1.5rem;
     border-radius: 12px;
-    color: #00d4ff;
+    color: #d4af37;
     margin: 1rem 0;
 }
 
@@ -468,13 +468,13 @@ section[data-testid="stSidebar"] textarea {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #00d4ff 0%, #0099cc 100%);
+    background: linear-gradient(180deg, #d4af37 0%, #c9a227 100%);
     border-radius: 10px;
     border: 2px solid #0a0e27;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #00ffff 0%, #00d4ff 100%);
+    background: linear-gradient(180deg, #f4d03f 0%, #d4af37 100%);
 }
 
 /* General text colors */
@@ -483,7 +483,7 @@ p, span, div, label {
 }
 
 h4, h5, h6 {
-    color: #00d4ff !important;
+    color: #d4af37 !important;
     font-family: 'Space Grotesk', sans-serif !important;
 }
 
@@ -510,7 +510,7 @@ footer {visibility: hidden;}
 .streamlit-expanderHeader {
     background: rgba(26, 35, 58, 0.5);
     border-radius: 12px;
-    border: 1px solid rgba(0, 212, 255, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 /* Project cards */
@@ -519,13 +519,13 @@ footer {visibility: hidden;}
     backdrop-filter: blur(10px);
     padding: 1rem;
     border-radius: 12px;
-    border: 1px solid rgba(0, 212, 255, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     margin-bottom: 1rem;
     transition: all 0.3s ease;
 }
 
 .project-card:hover {
-    border-color: rgba(0, 212, 255, 0.3);
+    border-color: rgba(212, 175, 55, 0.3);
     background: rgba(26, 35, 58, 0.7);
 }
 </style>
@@ -556,7 +556,7 @@ def init_session_state():
         'contrast': 1.0,
         'saturation': 1.0,
         'batch_mode': False,
-        'custom_color': '#00d4ff',
+        'custom_color': '#d4af37',
         'resize_percent': 100,
         'show_bg_presets': False,
         'zoom_percentage': 100,
@@ -835,7 +835,7 @@ def save_project():
                 'saturation': float(st.session_state.get('saturation', 1.0)),
                 'crop_preset': str(st.session_state.get('crop_preset', 'Freeform')),
                 'resize_percent': int(st.session_state.get('resize_percent', 100)),
-                'custom_color': str(st.session_state.get('custom_color', '#00d4ff')),
+                'custom_color': str(st.session_state.get('custom_color', '#d4af37')),
             }
         }
         
@@ -882,7 +882,7 @@ def load_project(project_name):
                 st.session_state.saturation = float(settings.get('saturation', 1.0))
                 st.session_state.crop_preset = str(settings.get('crop_preset', 'Freeform'))
                 st.session_state.resize_percent = int(settings.get('resize_percent', 100))
-                st.session_state.custom_color = str(settings.get('custom_color', '#00d4ff'))
+                st.session_state.custom_color = str(settings.get('custom_color', '#d4af37'))
                 st.session_state.current_project_name = project_name
                 st.session_state.current_step = 2
                 
@@ -1335,7 +1335,7 @@ def main():
     <div class="modern-footer">
         <h3>OneView</h3>
         <p>Professional AI-Powered Image Processing Solution</p>
-        <p style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.8; color: #00d4ff;">Developed by Manusha</p>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.8; color: #d4af37;">Developed by Manusha</p>
     </div>
     """, unsafe_allow_html=True)
 
