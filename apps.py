@@ -977,7 +977,7 @@ def main():
                                     st.success("Loaded!")
                                     st.rerun()
                         
-                        if st.button("Delete", key=f"del_{idx}", use_container_width=True):
+                        if st.button("🗑️", key=f"del_{idx}", use_container_width=True):
                             delete_project(proj['name'])
                             st.success("Deleted!")
                             st.rerun()
