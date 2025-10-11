@@ -256,7 +256,7 @@ section[data-testid="stSidebar"] h3 {
     transform: translateY(-2px);
 }
 
-/* Special button styling for specific buttons */
+/* Special button styling for background buttons */
 button[key="bg_Transparent"],
 button[key="bg_White"],
 button[key="bg_Black"],
@@ -288,8 +288,8 @@ button[key^="preset_Background"]:hover {
     transform: translateY(-2px) !important;
 }
 
-/* Specific styling for Save Project, Load, and Delete buttons */
-section[data-testid="stSidebar"] button[kind="primary"] {
+/* Specific styling for Save Project button */
+section[data-testid="stSidebar"] button[kind="primary"]:not([key^="load_"]):not([key^="del_"]) {
     background: rgba(21, 25, 50, 0.6) !important;
     backdrop-filter: blur(10px) !important;
     color: #e8e8e8 !important;
@@ -300,10 +300,30 @@ section[data-testid="stSidebar"] button[kind="primary"] {
     box-shadow: none !important;
 }
 
-section[data-testid="stSidebar"] button[kind="primary"]:hover {
+section[data-testid="stSidebar"] button[kind="primary"]:not([key^="load_"]):not([key^="del_"]):hover {
     background: rgba(21, 25, 50, 0.8) !important;
     border-color: rgba(212, 175, 55, 0.4) !important;
     transform: translateY(-2px) !important;
+}
+
+/* Smaller Load and Delete buttons in project management */
+button[key^="load_"],
+button[key^="del_"] {
+    background: rgba(21, 25, 50, 0.6) !important;
+    backdrop-filter: blur(10px) !important;
+    color: #e8e8e8 !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    padding: 0.4rem 0.8rem !important;
+    border-radius: 8px !important;
+    font-size: 0.8rem !important;
+    box-shadow: none !important;
+}
+
+button[key^="load_"]:hover,
+button[key^="del_"]:hover {
+    background: rgba(21, 25, 50, 0.8) !important;
+    border-color: rgba(212, 175, 55, 0.4) !important;
+    transform: translateY(-1px) !important;
 }
 
 /* File uploader */
