@@ -257,7 +257,7 @@ section[data-testid="stSidebar"] h3 {
     transform: translateY(-2px);
 }
 
-/* Special styling for specific buttons */
+/* Special button styling for specific buttons */
 button[key="bg_transparent"],
 button[key="bg_blur"],
 button[key="bg_white"],
@@ -272,7 +272,7 @@ button[key="delete_project"] {
     backdrop-filter: blur(10px) !important;
     color: #e8e8e8 !important;
     border: 1px solid rgba(212, 175, 55, 0.2) !important;
-    padding: 0.7rem 1.5rem !important;
+    padding: 1.5rem !important;
     border-radius: 16px !important;
     margin-bottom: 1.5rem !important;
 }
@@ -503,30 +503,10 @@ def load_model():
     )
     
     if Path(CONFIG["model_path"]).exists():
-        try:
-            state_dict = torch.load(CONFIG["model_path"], map_location=CONFIG["device"])
-            
-            # Handle different state dict formats
-            if 'model_state_dict' in state_dict:
-                state_dict = state_dict['model_state_dict']
-            elif 'state_dict' in state_dict:
-                state_dict = state_dict['state_dict']
-            
-            # Try to load with strict=False to handle mismatches
-            model.load_state_dict(state_dict, strict=False)
-            st.success("✅ Model loaded successfully!")
-        except Exception as e:
-            st.warning(f"⚠️ Could not load model weights: {str(e)}. Using pretrained model instead.")
-            # Load pretrained model as fallback
-            model = getattr(segmentation_models, CONFIG["model_name"])(
-                pretrained=True, num_classes=21  # Standard COCO classes
-            )
+        state_dict = torch.load(CONFIG["model_path"], map_location=CONFIG["device"])
+        model.load_state_dict(state_dict)
     else:
-        st.warning("⚠️ Model weights not found. Using pretrained model.")
-        # Load pretrained model as fallback
-        model = getattr(segmentation_models, CONFIG["model_name"])(
-            pretrained=True, num_classes=21  # Standard COCO classes
-        )
+        st.warning("Model weights not found. Using untrained model.")
     
     model.to(CONFIG["device"])
     model.eval()
