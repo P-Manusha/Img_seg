@@ -62,10 +62,22 @@ FILTERS = {
 }
 
 # ============================================================================
-# MODERN PROFESSIONAL CSS - CULT CLASSIC DESIGN
+# MODERN PROFESSIONAL CSS - GOLD & DARK BLUE THEME
 # ============================================================================
 CUSTOM_CSS = """
 <style>
+:root {
+    --primary-gold: #d4af37;
+    --primary-dark: #0a0e27;
+    --secondary-dark: #151932;
+    --accent-blue: #4a90e2;
+    --accent-purple: #9b59b6;
+    --text-light: #e8e8e8;
+    --text-muted: #a0a0a0;
+    --border-gold: rgba(212, 175, 55, 0.3);
+    --glass-bg: rgba(21, 25, 50, 0.85);
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 * {
@@ -73,23 +85,23 @@ CUSTOM_CSS = """
 }
 
 .stApp {
-    background: linear-gradient(135deg, #1a1d29 0%, #2d3748 100%);
+    background: linear-gradient(135deg, #0a0e27 0%, #151932 50%, #1a1f3a 100%);
     background-attachment: fixed;
 }
 
 /* Sophisticated header with glassmorphism */
 .modern-header {
-    background: rgba(45, 55, 72, 0.7);
+    background: rgba(21, 25, 50, 0.7);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     padding: 2rem 2.5rem;
     border-radius: 24px;
     text-align: center;
     box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 8px 32px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(212, 175, 55, 0.1);
     margin-bottom: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     position: relative;
     overflow: hidden;
 }
@@ -101,7 +113,7 @@ CUSTOM_CSS = """
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, rgba(155, 89, 182, 0.04) 70%);
     animation: rotate 20s linear infinite;
 }
 
@@ -115,13 +127,14 @@ CUSTOM_CSS = """
     font-size: 3.5rem;
     font-weight: 700;
     font-family: 'Space Grotesk', sans-serif;
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
+    background: linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #c9a227 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     letter-spacing: -1px;
     position: relative;
     z-index: 1;
+    text-transform: uppercase;
 }
 
 .modern-header p {
@@ -135,12 +148,12 @@ CUSTOM_CSS = """
 
 /* Sidebar styling */
 section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #1e293b 0%, #334155 100%);
-    border-right: 1px solid rgba(148, 163, 184, 0.1);
+    background: linear-gradient(180deg, #151932 0%, #1a1f3a 100%);
+    border-right: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 section[data-testid="stSidebar"] * {
-    color: #e2e8f0 !important;
+    color: #e8e8e8 !important;
 }
 
 section[data-testid="stSidebar"] h3 {
@@ -153,16 +166,16 @@ section[data-testid="stSidebar"] h3 {
 
 /* Left sidebar navigation */
 .sidebar-nav {
-    background: rgba(30, 41, 59, 0.6);
+    background: rgba(21, 25, 50, 0.6);
     backdrop-filter: blur(10px);
     padding: 1.5rem;
     border-radius: 16px;
     margin-bottom: 1.5rem;
-    border: 1px solid rgba(148, 163, 184, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .nav-item {
-    background: rgba(51, 65, 85, 0.5);
+    background: rgba(26, 35, 58, 0.5);
     padding: 0.8rem 1.2rem;
     border-radius: 12px;
     margin-bottom: 0.5rem;
@@ -175,86 +188,137 @@ section[data-testid="stSidebar"] h3 {
 }
 
 .nav-item:hover {
-    background: rgba(99, 102, 241, 0.2);
-    border-color: rgba(99, 102, 241, 0.3);
+    background: rgba(212, 175, 55, 0.1);
+    border-color: rgba(212, 175, 55, 0.3);
     transform: translateX(5px);
 }
 
 .nav-item.active {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
-    border-color: rgba(99, 102, 241, 0.5);
+    background: rgba(212, 175, 55, 0.2);
+    border-color: rgba(212, 175, 55, 0.5);
 }
 
 /* Main content tabs - horizontal workflow */
 .stTabs [data-baseweb="tab-list"] {
     gap: 8px;
-    background: rgba(30, 41, 59, 0.6);
+    background: rgba(21, 25, 50, 0.6);
     backdrop-filter: blur(10px);
     padding: 1rem;
     border-radius: 20px;
-    border: 1px solid rgba(148, 163, 184, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     margin-bottom: 2rem;
 }
 
 .stTabs [data-baseweb="tab"] {
     height: auto;
     min-height: 50px;
-    background: rgba(51, 65, 85, 0.5);
+    background: rgba(26, 35, 58, 0.5);
     color: #cbd5e1;
     border-radius: 14px;
     font-weight: 500;
     font-size: 0.95rem;
     padding: 0.7rem 1.8rem;
-    border: 1px solid rgba(148, 163, 184, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     transition: all 0.3s ease;
     white-space: nowrap;
 }
 
 .stTabs [data-baseweb="tab"]:hover {
-    background: rgba(99, 102, 241, 0.2);
-    border-color: rgba(99, 102, 241, 0.3);
+    background: rgba(212, 175, 55, 0.1);
+    border-color: rgba(212, 175, 55, 0.3);
     transform: translateY(-2px);
 }
 
 .stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-    color: #ffffff;
-    border-color: rgba(99, 102, 241, 0.5);
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(155, 89, 182, 0.2) 100%);
+    color: #d4af37;
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+    font-weight: 600;
 }
 
 /* Buttons */
 .stButton > button {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-    color: #ffffff;
-    border: 1px solid rgba(99, 102, 241, 0.3);
+    background: linear-gradient(135deg, #d4af37 0%, #c9a227 100%);
+    color: #0a0e27;
+    border: 1px solid rgba(212, 175, 55, 0.5);
     padding: 0.7rem 1.8rem;
     font-weight: 600;
     border-radius: 12px;
     font-size: 0.95rem;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
     transition: all 0.3s ease;
 }
 
 .stButton > button:hover {
-    background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+    background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
     transform: translateY(-2px);
+}
+
+/* Special button styling for specific buttons */
+button[key="bg_Transparent"],
+button[key="bg_White"],
+button[key="bg_Black"],
+button[key="bg_Blur"],
+button[key="bg_Custom Color"],
+button[key="bg_Custom Image"],
+button[key="toggle_presets"],
+button[key^="preset_Background"] {
+    background: rgba(21, 25, 50, 0.6) !important;
+    backdrop-filter: blur(10px) !important;
+    color: #e8e8e8 !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    padding: 1.5rem !important;
+    border-radius: 16px !important;
+    margin-bottom: 1.5rem !important;
+    box-shadow: none !important;
+}
+
+button[key="bg_Transparent"]:hover,
+button[key="bg_White"]:hover,
+button[key="bg_Black"]:hover,
+button[key="bg_Blur"]:hover,
+button[key="bg_Custom Color"]:hover,
+button[key="bg_Custom Image"]:hover,
+button[key="toggle_presets"]:hover,
+button[key^="preset_Background"]:hover {
+    background: rgba(21, 25, 50, 0.8) !important;
+    border-color: rgba(212, 175, 55, 0.4) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Specific styling for Save Project, Load, and Delete buttons */
+section[data-testid="stSidebar"] button[kind="primary"] {
+    background: rgba(21, 25, 50, 0.6) !important;
+    backdrop-filter: blur(10px) !important;
+    color: #e8e8e8 !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    padding: 0.8rem 1.5rem !important;
+    border-radius: 16px !important;
+    margin-bottom: 0.5rem !important;
+    box-shadow: none !important;
+}
+
+section[data-testid="stSidebar"] button[kind="primary"]:hover {
+    background: rgba(21, 25, 50, 0.8) !important;
+    border-color: rgba(212, 175, 55, 0.4) !important;
+    transform: translateY(-2px) !important;
 }
 
 /* File uploader */
 section[data-testid="stFileUploadDropzone"] {
-    background: rgba(30, 41, 59, 0.4) !important;
+    background: rgba(21, 25, 50, 0.4) !important;
     backdrop-filter: blur(10px) !important;
-    border: 2px dashed rgba(99, 102, 241, 0.3) !important;
+    border: 2px dashed rgba(212, 175, 55, 0.3) !important;
     border-radius: 20px !important;
     padding: 3rem !important;
     transition: all 0.3s ease !important;
 }
 
 section[data-testid="stFileUploadDropzone"]:hover {
-    border-color: rgba(99, 102, 241, 0.6) !important;
-    background: rgba(30, 41, 59, 0.6) !important;
+    border-color: rgba(212, 175, 55, 0.6) !important;
+    background: rgba(21, 25, 50, 0.6) !important;
 }
 
 /* Process flow indicator */
@@ -262,12 +326,12 @@ section[data-testid="stFileUploadDropzone"]:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(30, 41, 59, 0.6);
+    background: rgba(21, 25, 50, 0.6);
     backdrop-filter: blur(10px);
     padding: 2rem;
     border-radius: 20px;
     margin: 2rem 0;
-    border: 1px solid rgba(148, 163, 184, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .flow-step {
@@ -282,25 +346,28 @@ section[data-testid="stFileUploadDropzone"]:hover {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: rgba(51, 65, 85, 0.8);
+    background: rgba(26, 35, 58, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
     margin-bottom: 0.8rem;
-    border: 2px solid rgba(148, 163, 184, 0.2);
+    border: 2px solid rgba(212, 175, 55, 0.2);
     transition: all 0.4s ease;
+    color: #d4af37;
+    font-weight: 600;
 }
 
 .flow-step.active .flow-icon {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-    border-color: rgba(99, 102, 241, 0.5);
-    box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+    background: linear-gradient(135deg, #d4af37 0%, #c9a227 100%);
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
     transform: scale(1.1);
+    color: #0a0e27;
 }
 
 .flow-label {
-    color: #94a3b8;
+    color: #a0a0a0;
     font-weight: 500;
     font-size: 0.9rem;
     text-transform: uppercase;
@@ -308,13 +375,13 @@ section[data-testid="stFileUploadDropzone"]:hover {
 }
 
 .flow-step.active .flow-label {
-    color: #a78bfa;
+    color: #d4af37;
     font-weight: 600;
 }
 
 .flow-connector {
     height: 3px;
-    background: linear-gradient(90deg, rgba(99, 102, 241, 0.2) 0%, rgba(148, 163, 184, 0.3) 100%);
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.2) 0%, rgba(155, 89, 182, 0.2) 100%);
     flex: 1;
     margin: 0 1rem;
     align-self: flex-start;
@@ -323,11 +390,11 @@ section[data-testid="stFileUploadDropzone"]:hover {
 
 /* Settings panel */
 .settings-panel {
-    background: rgba(30, 41, 59, 0.6);
+    background: rgba(21, 25, 50, 0.6);
     backdrop-filter: blur(10px);
     padding: 1.5rem;
     border-radius: 16px;
-    border: 1px solid rgba(148, 163, 184, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     margin-bottom: 1.5rem;
 }
 
@@ -336,7 +403,7 @@ section[data-testid="stFileUploadDropzone"]:hover {
 }
 
 .settings-title {
-    color: #f1f5f9;
+    color: #d4af37;
     font-weight: 600;
     font-size: 0.95rem;
     margin-bottom: 1rem;
@@ -349,32 +416,32 @@ section[data-testid="stSidebar"] .stNumberInput input,
 section[data-testid="stSidebar"] .stSelectbox select,
 section[data-testid="stSidebar"] input[type="text"],
 section[data-testid="stSidebar"] textarea {
-    background: rgba(51, 65, 85, 0.5) !important;
-    border: 1px solid rgba(148, 163, 184, 0.2) !important;
+    background: rgba(26, 35, 58, 0.5) !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
     border-radius: 10px !important;
-    color: #f1f5f9 !important;
+    color: #e8e8e8 !important;
     padding: 0.6rem !important;
 }
 
 /* Sliders */
 .stSlider [data-baseweb="slider"] {
-    background: rgba(30, 41, 59, 0.4);
+    background: rgba(21, 25, 50, 0.4);
     padding: 0.8rem;
     border-radius: 12px;
 }
 
 /* Image preview cards */
 .preview-card {
-    background: rgba(30, 41, 59, 0.6);
+    background: rgba(21, 25, 50, 0.6);
     backdrop-filter: blur(10px);
     padding: 1.5rem;
     border-radius: 16px;
-    border: 1px solid rgba(148, 163, 184, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     margin-bottom: 1.5rem;
 }
 
 .preview-header {
-    color: #f1f5f9;
+    color: #d4af37;
     font-weight: 600;
     font-size: 1.1rem;
     margin-bottom: 1rem;
@@ -387,10 +454,10 @@ section[data-testid="stSidebar"] textarea {
 .modern-footer {
     text-align: center;
     padding: 2.5rem;
-    background: rgba(30, 41, 59, 0.6);
+    background: rgba(21, 25, 50, 0.6);
     backdrop-filter: blur(10px);
     border-radius: 20px;
-    border: 1px solid rgba(148, 163, 184, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     margin-top: 3rem;
 }
 
@@ -398,36 +465,34 @@ section[data-testid="stSidebar"] textarea {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 2rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #d4af37;
     margin: 0;
+    text-transform: uppercase;
 }
 
 .modern-footer p {
-    color: #94a3b8;
+    color: #a0a0a0;
     margin-top: 0.5rem;
     font-weight: 400;
 }
 
 /* Comparison view styling */
 .comparison-controls {
-    background: rgba(30, 41, 59, 0.6);
+    background: rgba(21, 25, 50, 0.6);
     backdrop-filter: blur(10px);
     padding: 1.5rem;
     border-radius: 16px;
-    border: 1px solid rgba(148, 163, 184, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     margin-bottom: 1.5rem;
 }
 
 /* Info boxes */
 .info-box {
-    background: rgba(59, 130, 246, 0.1);
-    border: 1px solid rgba(59, 130, 246, 0.3);
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.3);
     padding: 1rem 1.5rem;
     border-radius: 12px;
-    color: #93c5fd;
+    color: #d4af37;
     margin: 1rem 0;
 }
 
@@ -449,31 +514,31 @@ section[data-testid="stSidebar"] textarea {
 }
 
 ::-webkit-scrollbar-track {
-    background: #1e293b;
+    background: #0a0e27;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #6366f1 0%, #8b5cf6 100%);
+    background: linear-gradient(180deg, #d4af37 0%, #c9a227 100%);
     border-radius: 10px;
-    border: 2px solid #1e293b;
+    border: 2px solid #0a0e27;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #7c3aed 0%, #a78bfa 100%);
+    background: linear-gradient(180deg, #f4d03f 0%, #d4af37 100%);
 }
 
 /* General text colors */
 p, span, div, label {
-    color: #cbd5e1;
+    color: #e8e8e8;
 }
 
 h4, h5, h6 {
-    color: #f1f5f9 !important;
+    color: #d4af37 !important;
     font-family: 'Space Grotesk', sans-serif !important;
 }
 
 .stCaption {
-    color: #94a3b8 !important;
+    color: #a0a0a0 !important;
     font-style: italic;
 }
 
@@ -493,25 +558,25 @@ footer {visibility: hidden;}
 
 /* Expander styling */
 .streamlit-expanderHeader {
-    background: rgba(51, 65, 85, 0.5);
+    background: rgba(26, 35, 58, 0.5);
     border-radius: 12px;
-    border: 1px solid rgba(148, 163, 184, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 /* Project cards */
 .project-card {
-    background: rgba(51, 65, 85, 0.5);
+    background: rgba(26, 35, 58, 0.5);
     backdrop-filter: blur(10px);
     padding: 1rem;
     border-radius: 12px;
-    border: 1px solid rgba(148, 163, 184, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     margin-bottom: 1rem;
     transition: all 0.3s ease;
 }
 
 .project-card:hover {
-    border-color: rgba(99, 102, 241, 0.3);
-    background: rgba(51, 65, 85, 0.7);
+    border-color: rgba(212, 175, 55, 0.3);
+    background: rgba(26, 35, 58, 0.7);
 }
 </style>
 """
@@ -541,7 +606,7 @@ def init_session_state():
         'contrast': 1.0,
         'saturation': 1.0,
         'batch_mode': False,
-        'custom_color': '#6366f1',
+        'custom_color': '#d4af37',
         'resize_percent': 100,
         'show_bg_presets': False,
         'zoom_percentage': 100,
@@ -599,7 +664,7 @@ def apply_warm_tone(img):
 @st.cache_resource
 def get_model(path=CONFIG["model_path"]):
     if not Path(path).exists():
-        st.error(f"❌ Model file not found: {path}")
+        st.error(f"Model file not found: {path}")
         st.info("Please ensure 'best_seg_model.pth' is in the root folder")
         st.stop()
 
@@ -820,7 +885,7 @@ def save_project():
                 'saturation': float(st.session_state.get('saturation', 1.0)),
                 'crop_preset': str(st.session_state.get('crop_preset', 'Freeform')),
                 'resize_percent': int(st.session_state.get('resize_percent', 100)),
-                'custom_color': str(st.session_state.get('custom_color', '#6366f1')),
+                'custom_color': str(st.session_state.get('custom_color', '#d4af37')),
             }
         }
         
@@ -867,7 +932,7 @@ def load_project(project_name):
                 st.session_state.saturation = float(settings.get('saturation', 1.0))
                 st.session_state.crop_preset = str(settings.get('crop_preset', 'Freeform'))
                 st.session_state.resize_percent = int(settings.get('resize_percent', 100))
-                st.session_state.custom_color = str(settings.get('custom_color', '#6366f1'))
+                st.session_state.custom_color = str(settings.get('custom_color', '#d4af37'))
                 st.session_state.current_project_name = project_name
                 st.session_state.current_step = 2
                 
@@ -919,81 +984,82 @@ def main():
 
     # Sidebar Configuration
     with st.sidebar:
-        st.markdown("### ⚙️ Configuration")
+        st.markdown("### Configuration")
         
-        with st.expander("🎯 Processing Settings", expanded=True):
+        with st.expander("Processing Settings", expanded=True):
             st.session_state.fg_thresh = st.slider("Detection Threshold", 0.0, 1.0, st.session_state.fg_thresh, 0.01)
             st.session_state.min_area = st.number_input("Minimum Area (px)", 1, 5000, st.session_state.min_area, 50)
         
-        with st.expander("📦 Export Settings", expanded=False):
+        with st.expander("Export Settings", expanded=False):
             export_format = st.selectbox("Format", ["PNG", "JPEG", "JPG", "WEBP"])
             quality = st.slider("Quality", 1, 100, 95) if export_format in ["JPEG", "JPG"] else 95
         
         st.markdown("---")
         
-        with st.expander("💼 Project Management", expanded=False):
-            project_name = st.text_input("📝 Project Name", value=st.session_state.get('current_project_name', ''))
+        with st.expander("Project Management", expanded=False):
+            project_name = st.text_input("Project Name", value=st.session_state.get('current_project_name', ''))
             
             if project_name != st.session_state.get('current_project_name', ''):
                 st.session_state.current_project_name = project_name
             
-            if st.button("💾 Save Project", use_container_width=True):
+            if st.button("Save Project", use_container_width=True, type="primary"):
                 if project_name.strip() and st.session_state.get('original_image') is not None:
                     if save_project():
-                        st.success(f"✅ '{project_name}' saved!")
+                        st.success(f"Project '{project_name}' saved!")
                         st.rerun()
                 else:
-                    st.warning("⚠️ Enter project name and upload an image")
+                    st.warning("Enter project name and upload an image")
             
             st.markdown("---")
             
             if st.session_state.get('saved_projects', []):
-                st.markdown("**📚 Saved Projects**")
+                st.markdown("**Saved Projects**")
                 for idx, proj in enumerate(st.session_state.saved_projects):
                     with st.container():
-                        col1, col2 = st.columns([3, 1])
-                        with col1:
-                            st.markdown(f"**{proj['name']}**")
-                            st.caption(f"🕒 {proj['timestamp']}")
-                        with col2:
-                            if st.button("📂", key=f"load_{idx}"):
-                                if load_project(proj['name']):
-                                    st.success("✅ Loaded!")
-                                    st.rerun()
+                        st.markdown(f"**{proj['name']}**")
+                        st.caption(f"{proj['timestamp']}")
                         
-                        if st.button("🗑️ Delete", key=f"del_{idx}", use_container_width=True):
-                            delete_project(proj['name'])
-                            st.success("🗑️ Deleted!")
-                            st.rerun()
+                        col1, col2 = st.columns(2)
+                        with col1:
+                            if st.button("Load", key=f"load_{idx}", use_container_width=True, type="primary"):
+                                if load_project(proj['name']):
+                                    st.success("Loaded!")
+                                    st.rerun()
+                        with col2:
+                            if st.button("🗑️", key=f"del_{idx}", use_container_width=True, type="primary"):
+                                delete_project(proj['name'])
+                                st.success("Deleted!")
+                                st.rerun()
+                        
                         st.markdown("---")
 
     # Process Flow Indicator
     st.markdown(f"""
     <div class="process-flow">
         <div class="flow-step {'active' if st.session_state.current_step == 1 else ''}">
-            <div class="flow-icon">📤</div>
+            <div class="flow-icon">1</div>
             <div class="flow-label">Upload</div>
         </div>
         <div class="flow-connector"></div>
         <div class="flow-step {'active' if st.session_state.current_step == 2 else ''}">
-            <div class="flow-icon">🎯</div>
+            <div class="flow-icon">2</div>
             <div class="flow-label">Process</div>
         </div>
         <div class="flow-connector"></div>
         <div class="flow-step {'active' if st.session_state.current_step == 3 else ''}">
-            <div class="flow-icon">🎨</div>
+            <div class="flow-icon">3</div>
             <div class="flow-label">Customize</div>
         </div>
         <div class="flow-connector"></div>
         <div class="flow-step {'active' if st.session_state.current_step == 4 else ''}">
-            <div class="flow-icon">💾</div>
+            <div class="flow-icon">4</div>
             <div class="flow-label">Export</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
     # Upload Section
-    st.markdown("### 📤 Upload Your Image")
+    st.markdown("### Upload Your Image")
     
     uploaded_files = st.file_uploader(
         "Drop your images here or click to browse",
@@ -1013,7 +1079,7 @@ def main():
             for file in uploaded_files:
                 img = Image.open(file).convert("RGB")
                 st.session_state.uploaded_images.append(np.array(img))
-            st.success(f"✅ {len(uploaded_files)} images uploaded successfully!")
+            st.success(f"{len(uploaded_files)} images uploaded successfully!")
             st.session_state.current_step = 2
         else:
             img = Image.open(uploaded_files).convert("RGB")
@@ -1021,18 +1087,16 @@ def main():
             st.session_state.current_image = np.array(img)
             st.session_state.current_step = 2
 
-            with st.spinner("🔍 AI is detecting the subject..."):
+            with st.spinner("AI is detecting the subject..."):
                 prob = predict_mask(model, st.session_state.original_image, CONFIG["device"], CONFIG["img_size"])
                 st.session_state.prob_map = prob
                 mask = postprocess_mask(prob, st.session_state.fg_thresh, st.session_state.min_area)
                 st.session_state.mask = (mask > 127).astype(np.uint8)
-            
-            st.success("✅ Subject detected successfully!")
 
     # Main Editing Interface
     if st.session_state.current_image is not None and st.session_state.mask is not None:
         
-        tabs = st.tabs(["🎨 Background", "🎛️ Enhancement", "✂️ Crop & Resize", "🔍 Compare", "💾 Export"])
+        tabs = st.tabs(["Background", "Enhancement", "Crop & Resize", "Compare", "Export"])
 
         # Background Tab
         with tabs[0]:
@@ -1045,12 +1109,12 @@ def main():
                 st.markdown("#### Choose Style")
                 
                 bg_options = {
-                    "✨ Transparent": "Transparent",
-                    "⚪ White": "White", 
-                    "⚫ Black": "Black",
-                    "💫 Blur": "Blur",
-                    "🎨 Custom Color": "Custom Color",
-                    "🖼️ Custom Image": "Custom Image"
+                    "Transparent": "Transparent",
+                    "White": "White", 
+                    "Black": "Black",
+                    "Blur": "Blur",
+                    "Custom Color": "Custom Color",
+                    "Custom Image": "Custom Image"
                 }
                 
                 for label, mode in bg_options.items():
@@ -1059,7 +1123,7 @@ def main():
                         st.session_state.current_step = 3
                         st.rerun()
                 
-                if st.button("📚 Preset Backgrounds", key="toggle_presets", use_container_width=True):
+                if st.button("Preset Backgrounds", key="toggle_presets", use_container_width=True):
                     st.session_state.show_bg_presets = not st.session_state.show_bg_presets
                     st.rerun()
                 
@@ -1085,7 +1149,7 @@ def main():
             
             with col_preview:
                 st.markdown('<div class="preview-card">', unsafe_allow_html=True)
-                st.markdown('<div class="preview-header">🖼️ Live Preview</div>', unsafe_allow_html=True)
+                st.markdown('<div class="preview-header">Live Preview</div>', unsafe_allow_html=True)
                 
                 bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
                 result_pil = apply_background(st.session_state.current_image, st.session_state.mask, 
@@ -1106,20 +1170,20 @@ def main():
             with col_controls:
                 st.markdown('<div class="settings-panel">', unsafe_allow_html=True)
                 
-                st.markdown("#### 🎨 Filter Presets")
+                st.markdown("#### Filter Presets")
                 st.session_state.filter_type = st.selectbox("Select Filter", list(FILTERS.keys()))
                 
                 st.markdown("---")
-                st.markdown("#### ⚡ Adjustments")
-                st.session_state.brightness = st.slider("☀️ Brightness", 0.0, 2.0, st.session_state.brightness, 0.1)
-                st.session_state.contrast = st.slider("🔆 Contrast", 0.0, 2.0, st.session_state.contrast, 0.1)
-                st.session_state.saturation = st.slider("🌈 Saturation", 0.0, 2.0, st.session_state.saturation, 0.1)
+                st.markdown("#### Adjustments")
+                st.session_state.brightness = st.slider("Brightness", 0.0, 2.0, st.session_state.brightness, 0.1)
+                st.session_state.contrast = st.slider("Contrast", 0.0, 2.0, st.session_state.contrast, 0.1)
+                st.session_state.saturation = st.slider("Saturation", 0.0, 2.0, st.session_state.saturation, 0.1)
                 
                 st.markdown('</div>', unsafe_allow_html=True)
             
             with col_preview:
                 st.markdown('<div class="preview-card">', unsafe_allow_html=True)
-                st.markdown('<div class="preview-header">✨ Enhanced Preview</div>', unsafe_allow_html=True)
+                st.markdown('<div class="preview-header">Enhanced Preview</div>', unsafe_allow_html=True)
                 
                 bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
                 result_pil = apply_background(st.session_state.current_image, st.session_state.mask,
@@ -1141,11 +1205,11 @@ def main():
             with col_settings:
                 st.markdown('<div class="settings-panel">', unsafe_allow_html=True)
                 
-                st.markdown("#### ✂️ Crop Presets")
+                st.markdown("#### Crop Presets")
                 st.session_state.crop_preset = st.selectbox("Select Aspect Ratio", list(CROP_PRESETS.keys()))
                 
                 st.markdown("---")
-                st.markdown("#### 📐 Resize")
+                st.markdown("#### Resize")
                 
                 orig_h, orig_w = st.session_state.current_image.shape[:2]
                 st.caption(f"Original: {orig_w} × {orig_h} px")
@@ -1159,7 +1223,7 @@ def main():
             
             with col_preview:
                 st.markdown('<div class="preview-card">', unsafe_allow_html=True)
-                st.markdown('<div class="preview-header">✂️ Cropped Preview</div>', unsafe_allow_html=True)
+                st.markdown('<div class="preview-header">Cropped Preview</div>', unsafe_allow_html=True)
                 
                 bg_path = BG_IMAGE_PATHS.get(st.session_state.extraction_mode)
                 result_pil = apply_background(st.session_state.current_image, st.session_state.mask,
@@ -1205,7 +1269,7 @@ def main():
                 
                 with col1:
                     st.markdown('<div class="preview-card">', unsafe_allow_html=True)
-                    st.markdown('<div class="preview-header">📷 Original</div>', unsafe_allow_html=True)
+                    st.markdown('<div class="preview-header">Original</div>', unsafe_allow_html=True)
                     original_img = Image.fromarray(st.session_state.original_image)
                     display_orig = original_img.copy()
                     display_orig.thumbnail((600, 600), Image.LANCZOS)
@@ -1214,7 +1278,7 @@ def main():
                 
                 with col2:
                     st.markdown('<div class="preview-card">', unsafe_allow_html=True)
-                    st.markdown('<div class="preview-header">✨ Processed</div>', unsafe_allow_html=True)
+                    st.markdown('<div class="preview-header">Processed</div>', unsafe_allow_html=True)
                     display_result = result_pil.copy()
                     display_result.thumbnail((600, 600), Image.LANCZOS)
                     st.image(display_result, use_container_width=True)
@@ -1279,25 +1343,25 @@ def main():
                 final_result = final_result.resize((new_w, new_h), Image.LANCZOS)
             
             st.markdown('<div class="preview-card">', unsafe_allow_html=True)
-            st.markdown('<div class="preview-header">🎉 Final Result</div>', unsafe_allow_html=True)
+            st.markdown('<div class="preview-header">Final Result</div>', unsafe_allow_html=True)
             display_final = final_result.copy()
             display_final.thumbnail((900, 700), Image.LANCZOS)
             st.image(display_final, use_container_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
             
             st.markdown("---")
-            st.markdown("### 📥 Download Options")
+            st.markdown("### Download Options")
             
             col1, col2, col3 = st.columns(3)
             
             with col1:
-                get_download_button(final_result, export_format, quality, "⬇️ Download Final",
+                get_download_button(final_result, export_format, quality, "Download Final",
                                   f"oneview_final.{export_format.lower()}", "download_final")
             
             with col2:
                 buf_orig = BytesIO()
                 Image.fromarray(st.session_state.original_image).save(buf_orig, format="PNG")
-                st.download_button("📥 Download Original", buf_orig.getvalue(), "original.png",
+                st.download_button("Download Original", buf_orig.getvalue(), "original.png",
                                  "image/png", key="download_orig", use_container_width=True)
             
             with col3:
@@ -1309,7 +1373,7 @@ def main():
                 comparison = np.concatenate([np.array(original_img), np.array(result_rgb)], axis=1)
                 buf_comp = BytesIO()
                 Image.fromarray(comparison).save(buf_comp, format="PNG")
-                st.download_button("📊 Download Comparison", buf_comp.getvalue(), "comparison.png",
+                st.download_button("Download Comparison", buf_comp.getvalue(), "comparison.png",
                                  "image/png", key="download_comp", use_container_width=True)
             
             st.session_state.current_step = 4
@@ -1320,7 +1384,7 @@ def main():
     <div class="modern-footer">
         <h3>OneView</h3>
         <p>Professional AI-Powered Image Processing Solution</p>
-        <p style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.7;">Developed by Manusha</p>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.8; color: #d4af37;">Developed by Manusha</p>
     </div>
     """, unsafe_allow_html=True)
 
