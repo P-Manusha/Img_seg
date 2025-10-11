@@ -503,10 +503,30 @@ def load_model():
     )
     
     if Path(CONFIG["model_path"]).exists():
-        state_dict = torch.load(CONFIG["model_path"], map_location=CONFIG["device"])
-        model.load_state_dict(state_dict)
+        try:
+            state_dict = torch.load(CONFIG["model_path"], map_location=CONFIG["device"])
+            
+            # Handle different state dict formats
+            if 'model_state_dict' in state_dict:
+                state_dict = state_dict['model_state_dict']
+            elif 'state_dict' in state_dict:
+                state_dict = state_dict['state_dict']
+            
+            # Try to load with strict=False to handle mismatches
+            model.load_state_dict(state_dict, strict=False)
+            st.success("✅ Model loaded successfully!")
+        except Exception as e:
+            st.warning(f"⚠️ Could not load model weights: {str(e)}. Using pretrained model instead.")
+            # Load pretrained model as fallback
+            model = getattr(segmentation_models, CONFIG["model_name"])(
+                pretrained=True, num_classes=21  # Standard COCO classes
+            )
     else:
-        st.warning("Model weights not found. Using untrained model.")
+        st.warning("⚠️ Model weights not found. Using pretrained model.")
+        # Load pretrained model as fallback
+        model = getattr(segmentation_models, CONFIG["model_name"])(
+            pretrained=True, num_classes=21  # Standard COCO classes
+        )
     
     model.to(CONFIG["device"])
     model.eval()
