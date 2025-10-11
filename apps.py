@@ -272,6 +272,7 @@ button[key^="preset_Background"] {
     padding: 1.5rem !important;
     border-radius: 16px !important;
     margin-bottom: 1.5rem !important;
+    box-shadow: none !important;
 }
 
 button[key="bg_Transparent"]:hover,
@@ -282,6 +283,24 @@ button[key="bg_Custom Color"]:hover,
 button[key="bg_Custom Image"]:hover,
 button[key="toggle_presets"]:hover,
 button[key^="preset_Background"]:hover {
+    background: rgba(21, 25, 50, 0.8) !important;
+    border-color: rgba(212, 175, 55, 0.4) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Specific styling for Save Project, Load, and Delete buttons */
+section[data-testid="stSidebar"] button[kind="primary"] {
+    background: rgba(21, 25, 50, 0.6) !important;
+    backdrop-filter: blur(10px) !important;
+    color: #e8e8e8 !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    padding: 0.8rem 1.5rem !important;
+    border-radius: 16px !important;
+    margin-bottom: 0.5rem !important;
+    box-shadow: none !important;
+}
+
+section[data-testid="stSidebar"] button[kind="primary"]:hover {
     background: rgba(21, 25, 50, 0.8) !important;
     border-color: rgba(212, 175, 55, 0.4) !important;
     transform: translateY(-2px) !important;
@@ -983,7 +1002,7 @@ def main():
             if project_name != st.session_state.get('current_project_name', ''):
                 st.session_state.current_project_name = project_name
             
-            if st.button("Save Project", use_container_width=True):
+            if st.button("Save Project", use_container_width=True, type="primary"):
                 if project_name.strip() and st.session_state.get('original_image') is not None:
                     if save_project():
                         st.success(f"Project '{project_name}' saved!")
@@ -1000,15 +1019,14 @@ def main():
                         st.markdown(f"**{proj['name']}**")
                         st.caption(f"{proj['timestamp']}")
                         
-                        # Load and Delete buttons side by side
                         col1, col2 = st.columns(2)
                         with col1:
-                            if st.button("Load", key=f"load_{idx}", use_container_width=True):
+                            if st.button("Load", key=f"load_{idx}", use_container_width=True, type="primary"):
                                 if load_project(proj['name']):
                                     st.success("Loaded!")
                                     st.rerun()
                         with col2:
-                            if st.button("Delete", key=f"del_{idx}", use_container_width=True):
+                            if st.button("Delete", key=f"del_{idx}", use_container_width=True, type="primary"):
                                 delete_project(proj['name'])
                                 st.success("Deleted!")
                                 st.rerun()
