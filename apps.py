@@ -62,22 +62,21 @@ FILTERS = {
 }
 
 # ============================================================================
-# MODERN PROFESSIONAL CSS - ENHANCED COLOR PALETTE
+# MODERN PROFESSIONAL CSS - PREMIUM GOLD & DARK BLUE THEME
 # ============================================================================
 CUSTOM_CSS = """
 <style>
 :root {
-    --primary-purple: #6d28d9;
-    --primary-dark: #0f0f1e;
-    --secondary-dark: #1a1a2e;
-    --tertiary-dark: #2d3748;
-    --accent-blue: #3b82f6;
-    --accent-cyan: #06b6d4;
-    --accent-violet: #a78bfa;
-    --text-light: #f0f4f8;
-    --text-muted: #9ca3af;
-    --border-accent: rgba(59, 130, 246, 0.3);
-    --glass-bg: rgba(26, 26, 46, 0.85);
+    --primary-gold: #d4af37;
+    --primary-dark: #0a0e27;
+    --secondary-dark: #151932;
+    --tertiary-dark: #1a1f3a;
+    --accent-blue: #4a90e2;
+    --accent-purple: #9b59b6;
+    --text-light: #e8e8e8;
+    --text-muted: #a0a0a0;
+    --border-gold: rgba(212, 175, 55, 0.3);
+    --glass-bg: rgba(21, 25, 50, 0.85);
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
@@ -87,23 +86,23 @@ CUSTOM_CSS = """
 }
 
 .stApp {
-    background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #2d1b4e 100%);
+    background: linear-gradient(135deg, #0a0e27 0%, #151932 50%, #1a1f3a 100%);
     background-attachment: fixed;
 }
 
 /* Sophisticated header with glassmorphism */
 .modern-header {
-    background: rgba(45, 55, 72, 0.7);
+    background: rgba(21, 25, 50, 0.7);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     padding: 2rem 2.5rem;
     border-radius: 24px;
     text-align: center;
     box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 8px 32px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(212, 175, 55, 0.1);
     margin-bottom: 2rem;
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.3);
     position: relative;
     overflow: hidden;
 }
@@ -115,7 +114,7 @@ CUSTOM_CSS = """
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(109, 40, 217, 0.05) 70%);
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, rgba(155, 89, 182, 0.04) 70%);
     animation: rotate 20s linear infinite;
 }
 
@@ -129,13 +128,14 @@ CUSTOM_CSS = """
     font-size: 3.5rem;
     font-weight: 700;
     font-family: 'Space Grotesk', sans-serif;
-    background: linear-gradient(135deg, #3b82f6 0%, #6d28d9 50%, #06b6d4 100%);
+    background: linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #c9a227 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     letter-spacing: -1px;
     position: relative;
     z-index: 1;
+    text-transform: uppercase;
 }
 
 .modern-header p {
@@ -149,12 +149,12 @@ CUSTOM_CSS = """
 
 /* Sidebar styling */
 section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #1a1a2e 0%, #2d1b4e 100%);
-    border-right: 1px solid rgba(59, 130, 246, 0.2);
+    background: linear-gradient(180deg, #151932 0%, #1a1f3a 100%);
+    border-right: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 section[data-testid="stSidebar"] * {
-    color: #e2e8f0 !important;
+    color: #e8e8e8 !important;
 }
 
 section[data-testid="stSidebar"] h3 {
@@ -167,16 +167,16 @@ section[data-testid="stSidebar"] h3 {
 
 /* Left sidebar navigation */
 .sidebar-nav {
-    background: rgba(26, 26, 46, 0.6);
+    background: rgba(21, 25, 50, 0.6);
     backdrop-filter: blur(10px);
     padding: 1.5rem;
     border-radius: 16px;
     margin-bottom: 1.5rem;
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .nav-item {
-    background: rgba(45, 55, 72, 0.5);
+    background: rgba(26, 35, 58, 0.5);
     padding: 0.8rem 1.2rem;
     border-radius: 12px;
     margin-bottom: 0.5rem;
@@ -189,86 +189,87 @@ section[data-testid="stSidebar"] h3 {
 }
 
 .nav-item:hover {
-    background: rgba(59, 130, 246, 0.2);
-    border-color: rgba(59, 130, 246, 0.3);
+    background: rgba(212, 175, 55, 0.1);
+    border-color: rgba(212, 175, 55, 0.3);
     transform: translateX(5px);
 }
 
 .nav-item.active {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(109, 40, 217, 0.3) 100%);
-    border-color: rgba(59, 130, 246, 0.5);
+    background: rgba(212, 175, 55, 0.2);
+    border-color: rgba(212, 175, 55, 0.5);
 }
 
 /* Main content tabs - horizontal workflow */
 .stTabs [data-baseweb="tab-list"] {
     gap: 8px;
-    background: rgba(26, 26, 46, 0.6);
+    background: rgba(21, 25, 50, 0.6);
     backdrop-filter: blur(10px);
     padding: 1rem;
     border-radius: 20px;
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     margin-bottom: 2rem;
 }
 
 .stTabs [data-baseweb="tab"] {
     height: auto;
     min-height: 50px;
-    background: rgba(45, 55, 72, 0.5);
+    background: rgba(26, 35, 58, 0.5);
     color: #cbd5e1;
     border-radius: 14px;
     font-weight: 500;
     font-size: 0.95rem;
     padding: 0.7rem 1.8rem;
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     transition: all 0.3s ease;
     white-space: nowrap;
 }
 
 .stTabs [data-baseweb="tab"]:hover {
-    background: rgba(59, 130, 246, 0.2);
-    border-color: rgba(59, 130, 246, 0.3);
+    background: rgba(212, 175, 55, 0.1);
+    border-color: rgba(212, 175, 55, 0.3);
     transform: translateY(-2px);
 }
 
 .stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, #3b82f6 0%, #6d28d9 100%);
-    color: #ffffff;
-    border-color: rgba(59, 130, 246, 0.5);
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(155, 89, 182, 0.2) 100%);
+    color: #d4af37;
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+    font-weight: 600;
 }
 
 /* Buttons */
 .stButton > button {
-    background: linear-gradient(135deg, #3b82f6 0%, #6d28d9 100%);
-    color: #ffffff;
-    border: 1px solid rgba(59, 130, 246, 0.3);
+    background: linear-gradient(135deg, #d4af37 0%, #c9a227 100%);
+    color: #0a0e27;
+    border: 1px solid rgba(212, 175, 55, 0.5);
     padding: 0.7rem 1.8rem;
     font-weight: 600;
     border-radius: 12px;
     font-size: 0.95rem;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
     transition: all 0.3s ease;
 }
 
 .stButton > button:hover {
-    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
     transform: translateY(-2px);
 }
 
 /* File uploader */
 section[data-testid="stFileUploadDropzone"] {
-    background: rgba(26, 26, 46, 0.4) !important;
+    background: rgba(21, 25, 50, 0.4) !important;
     backdrop-filter: blur(10px) !important;
-    border: 2px dashed rgba(59, 130, 246, 0.3) !important;
+    border: 2px dashed rgba(212, 175, 55, 0.3) !important;
     border-radius: 20px !important;
     padding: 3rem !important;
     transition: all 0.3s ease !important;
 }
 
 section[data-testid="stFileUploadDropzone"]:hover {
-    border-color: rgba(59, 130, 246, 0.6) !important;
-    background: rgba(26, 26, 46, 0.6) !important;
+    border-color: rgba(212, 175, 55, 0.6) !important;
+    background: rgba(21, 25, 50, 0.6) !important;
 }
 
 /* Process flow indicator */
@@ -276,12 +277,12 @@ section[data-testid="stFileUploadDropzone"]:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(26, 26, 46, 0.6);
+    background: rgba(21, 25, 50, 0.6);
     backdrop-filter: blur(10px);
     padding: 2rem;
     border-radius: 20px;
     margin: 2rem 0;
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .flow-step {
@@ -296,25 +297,28 @@ section[data-testid="stFileUploadDropzone"]:hover {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: rgba(45, 55, 72, 0.8);
+    background: rgba(26, 35, 58, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
     margin-bottom: 0.8rem;
-    border: 2px solid rgba(59, 130, 246, 0.2);
+    border: 2px solid rgba(212, 175, 55, 0.2);
     transition: all 0.4s ease;
+    color: #d4af37;
+    font-weight: 600;
 }
 
 .flow-step.active .flow-icon {
-    background: linear-gradient(135deg, #3b82f6 0%, #6d28d9 100%);
-    border-color: rgba(59, 130, 246, 0.5);
-    box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+    background: linear-gradient(135deg, #d4af37 0%, #c9a227 100%);
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
     transform: scale(1.1);
+    color: #0a0e27;
 }
 
 .flow-label {
-    color: #94a3b8;
+    color: #a0a0a0;
     font-weight: 500;
     font-size: 0.9rem;
     text-transform: uppercase;
@@ -322,13 +326,13 @@ section[data-testid="stFileUploadDropzone"]:hover {
 }
 
 .flow-step.active .flow-label {
-    color: #a78bfa;
+    color: #d4af37;
     font-weight: 600;
 }
 
 .flow-connector {
     height: 3px;
-    background: linear-gradient(90deg, rgba(59, 130, 246, 0.2) 0%, rgba(109, 40, 217, 0.2) 100%);
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.2) 0%, rgba(155, 89, 182, 0.2) 100%);
     flex: 1;
     margin: 0 1rem;
     align-self: flex-start;
@@ -337,11 +341,11 @@ section[data-testid="stFileUploadDropzone"]:hover {
 
 /* Settings panel */
 .settings-panel {
-    background: rgba(26, 26, 46, 0.6);
+    background: rgba(21, 25, 50, 0.6);
     backdrop-filter: blur(10px);
     padding: 1.5rem;
     border-radius: 16px;
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     margin-bottom: 1.5rem;
 }
 
@@ -350,7 +354,7 @@ section[data-testid="stFileUploadDropzone"]:hover {
 }
 
 .settings-title {
-    color: #f1f5f9;
+    color: #d4af37;
     font-weight: 600;
     font-size: 0.95rem;
     margin-bottom: 1rem;
@@ -363,32 +367,32 @@ section[data-testid="stSidebar"] .stNumberInput input,
 section[data-testid="stSidebar"] .stSelectbox select,
 section[data-testid="stSidebar"] input[type="text"],
 section[data-testid="stSidebar"] textarea {
-    background: rgba(45, 55, 72, 0.5) !important;
-    border: 1px solid rgba(59, 130, 246, 0.2) !important;
+    background: rgba(26, 35, 58, 0.5) !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
     border-radius: 10px !important;
-    color: #f1f5f9 !important;
+    color: #e8e8e8 !important;
     padding: 0.6rem !important;
 }
 
 /* Sliders */
 .stSlider [data-baseweb="slider"] {
-    background: rgba(26, 26, 46, 0.4);
+    background: rgba(21, 25, 50, 0.4);
     padding: 0.8rem;
     border-radius: 12px;
 }
 
 /* Image preview cards */
 .preview-card {
-    background: rgba(26, 26, 46, 0.6);
+    background: rgba(21, 25, 50, 0.6);
     backdrop-filter: blur(10px);
     padding: 1.5rem;
     border-radius: 16px;
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     margin-bottom: 1.5rem;
 }
 
 .preview-header {
-    color: #f1f5f9;
+    color: #d4af37;
     font-weight: 600;
     font-size: 1.1rem;
     margin-bottom: 1rem;
@@ -401,10 +405,10 @@ section[data-testid="stSidebar"] textarea {
 .modern-footer {
     text-align: center;
     padding: 2.5rem;
-    background: rgba(26, 26, 46, 0.6);
+    background: rgba(21, 25, 50, 0.6);
     backdrop-filter: blur(10px);
     border-radius: 20px;
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     margin-top: 3rem;
 }
 
@@ -412,36 +416,34 @@ section[data-testid="stSidebar"] textarea {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 2rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #3b82f6 0%, #a78bfa 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #d4af37;
     margin: 0;
+    text-transform: uppercase;
 }
 
 .modern-footer p {
-    color: #94a3b8;
+    color: #a0a0a0;
     margin-top: 0.5rem;
     font-weight: 400;
 }
 
 /* Comparison view styling */
 .comparison-controls {
-    background: rgba(26, 26, 46, 0.6);
+    background: rgba(21, 25, 50, 0.6);
     backdrop-filter: blur(10px);
     padding: 1.5rem;
     border-radius: 16px;
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     margin-bottom: 1.5rem;
 }
 
 /* Info boxes */
 .info-box {
-    background: rgba(59, 130, 246, 0.1);
-    border: 1px solid rgba(59, 130, 246, 0.3);
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.3);
     padding: 1rem 1.5rem;
     border-radius: 12px;
-    color: #93c5fd;
+    color: #d4af37;
     margin: 1rem 0;
 }
 
@@ -463,31 +465,31 @@ section[data-testid="stSidebar"] textarea {
 }
 
 ::-webkit-scrollbar-track {
-    background: #0f0f1e;
+    background: #0a0e27;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #3b82f6 0%, #6d28d9 100%);
+    background: linear-gradient(180deg, #d4af37 0%, #c9a227 100%);
     border-radius: 10px;
-    border: 2px solid #0f0f1e;
+    border: 2px solid #0a0e27;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #2563eb 0%, #7c3aed 100%);
+    background: linear-gradient(180deg, #f4d03f 0%, #d4af37 100%);
 }
 
 /* General text colors */
 p, span, div, label {
-    color: #cbd5e1;
+    color: #e8e8e8;
 }
 
 h4, h5, h6 {
-    color: #f1f5f9 !important;
+    color: #d4af37 !important;
     font-family: 'Space Grotesk', sans-serif !important;
 }
 
 .stCaption {
-    color: #94a3b8 !important;
+    color: #a0a0a0 !important;
     font-style: italic;
 }
 
@@ -507,25 +509,25 @@ footer {visibility: hidden;}
 
 /* Expander styling */
 .streamlit-expanderHeader {
-    background: rgba(45, 55, 72, 0.5);
+    background: rgba(26, 35, 58, 0.5);
     border-radius: 12px;
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 /* Project cards */
 .project-card {
-    background: rgba(45, 55, 72, 0.5);
+    background: rgba(26, 35, 58, 0.5);
     backdrop-filter: blur(10px);
     padding: 1rem;
     border-radius: 12px;
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     margin-bottom: 1rem;
     transition: all 0.3s ease;
 }
 
 .project-card:hover {
-    border-color: rgba(59, 130, 246, 0.3);
-    background: rgba(45, 55, 72, 0.7);
+    border-color: rgba(212, 175, 55, 0.3);
+    background: rgba(26, 35, 58, 0.7);
 }
 </style>
 """
@@ -555,7 +557,7 @@ def init_session_state():
         'contrast': 1.0,
         'saturation': 1.0,
         'batch_mode': False,
-        'custom_color': '#3b82f6',
+        'custom_color': '#d4af37',
         'resize_percent': 100,
         'show_bg_presets': False,
         'zoom_percentage': 100,
@@ -834,7 +836,7 @@ def save_project():
                 'saturation': float(st.session_state.get('saturation', 1.0)),
                 'crop_preset': str(st.session_state.get('crop_preset', 'Freeform')),
                 'resize_percent': int(st.session_state.get('resize_percent', 100)),
-                'custom_color': str(st.session_state.get('custom_color', '#3b82f6')),
+                'custom_color': str(st.session_state.get('custom_color', '#d4af37')),
             }
         }
         
@@ -881,7 +883,7 @@ def load_project(project_name):
                 st.session_state.saturation = float(settings.get('saturation', 1.0))
                 st.session_state.crop_preset = str(settings.get('crop_preset', 'Freeform'))
                 st.session_state.resize_percent = int(settings.get('resize_percent', 100))
-                st.session_state.custom_color = str(settings.get('custom_color', '#3b82f6'))
+                st.session_state.custom_color = str(settings.get('custom_color', '#d4af37'))
                 st.session_state.current_project_name = project_name
                 st.session_state.current_step = 2
                 
@@ -913,7 +915,7 @@ def main():
     init_session_state()
 
     st.set_page_config(
-        page_title="OneView - Professional Image Editor",
+        page_title="OneView Pro - Premium Image Studio",
         page_icon="🎨",
         layout="wide",
         initial_sidebar_state="expanded"
@@ -926,8 +928,8 @@ def main():
     # Modern Header
     st.markdown("""
     <div class="modern-header">
-        <h1>OneView</h1>
-        <p>Professional AI-Powered Background Removal & Image Enhancement</p>
+        <h1>OneView Pro</h1>
+        <p>Premium Image Studio - AI-Powered Excellence in Every Pixel</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -1332,9 +1334,9 @@ def main():
     st.markdown("---")
     st.markdown("""
     <div class="modern-footer">
-        <h3>OneView</h3>
-        <p>Professional AI-Powered Image Processing Solution</p>
-        <p style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.7;">Developed by Manusha</p>
+        <h3>OneView Pro</h3>
+        <p>Premium Image Studio - AI-Powered Excellence in Every Pixel</p>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.8; color: #d4af37;">Developed by Manusha</p>
     </div>
     """, unsafe_allow_html=True)
 
