@@ -256,6 +256,37 @@ section[data-testid="stSidebar"] h3 {
     transform: translateY(-2px);
 }
 
+/* Special button styling for specific buttons */
+button[key="bg_Transparent"],
+button[key="bg_White"],
+button[key="bg_Black"],
+button[key="bg_Blur"],
+button[key="bg_Custom Color"],
+button[key="bg_Custom Image"],
+button[key="toggle_presets"],
+button[key^="preset_Background"] {
+    background: rgba(21, 25, 50, 0.6) !important;
+    backdrop-filter: blur(10px) !important;
+    color: #e8e8e8 !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    padding: 1.5rem !important;
+    border-radius: 16px !important;
+    margin-bottom: 1.5rem !important;
+}
+
+button[key="bg_Transparent"]:hover,
+button[key="bg_White"]:hover,
+button[key="bg_Black"]:hover,
+button[key="bg_Blur"]:hover,
+button[key="bg_Custom Color"]:hover,
+button[key="bg_Custom Image"]:hover,
+button[key="toggle_presets"]:hover,
+button[key^="preset_Background"]:hover {
+    background: rgba(21, 25, 50, 0.8) !important;
+    border-color: rgba(212, 175, 55, 0.4) !important;
+    transform: translateY(-2px) !important;
+}
+
 /* File uploader */
 section[data-testid="stFileUploadDropzone"] {
     background: rgba(21, 25, 50, 0.4) !important;
@@ -966,20 +997,22 @@ def main():
                 st.markdown("**Saved Projects**")
                 for idx, proj in enumerate(st.session_state.saved_projects):
                     with st.container():
-                        col1, col2 = st.columns([3, 1])
+                        st.markdown(f"**{proj['name']}**")
+                        st.caption(f"{proj['timestamp']}")
+                        
+                        # Load and Delete buttons side by side
+                        col1, col2 = st.columns(2)
                         with col1:
-                            st.markdown(f"**{proj['name']}**")
-                            st.caption(f"{proj['timestamp']}")
-                        with col2:
-                            if st.button("Load", key=f"load_{idx}"):
+                            if st.button("Load", key=f"load_{idx}", use_container_width=True):
                                 if load_project(proj['name']):
                                     st.success("Loaded!")
                                     st.rerun()
+                        with col2:
+                            if st.button("Delete", key=f"del_{idx}", use_container_width=True):
+                                delete_project(proj['name'])
+                                st.success("Deleted!")
+                                st.rerun()
                         
-                        if st.button("Delete", key=f"del_{idx}", use_container_width=True):
-                            delete_project(proj['name'])
-                            st.success("Deleted!")
-                            st.rerun()
                         st.markdown("---")
 
     # Process Flow Indicator
