@@ -9,8 +9,14 @@ from pathlib import Path
 from io import BytesIO
 from scipy import ndimage as ndi
 import os
-from streamlit_image_comparison import image_comparison
 import base64
+
+# Optional: Import image comparison if available
+try:
+    from streamlit_image_comparison import image_comparison
+    HAS_IMAGE_COMPARISON = True
+except ImportError:
+    HAS_IMAGE_COMPARISON = False
 
 # ============================================================================
 # CONFIGURATION
@@ -704,40 +710,6 @@ h1, h2, h3, h4, h5, h6 {
 .fade-in-up {
     animation: fadeInUp 0.8s ease-out;
 }
-
-/* Premium Toggle Buttons */
-.toggle-group {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.toggle-btn {
-    flex: 1;
-    min-width: 150px;
-    padding: 1rem 1.5rem;
-    background: rgba(21, 25, 50, 0.8);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    border-radius: 12px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.toggle-btn:hover {
-    background: rgba(212, 175, 55, 0.2);
-    border-color: var(--primary-gold);
-    transform: translateY(-2px);
-}
-
-.toggle-btn.active {
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(244, 208, 63, 0.2));
-    border-color: var(--primary-gold);
-    color: var(--primary-gold);
-}
 </style>
 """
 
@@ -746,6 +718,7 @@ h1, h2, h3, h4, h5, h6 {
 # ============================================================================
 
 def init_session_state():
+    """Initialize all session state variables with default values"""
     defaults = {
         'uploaded_images': [],
         'current_image_idx': 0,
@@ -789,36 +762,56 @@ def init_session_state():
 # ============================================================================
 
 def apply_sepia(img):
-    arr = np.array(img).astype(np.float32)
-    sepia_filter = np.array([[0.393, 0.769, 0.189],
-                              [0.349, 0.686, 0.168],
-                              [0.272, 0.534, 0.131]])
-    h, w, c = arr.shape
-    sepia_arr = arr.reshape(-1, 3) @ sepia_filter.T
-    sepia_arr = sepia_arr.reshape(h, w, 3)
-    sepia_arr = np.clip(sepia_arr, 0, 255)
-    return Image.fromarray(sepia_arr.astype(np.uint8))
+    """Apply sepia tone filter to image"""
+    try:
+        arr = np.array(img).astype(np.float32)
+        sepia_filter = np.array([[0.393, 0.769, 0.189],
+                                  [0.349, 0.686, 0.168],
+                                  [0.272, 0.534, 0.131]])
+        h, w, c = arr.shape
+        sepia_arr = arr.reshape(-1, 3) @ sepia_filter.T
+        sepia_arr = sepia_arr.reshape(h, w, 3)
+        sepia_arr = np.clip(sepia_arr, 0, 255)
+        return Image.fromarray(sepia_arr.astype(np.uint8))
+    except Exception as e:
+        st.warning(f"Error applying sepia filter: {str(e)}")
+        return img
 
 def apply_vintage(img):
-    img = apply_sepia(img)
-    img = ImageEnhance.Contrast(img).enhance(0.8)
-    img = ImageEnhance.Brightness(img).enhance(0.9)
-    return img
+    """Apply vintage filter to image"""
+    try:
+        img = apply_sepia(img)
+        img = ImageEnhance.Contrast(img).enhance(0.8)
+        img = ImageEnhance.Brightness(img).enhance(0.9)
+        return img
+    except Exception as e:
+        st.warning(f"Error applying vintage filter: {str(e)}")
+        return img
 
 def apply_cool_tone(img):
-    arr = np.array(img).astype(float)
-    arr[:, :, 0] *= 0.9
-    arr[:, :, 2] *= 1.1
-    arr = np.clip(arr, 0, 255)
-    return Image.fromarray(arr.astype(np.uint8))
+    """Apply cool tone filter to image"""
+    try:
+        arr = np.array(img).astype(float)
+        arr[:, :, 0] *= 0.9
+        arr[:, :, 2] *= 1.1
+        arr = np.clip(arr, 0, 255)
+        return Image.fromarray(arr.astype(np.uint8))
+    except Exception as e:
+        st.warning(f"Error applying cool tone: {str(e)}")
+        return img
 
 def apply_warm_tone(img):
-    arr = np.array(img).astype(float)
-    arr[:, :, 0] *= 1.1
-    arr[:, :, 1] *= 1.05
-    arr[:, :, 2] *= 0.9
-    arr = np.clip(arr, 0, 255)
-    return Image.fromarray(arr.astype(np.uint8))
+    """Apply warm tone filter to image"""
+    try:
+        arr = np.array(img).astype(float)
+        arr[:, :, 0] *= 1.1
+        arr[:, :, 1] *= 1.05
+        arr[:, :, 2] *= 0.9
+        arr = np.clip(arr, 0, 255)
+        return Image.fromarray(arr.astype(np.uint8))
+    except Exception as e:
+        st.warning(f"Error applying warm tone: {str(e)}")
+        return img
 
 # ============================================================================
 # MODEL FUNCTIONS
@@ -826,191 +819,249 @@ def apply_warm_tone(img):
 
 @st.cache_resource
 def get_model(path=CONFIG["model_path"]):
+    """Load the segmentation model with error handling"""
     if not Path(path).exists():
         st.error(f"❌ Model file not found: {path}")
-        st.info("Please ensure 'best_seg_model.pth' is in the root folder")
+        st.info("💡 Please ensure 'best_seg_model.pth' is in the root folder")
         st.stop()
 
-    model = segmentation_models.deeplabv3_resnet50(weights=None, num_classes=CONFIG["num_classes"])
-    checkpoint = torch.load(path, map_location=torch.device(CONFIG["device"]))
+    try:
+        model = segmentation_models.deeplabv3_resnet50(weights=None, num_classes=CONFIG["num_classes"])
+        checkpoint = torch.load(path, map_location=torch.device(CONFIG["device"]))
 
-    if isinstance(checkpoint, dict):
-        if "model_state" in checkpoint:
-            model.load_state_dict(checkpoint["model_state"])
-        elif "state_dict" in checkpoint:
-            model.load_state_dict(checkpoint["state_dict"])
+        if isinstance(checkpoint, dict):
+            if "model_state" in checkpoint:
+                model.load_state_dict(checkpoint["model_state"])
+            elif "state_dict" in checkpoint:
+                model.load_state_dict(checkpoint["state_dict"])
+            else:
+                model.load_state_dict(checkpoint)
         else:
             model.load_state_dict(checkpoint)
-    else:
-        model.load_state_dict(checkpoint)
 
-    model.to(CONFIG["device"])
-    model.eval()
-    return model
+        model.to(CONFIG["device"])
+        model.eval()
+        return model
+    except Exception as e:
+        st.error(f"❌ Error loading model: {str(e)}")
+        st.stop()
 
 def preprocess_image(img_rgb, size):
-    h, w = size
-    img = cv2.resize(img_rgb, (w, h)).astype(np.float32) / 255.0
-    mean = np.array([0.485, 0.456, 0.406])
-    std = np.array([0.229, 0.224, 0.225])
-    img = (img - mean) / std
-    tensor = torch.from_numpy(img.transpose(2, 0, 1)).unsqueeze(0).float()
-    return tensor
+    """Preprocess image for model input"""
+    try:
+        h, w = size
+        img = cv2.resize(img_rgb, (w, h)).astype(np.float32) / 255.0
+        mean = np.array([0.485, 0.456, 0.406])
+        std = np.array([0.229, 0.224, 0.225])
+        img = (img - mean) / std
+        tensor = torch.from_numpy(img.transpose(2, 0, 1)).unsqueeze(0).float()
+        return tensor
+    except Exception as e:
+        st.error(f"Error preprocessing image: {str(e)}")
+        raise
 
 def postprocess_mask(prob, thresh, min_area):
-    mask = (prob >= thresh).astype(np.uint8)
-    k_close = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (11, 11))
-    k_open = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
-    mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, k_close)
-    mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, k_open)
-    n, labels, stats, _ = cv2.connectedComponentsWithStats(mask, 8)
-    out = np.zeros_like(mask)
-    for i in range(1, n):
-        if stats[i, cv2.CC_STAT_AREA] >= min_area:
-            out[labels == i] = 1
-    out = ndi.binary_fill_holes(out).astype(np.uint8)
-    return (out * 255).astype(np.uint8)
+    """Post-process probability map to create clean mask"""
+    try:
+        mask = (prob >= thresh).astype(np.uint8)
+        k_close = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (11, 11))
+        k_open = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, k_close)
+        mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, k_open)
+        n, labels, stats, _ = cv2.connectedComponentsWithStats(mask, 8)
+        out = np.zeros_like(mask)
+        for i in range(1, n):
+            if stats[i, cv2.CC_STAT_AREA] >= min_area:
+                out[labels == i] = 1
+        out = ndi.binary_fill_holes(out).astype(np.uint8)
+        return (out * 255).astype(np.uint8)
+    except Exception as e:
+        st.error(f"Error post-processing mask: {str(e)}")
+        return (mask * 255).astype(np.uint8)
 
 @st.cache_data(show_spinner=False)
 def predict_mask(_model, img_rgb, device, size):
-    h, w = img_rgb.shape[:2]
-    inp = preprocess_image(img_rgb, size).to(device)
+    """Predict segmentation mask for image"""
+    try:
+        h, w = img_rgb.shape[:2]
+        inp = preprocess_image(img_rgb, size).to(device)
 
-    with torch.no_grad():
-        out = _model(inp)['out']
-        prob = F.softmax(out, dim=1).cpu().numpy()[0, 1]
+        with torch.no_grad():
+            out = _model(inp)['out']
+            prob = F.softmax(out, dim=1).cpu().numpy()[0, 1]
 
-    prob_resized = cv2.resize(prob, (w, h), cv2.INTER_LINEAR)
-    return prob_resized
+        prob_resized = cv2.resize(prob, (w, h), cv2.INTER_LINEAR)
+        return prob_resized
+    except Exception as e:
+        st.error(f"Error predicting mask: {str(e)}")
+        # Return a simple threshold-based mask as fallback
+        gray = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2GRAY)
+        _, mask = cv2.threshold(gray, 127, 1, cv2.THRESH_BINARY)
+        return mask.astype(np.float32)
 
 # ============================================================================
 # IMAGE PROCESSING FUNCTIONS
 # ============================================================================
 
 def apply_background(orig_np, mask_bin, mode, bg_path=None, custom_color=None):
-    h, w = orig_np.shape[:2]
+    """Apply different background modes to extracted subject"""
+    try:
+        h, w = orig_np.shape[:2]
 
-    if mode == "Transparent":
-        result = np.zeros((h, w, 4), np.uint8)
-        result[..., :3] = orig_np
-        result[..., 3] = mask_bin * 255
-        return Image.fromarray(result, 'RGBA')
+        if mode == "Transparent":
+            result = np.zeros((h, w, 4), np.uint8)
+            result[..., :3] = orig_np
+            result[..., 3] = mask_bin * 255
+            return Image.fromarray(result, 'RGBA')
 
-    elif mode == "Blur":
-        blur = cv2.GaussianBlur(orig_np, (51, 51), 0)
-        result = blur.copy()
-        result[mask_bin == 1] = orig_np[mask_bin == 1]
-        return Image.fromarray(result)
+        elif mode == "Blur":
+            blur = cv2.GaussianBlur(orig_np, (51, 51), 0)
+            result = blur.copy()
+            result[mask_bin == 1] = orig_np[mask_bin == 1]
+            return Image.fromarray(result)
 
-    elif mode == "Custom Color" and custom_color:
-        hex_color = custom_color.lstrip('#')
-        rgb = tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
-        result = np.full_like(orig_np, rgb)
-        result[mask_bin == 1] = orig_np[mask_bin == 1]
-        return Image.fromarray(result)
+        elif mode == "Custom Color" and custom_color:
+            hex_color = custom_color.lstrip('#')
+            rgb = tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+            result = np.full_like(orig_np, rgb)
+            result[mask_bin == 1] = orig_np[mask_bin == 1]
+            return Image.fromarray(result)
 
-    elif mode in ["Background 1", "Background 2", "Background 3", "Background 4"] and bg_path:
-        if os.path.exists(bg_path):
-            bg = np.array(Image.open(bg_path).convert("RGB"))
+        elif mode in ["Background 1", "Background 2", "Background 3", "Background 4"] and bg_path:
+            if os.path.exists(bg_path):
+                bg = np.array(Image.open(bg_path).convert("RGB"))
+                bg = cv2.resize(bg, (w, h))
+                result = bg.copy()
+                result[mask_bin == 1] = orig_np[mask_bin == 1]
+                return Image.fromarray(result)
+            else:
+                st.warning(f"Background image not found: {bg_path}")
+                return apply_background(orig_np, mask_bin, "Black")
+
+        elif mode == "Custom Image" and st.session_state.selected_bg is not None:
+            bg = np.array(st.session_state.selected_bg.convert("RGB"))
             bg = cv2.resize(bg, (w, h))
             result = bg.copy()
             result[mask_bin == 1] = orig_np[mask_bin == 1]
             return Image.fromarray(result)
 
-    elif mode == "Custom Image" and st.session_state.selected_bg is not None:
-        bg = np.array(st.session_state.selected_bg.convert("RGB"))
-        bg = cv2.resize(bg, (w, h))
-        result = bg.copy()
-        result[mask_bin == 1] = orig_np[mask_bin == 1]
-        return Image.fromarray(result)
+        elif mode == "White":
+            result = np.full_like(orig_np, 255)
+            result[mask_bin == 1] = orig_np[mask_bin == 1]
+            return Image.fromarray(result)
 
-    elif mode == "White":
-        result = np.full_like(orig_np, 255)
-        result[mask_bin == 1] = orig_np[mask_bin == 1]
-        return Image.fromarray(result)
+        elif mode == "Black":
+            result = np.zeros_like(orig_np)
+            result[mask_bin == 1] = orig_np[mask_bin == 1]
+            return Image.fromarray(result)
 
-    elif mode == "Black":
-        result = np.zeros_like(orig_np)
-        result[mask_bin == 1] = orig_np[mask_bin == 1]
-        return Image.fromarray(result)
-
-    return Image.fromarray(orig_np)
+        return Image.fromarray(orig_np)
+    
+    except Exception as e:
+        st.error(f"Error applying background: {str(e)}")
+        return Image.fromarray(orig_np)
 
 def apply_filters_and_adjustments(img):
-    filter_func = FILTERS.get(st.session_state.filter_type, FILTERS["None"])
-    img = filter_func(img)
-    img = ImageEnhance.Brightness(img).enhance(st.session_state.brightness)
-    img = ImageEnhance.Contrast(img).enhance(st.session_state.contrast)
-    img = ImageEnhance.Color(img).enhance(st.session_state.saturation)
-    return img
-
-def crop_image(img, preset):
-    if preset == "Freeform" or CROP_PRESETS[preset] is None:
+    """Apply filters and image adjustments"""
+    try:
+        filter_func = FILTERS.get(st.session_state.filter_type, FILTERS["None"])
+        img = filter_func(img)
+        img = ImageEnhance.Brightness(img).enhance(st.session_state.brightness)
+        img = ImageEnhance.Contrast(img).enhance(st.session_state.contrast)
+        img = ImageEnhance.Color(img).enhance(st.session_state.saturation)
+        return img
+    except Exception as e:
+        st.warning(f"Error applying filters: {str(e)}")
         return img
 
-    ratio = CROP_PRESETS[preset]
-    w, h = img.size
-    target_ratio = ratio[0] / ratio[1]
-    current_ratio = w / h
+def crop_image(img, preset):
+    """Crop image according to preset aspect ratio"""
+    try:
+        if preset == "Freeform" or CROP_PRESETS.get(preset) is None:
+            return img
 
-    if current_ratio > target_ratio:
-        new_w = int(h * target_ratio)
-        left = (w - new_w) // 2
-        img = img.crop((left, 0, left + new_w, h))
-    else:
-        new_h = int(w / target_ratio)
-        top = (h - new_h) // 2
-        img = img.crop((0, top, w, top + new_h))
+        ratio = CROP_PRESETS[preset]
+        w, h = img.size
+        target_ratio = ratio[0] / ratio[1]
+        current_ratio = w / h
 
-    return img
+        if current_ratio > target_ratio:
+            new_w = int(h * target_ratio)
+            left = (w - new_w) // 2
+            img = img.crop((left, 0, left + new_w, h))
+        else:
+            new_h = int(w / target_ratio)
+            top = (h - new_h) // 2
+            img = img.crop((0, top, w, top + new_h))
+
+        return img
+    except Exception as e:
+        st.warning(f"Error cropping image: {str(e)}")
+        return img
 
 def get_download_button(image, format_type, quality, button_text, file_name, key):
-    buf = BytesIO()
-    if format_type == "PNG" and image.mode == "RGBA":
-        image.save(buf, format="PNG")
-    elif format_type in ["JPEG", "JPG"]:
-        if image.mode == "RGBA":
-            image = image.convert("RGB")
-        image.save(buf, format="JPEG", quality=quality)
-    elif format_type == "WEBP":
-        if image.mode == "RGBA":
-            image = image.convert("RGB")
-        image.save(buf, format="WEBP", quality=quality)
-    else:
-        if image.mode == "RGBA":
-            image = image.convert("RGB")
-        image.save(buf, format=format_type, quality=quality)
+    """Create download button for image"""
+    try:
+        buf = BytesIO()
+        if format_type == "PNG" and image.mode == "RGBA":
+            image.save(buf, format="PNG")
+        elif format_type in ["JPEG", "JPG"]:
+            if image.mode == "RGBA":
+                image = image.convert("RGB")
+            image.save(buf, format="JPEG", quality=quality)
+        elif format_type == "WEBP":
+            if image.mode == "RGBA":
+                image = image.convert("RGB")
+            image.save(buf, format="WEBP", quality=quality)
+        else:
+            if image.mode == "RGBA":
+                image = image.convert("RGB")
+            image.save(buf, format=format_type, quality=quality)
 
-    return st.download_button(
-        button_text,
-        buf.getvalue(),
-        file_name,
-        f"image/{format_type.lower()}",
-        key=key,
-        use_container_width=True
-    )
+        return st.download_button(
+            button_text,
+            buf.getvalue(),
+            file_name,
+            f"image/{format_type.lower()}",
+            key=key,
+            use_container_width=True
+        )
+    except Exception as e:
+        st.error(f"Error creating download: {str(e)}")
+        return None
 
 # ============================================================================
 # HELPER FUNCTIONS
 # ============================================================================
 
 def image_to_base64(img_array):
-    img_pil = Image.fromarray(img_array)
-    buffered = BytesIO()
-    img_pil.save(buffered, format="PNG")
-    img_str = base64.b64encode(buffered.getvalue()).decode()
-    return img_str
+    """Convert numpy image array to base64 string"""
+    try:
+        img_pil = Image.fromarray(img_array)
+        buffered = BytesIO()
+        img_pil.save(buffered, format="PNG")
+        img_str = base64.b64encode(buffered.getvalue()).decode()
+        return img_str
+    except Exception as e:
+        st.error(f"Error encoding image: {str(e)}")
+        return None
 
 def base64_to_image(img_str):
-    img_data = base64.b64decode(img_str)
-    img_pil = Image.open(BytesIO(img_data))
-    return np.array(img_pil)
+    """Convert base64 string to numpy image array"""
+    try:
+        img_data = base64.b64decode(img_str)
+        img_pil = Image.open(BytesIO(img_data))
+        return np.array(img_pil)
+    except Exception as e:
+        st.error(f"Error decoding image: {str(e)}")
+        return None
 
 # ============================================================================
 # PROJECT MANAGEMENT
 # ============================================================================
 
 def save_project():
+    """Save current project to session state"""
     try:
         if st.session_state.get('original_image') is None:
             return False
@@ -1023,6 +1074,9 @@ def save_project():
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         
         original_img_b64 = image_to_base64(st.session_state.original_image)
+        if original_img_b64 is None:
+            return False
+            
         current_img_b64 = image_to_base64(st.session_state.current_image) if st.session_state.current_image is not None else None
         
         mask_b64 = None
@@ -1039,7 +1093,7 @@ def save_project():
             'current_image': current_img_b64,
             'mask': mask_b64,
             'settings': {
-                'fg_thresh': float(st.session_state.get('fg_thresh', 0.4)),
+                'fg_thresh': float(st.session_state.get('fg_thresh', 0.3)),
                 'min_area': int(st.session_state.get('min_area', 300)),
                 'extraction_mode': str(st.session_state.get('extraction_mode', 'Black')),
                 'filter_type': str(st.session_state.get('filter_type', 'None')),
@@ -1068,25 +1122,33 @@ def save_project():
         return False
 
 def load_project(project_name):
+    """Load project from session state"""
     try:
         for proj in st.session_state.get('saved_projects', []):
             if proj.get('name') == project_name:
                 if proj.get('original_image'):
-                    st.session_state.original_image = base64_to_image(proj['original_image'])
+                    img = base64_to_image(proj['original_image'])
+                    if img is not None:
+                        st.session_state.original_image = img
+                    else:
+                        return False
                 
                 if proj.get('current_image'):
-                    st.session_state.current_image = base64_to_image(proj['current_image'])
+                    img = base64_to_image(proj['current_image'])
+                    if img is not None:
+                        st.session_state.current_image = img
                 else:
                     st.session_state.current_image = st.session_state.original_image.copy()
                 
                 if proj.get('mask'):
                     mask_img = base64_to_image(proj['mask'])
-                    if len(mask_img.shape) == 3:
-                        mask_img = mask_img[:, :, 0]
-                    st.session_state.mask = (mask_img > 127).astype(np.uint8)
+                    if mask_img is not None:
+                        if len(mask_img.shape) == 3:
+                            mask_img = mask_img[:, :, 0]
+                        st.session_state.mask = (mask_img > 127).astype(np.uint8)
                 
                 settings = proj.get('settings', {})
-                st.session_state.fg_thresh = float(settings.get('fg_thresh', 0.4))
+                st.session_state.fg_thresh = float(settings.get('fg_thresh', 0.3))
                 st.session_state.min_area = int(settings.get('min_area', 300))
                 st.session_state.extraction_mode = str(settings.get('extraction_mode', 'Black'))
                 st.session_state.filter_type = str(settings.get('filter_type', 'None'))
@@ -1106,6 +1168,7 @@ def load_project(project_name):
         return False
 
 def delete_project(project_name):
+    """Delete project from session state"""
     try:
         st.session_state.saved_projects = [
             p for p in st.session_state.get('saved_projects', []) if p.get('name') != project_name
@@ -1124,6 +1187,7 @@ def delete_project(project_name):
 # ============================================================================
 
 def main():
+    """Main application function"""
     init_session_state()
 
     st.set_page_config(
@@ -1278,19 +1342,22 @@ def main():
     )
 
     if uploaded_files:
-        img = Image.open(uploaded_files).convert("RGB")
-        st.session_state.original_image = np.array(img)
-        st.session_state.current_image = np.array(img)
-        st.session_state.current_step = 1
+        try:
+            img = Image.open(uploaded_files).convert("RGB")
+            st.session_state.original_image = np.array(img)
+            st.session_state.current_image = np.array(img)
+            st.session_state.current_step = 1
 
-        with st.spinner("🔮 AI is analyzing your image..."):
-            prob = predict_mask(model, st.session_state.original_image, CONFIG["device"], CONFIG["img_size"])
-            st.session_state.prob_map = prob
-            mask = postprocess_mask(prob, st.session_state.fg_thresh, st.session_state.min_area)
-            st.session_state.mask = (mask > 127).astype(np.uint8)
-        
-        st.markdown('<div class="luxury-alert success">✓ Subject detected with precision!</div>', unsafe_allow_html=True)
-        st.session_state.current_step = 2
+            with st.spinner("🔮 AI is analyzing your image..."):
+                prob = predict_mask(model, st.session_state.original_image, CONFIG["device"], CONFIG["img_size"])
+                st.session_state.prob_map = prob
+                mask = postprocess_mask(prob, st.session_state.fg_thresh, st.session_state.min_area)
+                st.session_state.mask = (mask > 127).astype(np.uint8)
+            
+            st.markdown('<div class="luxury-alert success">✓ Subject detected with precision!</div>', unsafe_allow_html=True)
+            st.session_state.current_step = 2
+        except Exception as e:
+            st.error(f"❌ Error processing image: {str(e)}")
 
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -1349,7 +1416,10 @@ def main():
                         key="custom_bg_upload"
                     )
                     if custom_bg:
-                        st.session_state.selected_bg = Image.open(custom_bg)
+                        try:
+                            st.session_state.selected_bg = Image.open(custom_bg)
+                        except Exception as e:
+                            st.error(f"Error loading background: {str(e)}")
                 
                 st.markdown('</div>', unsafe_allow_html=True)
             
@@ -1516,11 +1586,19 @@ def main():
                 new_h = int(orig_h * st.session_state.resize_percent / 100)
                 result_pil = result_pil.resize((new_w, new_h), Image.LANCZOS)
 
-            comparison_mode = st.radio(
-                "Comparison Mode",
-                ["🔲 Side-by-Side", "🎚️ Interactive Slider", "🌊 Blend View"],
-                horizontal=True
-            )
+            if HAS_IMAGE_COMPARISON:
+                comparison_mode = st.radio(
+                    "Comparison Mode",
+                    ["🔲 Side-by-Side", "🎚️ Interactive Slider", "🌊 Blend View"],
+                    horizontal=True
+                )
+            else:
+                comparison_mode = st.radio(
+                    "Comparison Mode",
+                    ["🔲 Side-by-Side", "🌊 Blend View"],
+                    horizontal=True
+                )
+            
             st.markdown('</div>', unsafe_allow_html=True)
 
             if comparison_mode == "🔲 Side-by-Side":
@@ -1543,7 +1621,7 @@ def main():
                     st.image(display_result, use_container_width=True)
                     st.markdown('</div>', unsafe_allow_html=True)
 
-            elif comparison_mode == "🎚️ Interactive Slider":
+            elif comparison_mode == "🎚️ Interactive Slider" and HAS_IMAGE_COMPARISON:
                 st.markdown('<div class="premium-preview">', unsafe_allow_html=True)
                 original_img = Image.fromarray(st.session_state.original_image)
                 
@@ -1556,12 +1634,22 @@ def main():
                 if original_img.size != result_rgb.size:
                     result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
                 
-                image_comparison(
-                    img1=original_img, 
-                    img2=result_rgb, 
-                    label1="Original",
-                    label2="Processed"
-                )
+                try:
+                    image_comparison(
+                        img1=original_img, 
+                        img2=result_rgb, 
+                        label1="Original",
+                        label2="Processed"
+                    )
+                except Exception as e:
+                    st.error(f"Error displaying comparison: {str(e)}")
+                    st.info("Falling back to side-by-side view")
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.image(original_img, caption="Original", use_container_width=True)
+                    with col2:
+                        st.image(result_rgb, caption="Processed", use_container_width=True)
+                
                 st.markdown('</div>', unsafe_allow_html=True)
 
             elif comparison_mode == "🌊 Blend View":
@@ -1637,34 +1725,40 @@ def main():
                 )
             
             with col2:
-                buf_orig = BytesIO()
-                Image.fromarray(st.session_state.original_image).save(buf_orig, format="PNG")
-                st.download_button(
-                    "📥 Download Original", 
-                    buf_orig.getvalue(), 
-                    "original.png",
-                    "image/png", 
-                    key="download_orig", 
-                    use_container_width=True
-                )
+                try:
+                    buf_orig = BytesIO()
+                    Image.fromarray(st.session_state.original_image).save(buf_orig, format="PNG")
+                    st.download_button(
+                        "📥 Download Original", 
+                        buf_orig.getvalue(), 
+                        "original.png",
+                        "image/png", 
+                        key="download_orig", 
+                        use_container_width=True
+                    )
+                except Exception as e:
+                    st.error(f"Error creating download: {str(e)}")
             
             with col3:
-                original_img = Image.fromarray(st.session_state.original_image)
-                result_rgb = final_result.convert("RGB")
-                if original_img.size != result_rgb.size:
-                    result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
-                
-                comparison = np.concatenate([np.array(original_img), np.array(result_rgb)], axis=1)
-                buf_comp = BytesIO()
-                Image.fromarray(comparison).save(buf_comp, format="PNG")
-                st.download_button(
-                    "📊 Download Comparison", 
-                    buf_comp.getvalue(), 
-                    "comparison.png",
-                    "image/png", 
-                    key="download_comp", 
-                    use_container_width=True
-                )
+                try:
+                    original_img = Image.fromarray(st.session_state.original_image)
+                    result_rgb = final_result.convert("RGB")
+                    if original_img.size != result_rgb.size:
+                        result_rgb = result_rgb.resize(original_img.size, Image.LANCZOS)
+                    
+                    comparison = np.concatenate([np.array(original_img), np.array(result_rgb)], axis=1)
+                    buf_comp = BytesIO()
+                    Image.fromarray(comparison).save(buf_comp, format="PNG")
+                    st.download_button(
+                        "📊 Download Comparison", 
+                        buf_comp.getvalue(), 
+                        "comparison.png",
+                        "image/png", 
+                        key="download_comp", 
+                        use_container_width=True
+                    )
+                except Exception as e:
+                    st.error(f"Error creating comparison: {str(e)}")
             
             st.markdown('</div>', unsafe_allow_html=True)
             st.session_state.current_step = 3
